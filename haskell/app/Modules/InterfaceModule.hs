@@ -1,4 +1,5 @@
-verticalSpace :: Int -> IO ()
+listLength :: [String] -> Int
+listLength list = length list
 verticalSpace n = sequence_ (replicate n (putStrLn ""))
 
 clear :: IO()
@@ -78,6 +79,27 @@ printGenres = do
           "10 - Romance \n" ++
           "11 - Terror \n" ++ 
           "12 - HQ \n")
+
+    putStr "Escolha até 5 gêneros, separando cada um por espaço: "
+    genres <- getLine 
+    let listGenrers = words genres
+    let numberOfGenres = listLength listGenrers
+    mapGenres listGenrers numberOfGenres
+    print "Dados salvos com sucesso!"
+
+readGenres:: [String] -> [String]
+readGenres x = x
+
+mapGenres::[String] -> Int -> IO()
+mapGenres listGenres n = do
+    if n > 5 
+    then do
+        let newListGenres = take (n - 5) listGenres
+        print "todo mapGenres"
+    else print "todo mapGenres"
+        
+        
+
 registro::IO()
 registro = print "todo register"
 
