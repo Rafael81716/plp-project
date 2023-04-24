@@ -1,3 +1,5 @@
+module Modules.InterfaceModule where
+
 listLength :: [String] -> Int
 listLength list = length list
 verticalSpace n = sequence_ (replicate n (putStrLn ""))
