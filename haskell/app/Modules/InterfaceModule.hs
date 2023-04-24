@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Modules.InterfaceModule where
 
 listLength :: [String] -> Int

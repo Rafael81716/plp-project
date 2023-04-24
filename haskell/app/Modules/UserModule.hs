@@ -1,5 +1,6 @@
 module Modules.UserModule where  
 import Modules.InterfaceModule as Sout
+import Models.User 
 
-main::IO()
-main = do Sout.printLogin
+    
+
