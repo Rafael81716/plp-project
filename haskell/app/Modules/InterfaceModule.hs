@@ -1,5 +1,6 @@
-{-# LANGUAGE OverloadedStrings #-}
 module Modules.InterfaceModule where
+import Modules.UserModule 
+
 
 listLength :: [String] -> Int
 listLength list = length list
@@ -66,41 +67,22 @@ printRegistering = do
     putStrLn "Escolha até 5 gêneros literários em ordem de preferência: "
     printGenres
 
-
+    genres <- getLine
+    let listGenrers = words genres 
+    Modules.UserModule.registerUser name email password listGenrers
 
 printGenres:: IO()
 printGenres = do
-    putStrLn("1 - Ficção Científica \n"  ++
-          "2 - Ação e Aventura \n" ++
-          "3 - Biografia \n" ++ 
-          "4 - Fantasia \n" ++
-          "5 - Distopia \n" ++ 
-          "6 - Suspense \n" ++
-          "7 - Mistério \n" ++ 
-          "8 - Infantil  \n" ++
-          "9 - Comédia \n" ++
-          "10 - Romance \n" ++
-          "11 - Terror \n" ++ 
-          "12 - HQ \n")
+    putStrLn("\n 1 - Ficção Cientifica \n" ++
+            " 2 - Fantasia \n" ++
+            " 3 - Infantil \n" ++
+            " 4 - Misterio \n" ++
+            " 5 - Historia \n" ++
+            " 6 - Aventura \n" ++
+            " 7 - Romance \n")
 
-    putStr "Escolha até 5 gêneros, separando cada um por espaço: "
-    genres <- getLine 
-    let listGenrers = words genres
-    let numberOfGenres = listLength listGenrers
-    mapGenres listGenrers numberOfGenres
-    print "Dados salvos com sucesso!"
+    putStr "Escolha até gêneros, separando cada um por espaço: "
 
-readGenres:: [String] -> [String]
-readGenres x = x
-
-mapGenres::[String] -> Int -> IO()
-mapGenres listGenres n = do
-    if n > 5 
-    then do
-        let newListGenres = take (n - 5) listGenres
-        print "todo mapGenres"
-    else print "todo mapGenres"
-        
         
 
 registro::IO()
