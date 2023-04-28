@@ -27,6 +27,7 @@ registerUser:: String -> String -> String -> [String] -> IO()
 registerUser readName readEmail readPassword readGenres = do
     let user = User readName readEmail readPassword readGenres
     let user1 = [user]
+    print "entrou"
     saveCsv user1 "users.csv"
 
 saveCsv :: (Show u) => [u] -> FilePath -> IO ()

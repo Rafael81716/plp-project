@@ -1,5 +1,6 @@
 module Modules.InterfaceModule where
 import Modules.UserModule 
+import Modules.ValidationModule
 
 
 listLength :: [String] -> Int
@@ -58,19 +59,36 @@ printRegistering = do
 
     putStr "Digite seu email: "
     email <- getLine
+    let isValidEmail = Modules.ValidationModule.isValidEmail email
+    if isValidEmail == False then do
+        clear
+        putStrLn "Email invalido!\nDigite seus dados novamente!"
+        printRegistering
 
-    putStr "Digite sua senha: "
-    password <- getLine
+        else do
+            putStr "Digite sua senha: "
+            password <- getLine
+            let isValidPassword = Modules.ValidationModule.isValidPassword password
 
-    putStr "\n"
+            if isValidPassword == False then do
+                clear
+                putStrLn "A senha tem que conter no minimo 6 caracteres! \nDigite seus dados novamente!"
+                printRegistering
+                
+            else do
+                putStr "\n"
+                putStrLn "Escolha até 5 gêneros literários em ordem de preferência: " 
+                printGenres
 
-    putStrLn "Escolha até 5 gêneros literários em ordem de preferência: "
-    printGenres
+                genres <- getLine
+                let genresFormated = words genres
+                let listGenrers = mapGenres genresFormated
+                Modules.UserModule.registerUser name email password listGenrers
 
-    genres <- getLine
-    let genresFormated = words genres
-    let listGenrers = mapGenres genresFormated
-    Modules.UserModule.registerUser name email password listGenrers
+
+   
+
+   
 
 printGenres:: IO()
 printGenres = do
