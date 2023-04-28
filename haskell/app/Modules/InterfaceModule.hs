@@ -82,7 +82,7 @@ printGenres = do
             " 6 - Aventura \n" ++
             " 7 - Romance \n")
 
-    putStr "Escolha até gêneros, separando cada um por espaço: "
+    putStr "Escolha os gêneros, separando cada um por espaço: "
 
 mapGenres:: [String] -> [String]
 mapGenres [] = []
