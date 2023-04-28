@@ -68,7 +68,8 @@ printRegistering = do
     printGenres
 
     genres <- getLine
-    let listGenrers = words genres 
+    let genresFormated = words genres
+    let listGenrers = mapGenres genresFormated
     Modules.UserModule.registerUser name email password listGenrers
 
 printGenres:: IO()
@@ -83,7 +84,16 @@ printGenres = do
 
     putStr "Escolha até gêneros, separando cada um por espaço: "
 
-        
+mapGenres:: [String] -> [String]
+mapGenres [] = []
+mapGenres (h:t) |h == "1" = ["Ficcao Cientifica"] ++ mapGenres(t)
+                |h == "2" = ["Fantasia"] ++ mapGenres(t)
+                |h == "3" = ["Infantil"] ++ mapGenres(t)
+                |h == "4" = ["Misterio"] ++ mapGenres(t)
+                |h == "5" = ["Historia"] ++ mapGenres(t)
+                |h == "6" = ["Aventura"] ++ mapGenres(t)
+                |h == "7" = ["Romance"] ++ mapGenres(t)
+
 
 registro::IO()
 registro = print "todo register"

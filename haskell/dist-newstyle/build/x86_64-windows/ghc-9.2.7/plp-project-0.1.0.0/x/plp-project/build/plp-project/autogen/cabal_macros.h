@@ -20,6 +20,76 @@
   (major1) == 4 && (major2) <  16 || \
   (major1) == 4 && (major2) == 16 && (minor) <= 4)
 #endif /* MIN_VERSION_base */
+/* package bytestring-0.11.4.0 */
+#ifndef VERSION_bytestring
+#define VERSION_bytestring "0.11.4.0"
+#endif /* VERSION_bytestring */
+#ifndef MIN_VERSION_bytestring
+#define MIN_VERSION_bytestring(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  11 || \
+  (major1) == 0 && (major2) == 11 && (minor) <= 4)
+#endif /* MIN_VERSION_bytestring */
+/* package cassava-0.5.3.0 */
+#ifndef VERSION_cassava
+#define VERSION_cassava "0.5.3.0"
+#endif /* VERSION_cassava */
+#ifndef MIN_VERSION_cassava
+#define MIN_VERSION_cassava(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  5 || \
+  (major1) == 0 && (major2) == 5 && (minor) <= 3)
+#endif /* MIN_VERSION_cassava */
+/* package csv-0.1.2 */
+#ifndef VERSION_csv
+#define VERSION_csv "0.1.2"
+#endif /* VERSION_csv */
+#ifndef MIN_VERSION_csv
+#define MIN_VERSION_csv(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  1 || \
+  (major1) == 0 && (major2) == 1 && (minor) <= 2)
+#endif /* MIN_VERSION_csv */
+/* package directory-1.3.6.2 */
+#ifndef VERSION_directory
+#define VERSION_directory "1.3.6.2"
+#endif /* VERSION_directory */
+#ifndef MIN_VERSION_directory
+#define MIN_VERSION_directory(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  3 || \
+  (major1) == 1 && (major2) == 3 && (minor) <= 6)
+#endif /* MIN_VERSION_directory */
+/* package haskell-say-1.0.0.0 */
+#ifndef VERSION_haskell_say
+#define VERSION_haskell_say "1.0.0.0"
+#endif /* VERSION_haskell_say */
+#ifndef MIN_VERSION_haskell_say
+#define MIN_VERSION_haskell_say(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  0 || \
+  (major1) == 1 && (major2) == 0 && (minor) <= 0)
+#endif /* MIN_VERSION_haskell_say */
+/* package split-0.2.3.5 */
+#ifndef VERSION_split
+#define VERSION_split "0.2.3.5"
+#endif /* VERSION_split */
+#ifndef MIN_VERSION_split
+#define MIN_VERSION_split(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  2 || \
+  (major1) == 0 && (major2) == 2 && (minor) <= 3)
+#endif /* MIN_VERSION_split */
+/* package vector-0.13.0.0 */
+#ifndef VERSION_vector
+#define VERSION_vector "0.13.0.0"
+#endif /* VERSION_vector */
+#ifndef MIN_VERSION_vector
+#define MIN_VERSION_vector(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  13 || \
+  (major1) == 0 && (major2) == 13 && (minor) <= 0)
+#endif /* MIN_VERSION_vector */
 
 /* tool gcc-10.2.0 */
 #ifndef TOOL_VERSION_gcc
