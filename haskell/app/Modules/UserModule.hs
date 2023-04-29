@@ -35,6 +35,31 @@ saveCsv valores caminhoArquivo = appendFile caminhoArquivo conteudoCSV
   where conteudoCSV = unlines $ map show valores
 
         
+getUserCsv :: String -> IO [User]
+getUserCsv em = do
+    let fileName = "Test.csv"
+    csvData <- readFile fileName
+    let lines = wordsWhen (=='\n') csvData
+    let temp = map (\s -> wordsWhen (== ';') s) lines
+    let userList = map (\[n, e, s, l] -> registerUser n e s (parseStrToList l)) temp
+    let jet = filter (\u -> email(u) == em) userList
+    return jet
 
-        
+--usuario <- getUserCsv "Lucas@gmail.com"
+--print (name (tiboca !!0))
+parseStrToList :: String -> [String]
+parseStrToList str = do
+    let temp = filter (/= '\\') str
+    let lst = read temp :: [String]
+    lst
+    
+wordsWhen :: (Char -> Bool) -> String -> [String]
+wordsWhen p s =  case dropWhile p s of
+                      "" -> []
+                      s' -> w : wordsWhen p s''
+                            where (w, s'') = break p s'
+                    
+splitBy :: Char -> String -> [String]
+splitBy sep str = wordsWhen (== sep) str
+
  
