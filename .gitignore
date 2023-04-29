@@ -1,0 +1,5 @@
+dist-newstyle/
+*.csv
+*.hi
+*.o
+*.exe
