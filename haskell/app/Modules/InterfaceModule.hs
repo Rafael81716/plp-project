@@ -25,7 +25,7 @@ printLoginRegister = do
         ++ "2 - Cadastrar"
     )
 
-  putStrLn "Escolha uma opção: "
+  putStr "Escolha uma opção: "
   option <- getLine
   clear
   readLoginRegister (read option)
