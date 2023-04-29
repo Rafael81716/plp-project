@@ -7,4 +7,4 @@ main :: IO ()
 main = do
   Sout.printLoginRegister
   user <- Modules.UserModule.getUserCsv "joao@gmail.com"
-  print (name (user !! 0))
+  print (name (head user))
