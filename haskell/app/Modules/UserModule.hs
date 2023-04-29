@@ -25,6 +25,9 @@ registerUser readName readEmail readPassword readGenres = do
     let user1 = [user]
     saveCsv user1 "users.csv"
 
+registerUserAux :: String -> String -> String -> [String] -> User
+registerUserAux name email senha lista = User name email senha lista
+
 saveCsv :: (Show u) => [u] -> FilePath -> IO ()
 saveCsv valores caminhoArquivo = appendFile caminhoArquivo conteudoCSV
   where conteudoCSV = unlines $ map show valores
@@ -32,14 +35,23 @@ saveCsv valores caminhoArquivo = appendFile caminhoArquivo conteudoCSV
         
 getUserCsv :: String -> IO [User]
 getUserCsv em = do
-    let fileName = "Test.csv"
+    let fileName = "users.csv"
     csvData <- readFile fileName
     let lines = wordsWhen (=='\n') csvData
     let temp = map (\s -> wordsWhen (== ';') s) lines
-    let userList = map (\[n, e, s, l] -> registerUser n e s (parseStrToList l)) temp
+    let userList = map strToUser temp
     let jet = filter (\u -> email(u) == em) userList
     return jet
 
+
+strToUser:: [String] -> User
+strToUser x = do
+    let n = head x
+    let e = x !! 1
+    let s = x !! 2
+    let g = parseStrToList (x !! 3)
+    registerUserAux n e s g
+    
 --usuario <- getUserCsv "Lucas@gmail.com"
 --print (name (tiboca !!0))
 parseStrToList :: String -> [String]
