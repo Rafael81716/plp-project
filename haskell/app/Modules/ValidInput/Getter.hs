@@ -1,6 +1,6 @@
 module Modules.ValidInput.Getter where
 import Modules.ValidInput.Validation (isValidEmail, isValidName, isValidPassword)
-import Util (clear, centeredText)
+import Modules.UtilModule (clear, centeredText)
 
 getNameWithContext :: String -> IO String
 getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"

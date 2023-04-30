@@ -1,8 +1,8 @@
-module Modules.UserController where
+module Modules.UserModule where
 
 import Modules.CsvModule as CSV
 import Model.User
-import Util (wordsWhen)
+import Modules.UtilModule (wordsWhen)
 
 registerUser :: String -> String -> String -> [String] -> IO ()
 registerUser readName readEmail readPassword readGenres = do

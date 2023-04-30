@@ -1,5 +1,5 @@
 module Model.User where
-import Util (parseStrToList, wordsWhen)
+import Modules.UtilModule (parseStrToList, wordsWhen)
 
 data User = User
   { name :: String,

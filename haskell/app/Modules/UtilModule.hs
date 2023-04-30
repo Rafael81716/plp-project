@@ -1,4 +1,4 @@
-module Util where
+module Modules.UtilModule where
 import Data.Map as Map
 import Data.Maybe as Maybe
 import qualified Data.Maybe as Maybe

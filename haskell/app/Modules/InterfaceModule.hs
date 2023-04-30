@@ -1,8 +1,7 @@
 module Modules.InterfaceModule where
-
-import Modules.UserController as UserController
+import Modules.UserModule as UserController
 import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext)
-import Util (centeredText, clear, mapGenres)
+import Modules.UtilModule (centeredText, clear, mapGenres)
 import Model.User
 
 loginOrRegisterMenu :: IO ()

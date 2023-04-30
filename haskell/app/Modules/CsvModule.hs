@@ -1,5 +1,5 @@
 module Modules.CsvModule where
-import Util (wordsWhen)
+import Modules.UtilModule (wordsWhen)
 
 append :: (Show t) => [t] -> FilePath -> IO ()
 append values pathToFile = do
