@@ -1,10 +1,6 @@
 module Main where
-
-import Modules.InterfaceModule as Sout
-import Modules.UserModule
+import Modules.InterfaceModule as Interface
 
 main :: IO ()
 main = do
-  Sout.printLoginRegister
-  user <- Modules.UserModule.getUserCsv "joao@gmail.com"
-  print (name (head user))
+    Interface.loginOrRegisterMenu
