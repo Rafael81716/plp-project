@@ -77,3 +77,18 @@ wordsWhen p s =  case dropWhile p s of
 
 splitBy :: Char -> String -> [String]
 splitBy sep = wordsWhen (== sep)
+
+getAllBooks :: IO [Book]
+getAllBooks = do
+    let fileName = "books.csv"
+    csvData <- readFile fileName
+    let lines = wordsWhen (=='\n') csvData
+    let temp = map (\s -> wordsWhen (== ';') s) lines
+    let bookList = map strToBook temp
+    return bookList
+
+printAllBooks :: [Book] -> String
+printAllBooks (x:xs)
+    | null (x:xs) = ""
+    | null xs = show (num x) ++ " - " ++ name x ++ " - " ++ author x ++ " (" ++ genre x ++ ")" ++ "\n"
+    | otherwise = show (num x) ++ " - " ++ name x ++ " - " ++ author x ++ " (" ++ genre x ++ ")" ++ "\n" ++ printAllBooks xs
