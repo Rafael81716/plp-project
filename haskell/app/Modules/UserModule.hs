@@ -3,11 +3,17 @@ module Modules.UserModule where
 import Modules.CsvModule as CSV
 import Model.User
 import Modules.UtilModule (wordsWhen)
+import Data.Maybe
 
 registerUser :: String -> String -> String -> [String] -> IO ()
 registerUser readName readEmail readPassword readGenres = do
   let user = User readName readEmail readPassword readGenres
   CSV.append [user] "users.csv"
+  
+userIsNotRegistered :: String -> IO Bool
+userIsNotRegistered email = do
+  maybeUser <- getUser email
+  return $ isNothing maybeUser
 
 getUser :: String -> IO (Maybe User)
 getUser em = do
