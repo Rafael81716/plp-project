@@ -1,6 +1,6 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
-import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext)
+import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption)
 import Modules.UtilModule (centeredText, clear, mapGenres)
 import Model.User
 
@@ -59,3 +59,10 @@ printGenres = do
     )
 
   putStrLn "Escolha os gêneros, separando cada um por espaço: "
+
+mainMenu::IO()
+mainMenu = do
+  option <- getMainMenuOption "Menu Principal"
+  putStrLn "todo"
+  
+
