@@ -3,6 +3,7 @@ module Modules.UserModule where
 import Modules.CsvModule as CSV
 import Model.User
 import Modules.UtilModule (wordsWhen)
+import Modules.BookModule as BookModule
 import Data.Maybe
 
 registerUser :: String -> String -> String -> [String] -> IO ()
@@ -31,3 +32,12 @@ loginUser em pass = do
   case result of
     Nothing -> return Nothing
     Just user -> if password user == pass then return (Just user) else return Nothing
+
+
+makeLoanByTitle:: String -> IO()
+makeLoanByTitle title = do
+  print("todo")
+  
+
+
+

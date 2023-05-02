@@ -1,7 +1,8 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
-import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption)
+import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getOptionsBookLoan, getTitleWithContext)
 import Modules.UtilModule (centeredText, clear, mapGenres)
+import Modules.BookModule as BookModule
 import Model.User
 
 loginOrRegisterMenu :: IO ()
@@ -31,7 +32,7 @@ registeringMenu = do
   name <- getNameWithContext context
   email <- getEmailWithContext context
   userIsNotRegistered email >>= \isNotRegistered ->
-    if isNotRegistered == False then do
+    if not isNotRegistered then do
        clear
        putStrLn "Email já cadastrado, insira outro!"
        registeringMenu
@@ -63,6 +64,37 @@ printGenres = do
 mainMenu::IO()
 mainMenu = do
   option <- getMainMenuOption "Menu Principal"
-  putStrLn "todo"
+  readMainMenu option
+
+readMainMenu:: String -> IO()
+readMainMenu option | option == "1" = printMakeLoan
+                    | option == "2" = printReturnBook
+                    | otherwise = print("todo other functionss")
+
+
+printMakeLoan::IO()
+printMakeLoan = do
+  option <- getOptionsBookLoan "Empréstimo"
+  if option == "1" then printMakeLoanByTitle
+  else if option == "2" then printMakeLoanByAuthor
+  else printMakeLoanByGender
   
+
+printMakeLoanByTitle::IO()
+printMakeLoanByTitle = do
+  title <- getTitleWithContext "Empréstimo"
+  UserModule.makeLoanByTitle title
+
+printMakeLoanByAuthor::IO()
+printMakeLoanByAuthor = do
+  putStrLn "autor"
+
+printMakeLoanByGender::IO()
+printMakeLoanByGender = do
+  putStrLn "gender"
+
+printReturnBook::IO()
+printReturnBook = do
+  print("foi")
+
 
