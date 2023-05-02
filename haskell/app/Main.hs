@@ -5,6 +5,7 @@ import Language.Haskell.TH (pprint)
 
 main :: IO ()
 main = do
-    Interface.mainMenu
+    Interface.loginOrRegisterMenu
+    --Interface.mainMenu
    
    

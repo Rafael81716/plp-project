@@ -5,11 +5,14 @@ import Model.User
 import Modules.UtilModule (wordsWhen)
 import Modules.BookModule as BookModule
 import Data.Maybe
+import Model.Book
 
-registerUser :: String -> String -> String -> [String] -> IO ()
-registerUser readName readEmail readPassword readGenres = do
-  let user = User readName readEmail readPassword readGenres
+
+registerUser :: String -> String -> String -> [String] -> [Book] -> IO ()
+registerUser readName readEmail readPassword readGenres readBook = do
+  let user = User readName readEmail readPassword readGenres readBook
   CSV.append [user] "users.csv"
+
   
 userIsNotRegistered :: String -> IO Bool
 userIsNotRegistered email = do
@@ -34,9 +37,13 @@ loginUser em pass = do
     Just user -> if password user == pass then return (Just user) else return Nothing
 
 
-makeLoanByTitle:: String -> IO()
-makeLoanByTitle title = do
-  print("todo")
+makeLoanByTitle:: User -> String -> IO()
+makeLoanByTitle user title = do
+  book2 <- BookModule.getBookByName title
+  let bookUser = book2 ++ (books user)
+  registerUser (nameUser user) (email user) (password user) (bookGenres user) (bookUser)
+  print ("Emprestimo realizado com sucesso!")
+
   
 
 

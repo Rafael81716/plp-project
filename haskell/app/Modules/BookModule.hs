@@ -8,18 +8,7 @@ import GHC.Generics
 import System.IO.Unsafe
 import System.IO
 import System.Directory
-
-data Book = Book{
-    num::Int,
-    name::String,
-    author::String,
-    genre::String,
-    link::String
-} deriving (Eq, Read)
-
-instance Show Book where
-    show(Book id name author genre link) = show id ++ ";" ++name ++ ";" ++ author ++ ";" ++ genre ++ ";" ++ link
-
+import Model.Book
 
 registerBookAux :: Int -> String -> String -> String -> String -> Book
 registerBookAux id name author genre link = Book id name author genre link

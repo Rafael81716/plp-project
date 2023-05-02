@@ -22,7 +22,7 @@ loginMenu = do
   result <- UserModule.loginUser email password
   case result of
     Nothing -> return ()
-    Just user -> print (bookGenres user)
+    Just user -> mainMenu user
 
 
 registeringMenu :: IO ()
@@ -45,7 +45,7 @@ registeringMenu = do
         genres <- getLine
         let genresFormated = words genres
         let listGenrers = mapGenres genresFormated
-        UserModule.registerUser name email password listGenrers
+        UserModule.registerUser name email password listGenrers []
 
 printGenres :: IO ()
 printGenres = do
@@ -61,29 +61,29 @@ printGenres = do
 
   putStrLn "Escolha os gêneros, separando cada um por espaço: "
 
-mainMenu::IO()
-mainMenu = do
+mainMenu:: User -> IO()
+mainMenu user = do
   option <- getMainMenuOption "Menu Principal"
-  readMainMenu option
+  readMainMenu user option
 
-readMainMenu:: String -> IO()
-readMainMenu option | option == "1" = printMakeLoan
+readMainMenu:: User -> String -> IO()
+readMainMenu user option | option == "1" = printMakeLoan user
                     | option == "2" = printReturnBook
                     | otherwise = print("todo other functionss")
 
 
-printMakeLoan::IO()
-printMakeLoan = do
+printMakeLoan:: User ->IO()
+printMakeLoan user  = do
   option <- getOptionsBookLoan "Empréstimo"
-  if option == "1" then printMakeLoanByTitle
+  if option == "1" then printMakeLoanByTitle user
   else if option == "2" then printMakeLoanByAuthor
   else printMakeLoanByGender
   
 
-printMakeLoanByTitle::IO()
-printMakeLoanByTitle = do
+printMakeLoanByTitle:: User -> IO()
+printMakeLoanByTitle user = do
   title <- getTitleWithContext "Empréstimo"
-  UserModule.makeLoanByTitle title
+  UserModule.makeLoanByTitle user title
 
 printMakeLoanByAuthor::IO()
 printMakeLoanByAuthor = do
