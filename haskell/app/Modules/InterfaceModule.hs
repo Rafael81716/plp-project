@@ -20,7 +20,9 @@ loginMenu = do
   clear
   result <- UserModule.loginUser email password
   case result of
-    Nothing -> return ()
+    Nothing -> do
+      print "Senha invalida, tente novamente"
+      loginMenu
     Just user -> print (bookGenres user)
 
 
