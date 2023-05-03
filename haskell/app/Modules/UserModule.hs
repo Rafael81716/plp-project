@@ -40,9 +40,9 @@ loginUser em pass = do
 makeLoanByTitle:: User -> String -> IO()
 makeLoanByTitle user title = do
   book2 <- BookModule.getBookByName title
-  let bookUser = book2 ++ (books user)
-  registerUser (nameUser user) (email user) (password user) (bookGenres user) (bookUser)
-  print ("Emprestimo realizado com sucesso!")
+  registerUser (nameUser user) (email user) (password user) (bookGenres user) (books user ++ book2)
+  print("Empréstimo Realizado com Sucesso!")
+
 
   
 
