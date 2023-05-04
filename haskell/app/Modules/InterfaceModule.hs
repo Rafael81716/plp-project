@@ -31,6 +31,8 @@ loginMenu = do
     Just user -> do
       print (bookGenres user)
       print (favoriteBooks user)
+      favoritos <- showFavorites user
+      putStr favoritos
       addFavorites user
 
 addFavorites :: User -> IO()
@@ -61,14 +63,6 @@ addFavorites usuario = do
               putStrLn "Lista De Favoritos Cheia!"
             else do
               putStrLn "Livro Já está nos Favoritos!"
-          
-
-
-recursiveAppend :: [User] -> IO()
-recursiveAppend [] = return ()
-recursiveAppend (x:xs) = do
-  CSV.append [x] "users.csv"
-  recursiveAppend xs
 
 filterUserList :: String -> [User] -> [User]
 filterUserList _ [] = []

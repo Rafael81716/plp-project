@@ -5,6 +5,7 @@ import Model.User
 import Modules.UtilModule (wordsWhen)
 import Data.Maybe
 import Modules.BookModule
+import Data.List
 
 registerUser :: String -> String -> String -> [String] -> [Int] -> IO ()
 registerUser readName readEmail readPassword readGenres readFavorites = do
@@ -35,3 +36,22 @@ loginUser em pass = do
   case result of
     Nothing -> return Nothing
     Just user -> if password user == pass then return (Just user) else return Nothing
+
+showFavorites :: User -> IO String
+showFavorites user = do
+  let favorites = sort (favoriteBooks user)
+  books <- returnFavoriteBooks favorites
+  let result = treatFavorites books
+  return result
+
+treatFavorites :: [Book] -> String
+treatFavorites []  = ""
+treatFavorites (x:xs) = show (num x) ++ " - " ++ showBookName x ++ "\n" ++ treatFavorites xs
+
+returnFavoriteBooks :: [Int] -> IO [Book]
+returnFavoriteBooks [] = return []
+returnFavoriteBooks (x:xs) = do
+  livro <- getBookById x
+  livros <- returnFavoriteBooks xs
+  let result = livro ++ livros
+  return result
