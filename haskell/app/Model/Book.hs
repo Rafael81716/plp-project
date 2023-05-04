@@ -8,4 +8,4 @@ data Book = Book{
 } deriving (Eq, Read)
 
 instance Show Book where
-    show(Book id name author genre link) = show id ++ ";" ++name ++ ";" ++ author ++ ";" ++ genre ++ ";" ++ link
+    show(Book num name author genre link) = show num ++ ";" ++name ++ ";" ++ author ++ ";" ++ genre ++ ";" ++ link

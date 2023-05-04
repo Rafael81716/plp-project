@@ -1,17 +1,15 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
-<<<<<<< HEAD
 import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan)
-=======
-import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getOptionsBookLoan, getTitleWithContext)
->>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 import Modules.UtilModule (centeredText, clear, mapGenres)
 import Modules.BookModule as BookModule
 import Model.User
-import Modules.BookModule (getBookByName, Book, wordsWhenB, strToBook, num)
+import Model.Book
+import Modules.BookModule (getBookByName,wordsWhenB, strToBook)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
 import Modules.ValidInput.Validation (isValidSize, isValidIndex)
+import Model.User (User(nameUser))
 
 
 loginOrRegisterMenu :: IO ()
@@ -30,16 +28,11 @@ loginMenu = do
   clear
   result <- UserModule.loginUser email password
   case result of
-<<<<<<< HEAD
     Nothing -> do
       print "Senha invalida, tente novamente"
       loginMenu
     Just user -> do
       print (bookGenres user)
-=======
-    Nothing -> return ()
-    Just user -> mainMenu user
->>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 
 removeFavorites :: User -> IO()
 removeFavorites usuario = do
@@ -56,7 +49,7 @@ removeFavorites usuario = do
       if (length listaFavoritos > 0) && (not (isValidIndex livroId listaFavoritos))
         then do
           let listaFavoritosAtt = removeElement livroId listaFavoritos
-          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
+          let user = User (nameUser usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
           writeFile "users.csv" ""
@@ -88,7 +81,7 @@ addFavorites usuario = do
       if (isValidSize listaFavoritos) && (isValidIndex livroId listaFavoritos)
         then do
           let listaFavoritosAtt = listaFavoritos ++ [livroId]
-          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
+          let user = User (nameUser usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
           writeFile "users.csv" ""
@@ -127,11 +120,7 @@ registeringMenu = do
         genres <- getLine
         let genresFormated = words genres
         let listGenrers = mapGenres genresFormated
-<<<<<<< HEAD
         UserModule.registerUser name email password listGenrers [] []
-=======
-        UserModule.registerUser name email password listGenrers []
->>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 
 printGenres :: IO ()
 printGenres = do
@@ -147,10 +136,6 @@ printGenres = do
 
   putStrLn "Escolha os gêneros, separando cada um por espaço: "
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 mainMenu:: User -> IO()
 mainMenu user = do
   option <- getMainMenuOption "Menu Principal"
@@ -186,8 +171,3 @@ printMakeLoanByGender = do
 printReturnBook::IO()
 printReturnBook = do
   print("foi")
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
