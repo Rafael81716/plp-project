@@ -1,7 +1,12 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
+<<<<<<< HEAD
 import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan)
+=======
+import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getOptionsBookLoan, getTitleWithContext)
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 import Modules.UtilModule (centeredText, clear, mapGenres)
+import Modules.BookModule as BookModule
 import Model.User
 import Modules.BookModule (getBookByName, Book, wordsWhenB, strToBook, num)
 import qualified Text.CSV
@@ -25,11 +30,16 @@ loginMenu = do
   clear
   result <- UserModule.loginUser email password
   case result of
+<<<<<<< HEAD
     Nothing -> do
       print "Senha invalida, tente novamente"
       loginMenu
     Just user -> do
       print (bookGenres user)
+=======
+    Nothing -> return ()
+    Just user -> mainMenu user
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 
 removeFavorites :: User -> IO()
 removeFavorites usuario = do
@@ -104,7 +114,7 @@ registeringMenu = do
   name <- getNameWithContext context
   email <- getEmailWithContext context
   userIsNotRegistered email >>= \isNotRegistered ->
-    if isNotRegistered == False then do
+    if not isNotRegistered then do
        clear
        putStrLn "Email já cadastrado, insira outro!"
        registeringMenu
@@ -117,7 +127,11 @@ registeringMenu = do
         genres <- getLine
         let genresFormated = words genres
         let listGenrers = mapGenres genresFormated
+<<<<<<< HEAD
         UserModule.registerUser name email password listGenrers [] []
+=======
+        UserModule.registerUser name email password listGenrers []
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 
 printGenres :: IO ()
 printGenres = do
@@ -133,7 +147,10 @@ printGenres = do
 
   putStrLn "Escolha os gêneros, separando cada um por espaço: "
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
 mainMenu:: User -> IO()
 mainMenu user = do
   option <- getMainMenuOption "Menu Principal"
@@ -169,3 +186,8 @@ printMakeLoanByGender = do
 printReturnBook::IO()
 printReturnBook = do
   print("foi")
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899

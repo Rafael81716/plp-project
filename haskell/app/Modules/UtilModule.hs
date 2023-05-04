@@ -2,6 +2,7 @@ module Modules.UtilModule where
 import Data.Map as Map
 import Data.Maybe as Maybe
 import qualified Data.Maybe as Maybe
+import Model.Book
 
 genreMap :: Map.Map String String
 genreMap = Map.fromList [
@@ -19,6 +20,21 @@ parseStrToList str = do
   let lst = read temp :: [String]
   lst
 
+<<<<<<< HEAD
+parseStrToBook :: String -> [Book]
+parseStrToBook str = do
+=======
+parseStrToBooks :: String -> [Book]
+parseStrToBooks str = do
+>>>>>>> d31bff4afd6a8689076c072e7b60d2815daa6118
+  let temp = Prelude.filter (/= '\\') str
+  let lst = read temp :: [Book]
+  lst
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> d31bff4afd6a8689076c072e7b60d2815daa6118
 mapGenres :: [String] -> [String]
 mapGenres = Prelude.map (\ k -> Maybe.fromMaybe "Non Existent Genre" (Map.lookup k genreMap))
 

@@ -3,15 +3,25 @@ module Modules.UserModule where
 import Modules.CsvModule as CSV
 import Model.User
 import Modules.UtilModule (wordsWhen)
+import Modules.BookModule as BookModule
 import Data.Maybe
+<<<<<<< HEAD
 import Modules.BookModule
 import Data.List
 
 registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
 registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan = do
   let user = User readName readEmail readPassword readGenres readFavorites readBooksLoan
+=======
+import Model.Book
+
+
+registerUser :: String -> String -> String -> [String] -> [Book] -> IO ()
+registerUser readName readEmail readPassword readGenres readBook = do
+  let user = User readName readEmail readPassword readGenres readBook
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
   CSV.append [user] "users.csv"
-  
+
 userIsNotRegistered :: String -> IO Bool
 userIsNotRegistered email = do
   maybeUser <- getUser email
@@ -37,6 +47,7 @@ loginUser em pass = do
     Nothing -> return Nothing
     Just user -> if password user == pass then return (Just user) else return Nothing
 
+<<<<<<< HEAD
 showFavorites :: User -> IO String
 showFavorites user = do
   let favorites = sort (favoriteBooks user)
@@ -59,3 +70,22 @@ returnFavoriteBooks (x:xs) = do
 makeLoanByTitle:: User -> String -> IO()
 makeLoanByTitle user title = do 
   print("entrou")
+=======
+
+makeLoanByTitle:: User -> String -> IO()
+makeLoanByTitle user title = do
+  book2 <- BookModule.getBookByName title
+<<<<<<< HEAD
+  registerUser (nameUser user) (email user) (password user) (bookGenres user) book2
+  print ("Emprestimo realizado com sucesso!")
+=======
+  registerUser (nameUser user) (email user) (password user) (bookGenres user) (books user ++ book2)
+  print("Empréstimo Realizado com Sucesso!")
+
+
+  
+
+
+
+>>>>>>> d31bff4afd6a8689076c072e7b60d2815daa6118
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899

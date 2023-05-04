@@ -9,6 +9,7 @@ append values pathToFile = do
   where
     csvContent = unlines $ map show values
 
+<<<<<<< HEAD
 read :: String -> IO [User]
 read filePath = do
   let parser s = Prelude.read s :: User
@@ -17,3 +18,13 @@ read filePath = do
   let lines = wordsWhen (== '\n') csvData
   let dataList = map parser lines
   return dataList
+=======
+read :: (Read t) => (String -> t) -> FilePath -> IO [t]
+read parser pathToFile = do
+    csvData <- readFile pathToFile
+    let lines = wordsWhen (== '\n') csvData
+    let dataList = map parser lines
+    return dataList
+
+
+>>>>>>> 58e506ba67210db64f5089fba639e86aa0016899
