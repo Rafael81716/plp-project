@@ -33,7 +33,40 @@ loginMenu = do
       print (favoriteBooks user)
       favoritos <- showFavorites user
       putStr favoritos
+      removeFavorites user
       addFavorites user
+
+removeFavorites :: User -> IO()
+removeFavorites usuario = do
+  putStrLn "Insira o nome do livro: "
+  nomeLivro <- getLine
+  book <- getBookByName nomeLivro
+  if book == []
+    then do
+      putStrLn "Livro nao encontrado!"
+      removeFavorites usuario
+    else do
+      let livroId = num (head book)
+      let listaFavoritos = favoriteBooks usuario
+      if (length listaFavoritos > 0) && (not (isValidIndex livroId listaFavoritos))
+        then do
+          let listaFavoritosAtt = removeElement livroId listaFavoritos
+          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+          userList <- getUserList
+          let newList = user:filterUserList (email usuario) userList
+          writeFile "users.csv" ""
+          CSV.append newList "users.csv"
+          putStrLn "Livro removido com sucesso!"
+        else do
+          if length listaFavoritos == 0
+            then do
+              putStrLn "Lista de favoritos vazia!"
+            else do
+              putStrLn "Livro não está na lista de favoritos!"
+
+
+removeElement :: Eq a => a -> [a] -> [a]
+removeElement x xs = filter (/= x) xs
 
 addFavorites :: User -> IO()
 addFavorites usuario = do
@@ -47,16 +80,15 @@ addFavorites usuario = do
     else do
       let livroId = num (head book)
       let listaFavoritos = favoriteBooks usuario
-      print listaFavoritos
       if (isValidSize listaFavoritos) && (isValidIndex livroId listaFavoritos)
         then do
           let listaFavoritosAtt = listaFavoritos ++ [livroId]
           let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
-          print $ show newList
           writeFile "users.csv" ""
           CSV.append newList "users.csv"
+          putStrLn "Livro adicionado com sucesso!"
         else do
           if not $ isValidSize listaFavoritos
             then do
