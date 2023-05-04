@@ -12,3 +12,11 @@ isValidPassword password = length password >= 6
 
 isValidName :: String -> Bool
 isValidName name = not (any isDigit name)
+
+isValidIndex :: Int -> [Int] -> Bool
+isValidIndex n [] = True
+isValidIndex n (x:xs) = if n == x then False else isValidIndex n xs
+
+isValidSize :: [Int] -> Bool
+isValidSize [] = True
+isValidSize l1 = if length l1 < 10 then True else False
