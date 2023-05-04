@@ -1,6 +1,6 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
-import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption)
+import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan)
 import Modules.UtilModule (centeredText, clear, mapGenres)
 import Model.User
 import Modules.BookModule (getBookByName, Book, wordsWhenB, strToBook, num)
@@ -30,11 +30,6 @@ loginMenu = do
       loginMenu
     Just user -> do
       print (bookGenres user)
-      print (favoriteBooks user)
-      favoritos <- showFavorites user
-      putStr favoritos
-      removeFavorites user
-      addFavorites user
 
 removeFavorites :: User -> IO()
 removeFavorites usuario = do
@@ -51,7 +46,7 @@ removeFavorites usuario = do
       if (length listaFavoritos > 0) && (not (isValidIndex livroId listaFavoritos))
         then do
           let listaFavoritosAtt = removeElement livroId listaFavoritos
-          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
           writeFile "users.csv" ""
@@ -83,7 +78,7 @@ addFavorites usuario = do
       if (isValidSize listaFavoritos) && (isValidIndex livroId listaFavoritos)
         then do
           let listaFavoritosAtt = listaFavoritos ++ [livroId]
-          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
           writeFile "users.csv" ""
@@ -122,7 +117,7 @@ registeringMenu = do
         genres <- getLine
         let genresFormated = words genres
         let listGenrers = mapGenres genresFormated
-        UserModule.registerUser name email password listGenrers []
+        UserModule.registerUser name email password listGenrers [] []
 
 printGenres :: IO ()
 printGenres = do
@@ -138,9 +133,39 @@ printGenres = do
 
   putStrLn "Escolha os gêneros, separando cada um por espaço: "
 
-mainMenu::IO()
-mainMenu = do
+
+mainMenu:: User -> IO()
+mainMenu user = do
   option <- getMainMenuOption "Menu Principal"
-  putStrLn "todo"
+  readMainMenu user option
+
+readMainMenu:: User -> String -> IO()
+readMainMenu user option | option == "1" = printMakeLoan user
+                    | option == "2" = printReturnBook
+                    | otherwise = print("todo other functionss")
+
+
+printMakeLoan:: User ->IO()
+printMakeLoan user  = do
+  option <- getOptionsBookLoan "Empréstimo"
+  if option == "1" then printMakeLoanByTitle user
+  else if option == "2" then printMakeLoanByAuthor
+  else printMakeLoanByGender
   
 
+printMakeLoanByTitle:: User -> IO()
+printMakeLoanByTitle user = do
+  title <- getTitleWithContext "Empréstimo"
+  UserModule.makeLoanByTitle user title
+
+printMakeLoanByAuthor::IO()
+printMakeLoanByAuthor = do
+  putStrLn "autor"
+
+printMakeLoanByGender::IO()
+printMakeLoanByGender = do
+  putStrLn "gender"
+
+printReturnBook::IO()
+printReturnBook = do
+  print("foi")

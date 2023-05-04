@@ -7,9 +7,9 @@ import Data.Maybe
 import Modules.BookModule
 import Data.List
 
-registerUser :: String -> String -> String -> [String] -> [Int] -> IO ()
-registerUser readName readEmail readPassword readGenres readFavorites = do
-  let user = User readName readEmail readPassword readGenres readFavorites
+registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
+registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan = do
+  let user = User readName readEmail readPassword readGenres readFavorites readBooksLoan
   CSV.append [user] "users.csv"
   
 userIsNotRegistered :: String -> IO Bool
@@ -55,3 +55,7 @@ returnFavoriteBooks (x:xs) = do
   livros <- returnFavoriteBooks xs
   let result = livro ++ livros
   return result
+
+makeLoanByTitle:: User -> String -> IO()
+makeLoanByTitle user title = do 
+  print("entrou")

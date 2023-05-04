@@ -16,6 +16,7 @@ getLoginRegisterOptionWithContext :: String -> IO String
 getLoginRegisterOptionWithContext context  = baseGetWithContext context ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
 
 
+
 getName :: IO String
 getName = baseGet "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"
 
@@ -24,6 +25,9 @@ getEmail = baseGet "Digite seu email: " isValidEmail "Email inválido!\nDigite s
 
 getPassword :: IO String
 getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
+
+getTitleWithContext:: String -> IO String
+getTitleWithContext context =  baseGetWithContext context ("Informe o título do livro: ") isValidName "Título inválido! Digite o título novamente: "
 
 getLoginRegisterOption :: IO String
 getLoginRegisterOption = baseGet ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
@@ -41,6 +45,9 @@ getMainMenuOption context = baseGetWithContext context   ( " 1 - Realizar empré
         ++ " 10 - Logout \n" ++
        " Escolha uma opção: "
     )  (\o -> o == "1" || o == "2" || o == "3" || o == "4" || o == "5" || o == "6" || o == "7" || o == "8" || o == "9" || o == "10") "Opção inválida"
+
+getOptionsBookLoan:: String -> IO String
+getOptionsBookLoan context = baseGetWithContext context ("Escolha uma forma de consulta:\n" ++ "1 - Título\n" ++ "2 - Autor\n" ++ "3 - Gênero\n" ++ "Escolha uma opção: ")  (\o -> o == "1" || o == "2" || o == "3") "Opção inválida"
 
 baseGetWithContext :: String -> String -> (String -> Bool) -> String -> IO String
 baseGetWithContext context prompt predicate errMsg = customGet
