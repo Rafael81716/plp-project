@@ -1,5 +1,9 @@
 module Model.User where
+<<<<<<< HEAD
 import Modules.UtilModule (parseStrToList, wordsWhen, parseStrToBook)
+=======
+import Modules.UtilModule (parseStrToList, wordsWhen, parseStrToBooks)
+>>>>>>> d31bff4afd6a8689076c072e7b60d2815daa6118
 import Model.Book
 
 data User = User
@@ -26,6 +30,10 @@ strToUser x = do
   let e = x !! 1
   let s = x !! 2
   let g = parseStrToList (x !! 3)
+<<<<<<< HEAD
   let b = parseStrToBook (x !! 4)
+=======
+  let b = parseStrToBooks (x !! 4)
+>>>>>>> d31bff4afd6a8689076c072e7b60d2815daa6118
   User n e s g b
   
