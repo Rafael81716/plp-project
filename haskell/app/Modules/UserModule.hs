@@ -4,10 +4,11 @@ import Modules.CsvModule as CSV
 import Model.User
 import Modules.UtilModule (wordsWhen)
 import Data.Maybe
+import Modules.BookModule
 
-registerUser :: String -> String -> String -> [String] -> IO ()
-registerUser readName readEmail readPassword readGenres = do
-  let user = User readName readEmail readPassword readGenres
+registerUser :: String -> String -> String -> [String] -> [Book] -> IO ()
+registerUser readName readEmail readPassword readGenres readFavorites = do
+  let user = User readName readEmail readPassword readGenres readFavorites
   CSV.append [user] "users.csv"
   
 userIsNotRegistered :: String -> IO Bool
@@ -17,12 +18,15 @@ userIsNotRegistered email = do
 
 getUser :: String -> IO (Maybe User)
 getUser em = do
-  userList <- CSV.read (\s -> Prelude.read s :: User) "users.csv"
+  userList <- CSV.read "users.csv"
   let user = filter (\u -> email u == em) userList
 
   case user of
     [] -> return Nothing
     (u:_) -> return (Just u)
+
+getUserList :: IO [User]
+getUserList = CSV.read "users.csv"
 
 loginUser :: String -> String -> IO (Maybe User)
 loginUser em pass = do

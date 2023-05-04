@@ -3,6 +3,9 @@ import Modules.UserModule as UserModule
 import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext)
 import Modules.UtilModule (centeredText, clear, mapGenres)
 import Model.User
+import Modules.BookModule (getBookByName, Book)
+import qualified Text.CSV
+import Modules.CsvModule as CSV
 
 loginOrRegisterMenu :: IO ()
 loginOrRegisterMenu = do
@@ -20,9 +23,43 @@ loginMenu = do
   clear
   result <- UserModule.loginUser email password
   case result of
-    Nothing -> return ()
-    Just user -> print (bookGenres user)
+    Nothing -> do
+      print "Senha invalida, tente novamente"
+      loginMenu
+    Just user -> do
+      print (bookGenres user)
+      print (favoriteBooks user)
+      addFavorites user
 
+addFavorites :: User -> IO()
+addFavorites usuario = do
+  putStrLn "Insira o nome do livro: "
+  nomeLivro <- getLine
+  book <- getBookByName nomeLivro
+  if book == []
+    then do
+      putStrLn "Livro nao encontrado!"
+      addFavorites usuario
+    else do
+      let listaFavoritos = favoriteBooks usuario
+      let listaFavoritosAtt = listaFavoritos ++ book
+      let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+      userList <- getUserList
+      let newList = user:filterUserList (email usuario) userList
+      writeFile "users.csv" ""
+      recursiveAppend newList
+
+recursiveAppend :: [User] -> IO()
+recursiveAppend [] = return ()
+recursiveAppend (x:xs) = do
+  CSV.append [x] "users.csv"
+  recursiveAppend xs
+
+filterUserList :: String -> [User] -> [User]
+filterUserList em [] = []
+filterUserList em (x:xs) = if email x == em
+  then filterUserList em xs
+  else x:filterUserList em xs
 
 registeringMenu :: IO ()
 registeringMenu = do
@@ -44,7 +81,7 @@ registeringMenu = do
         genres <- getLine
         let genresFormated = words genres
         let listGenrers = mapGenres genresFormated
-        UserModule.registerUser name email password listGenrers
+        UserModule.registerUser name email password listGenrers []
 
 printGenres :: IO ()
 printGenres = do

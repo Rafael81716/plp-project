@@ -28,8 +28,8 @@ getBookCsv :: String -> String -> IO [Book]
 getBookCsv em att = do
     let fileName = "books.csv"
     csvData <- readFile fileName
-    let lines = wordsWhen (=='\n') csvData
-    let temp = map (\s -> wordsWhen (== ';') s) lines
+    let lines = wordsWhenB (=='\n') csvData
+    let temp = map (\s -> wordsWhenB (== ';') s) lines
     let bookList = map strToBook temp
     if att == "name" then return $ filter (\u -> name(u) == em) bookList
     else if att == "author" then return $ filter (\u -> author(u) == em) bookList
@@ -48,8 +48,8 @@ getBookById :: Int -> IO [Book]
 getBookById em  = do
     let fileName = "books.csv"
     csvData <- readFile fileName
-    let lines = wordsWhen (=='\n') csvData
-    let temp = map (\s -> wordsWhen (== ';') s) lines
+    let lines = wordsWhenB (=='\n') csvData
+    let temp = map (\s -> wordsWhenB (== ';') s) lines
     let bookList = map strToBook temp
     let jet = filter (\u -> num(u) == em) bookList
     return jet
@@ -63,27 +63,27 @@ strToBook x = do
     let j = x !! 4
     registerBookAux n e s g j
 
-parseStrToList :: String -> [String]
-parseStrToList str = do
+parseStrToListB :: String -> [String]
+parseStrToListB str = do
     let temp = filter (/= '\\') str
     let lst = read temp :: [String]
     lst
 
-wordsWhen :: (Char -> Bool) -> String -> [String]
-wordsWhen p s =  case dropWhile p s of
+wordsWhenB :: (Char -> Bool) -> String -> [String]
+wordsWhenB p s =  case dropWhile p s of
                         "" -> []
-                        s' -> w : wordsWhen p s''
+                        s' -> w : wordsWhenB p s''
                             where (w, s'') = break p s'
 
 splitBy :: Char -> String -> [String]
-splitBy sep = wordsWhen (== sep)
+splitBy sep = wordsWhenB (== sep)
 
 getAllBooks :: IO [Book]
 getAllBooks = do
     let fileName = "books.csv"
     csvData <- readFile fileName
-    let lines = wordsWhen (=='\n') csvData
-    let temp = map (\s -> wordsWhen (== ';') s) lines
+    let lines = wordsWhenB (=='\n') csvData
+    let temp = map (\s -> wordsWhenB (== ';') s) lines
     let bookList = map strToBook temp
     return bookList
 
