@@ -44,6 +44,7 @@ addFavorites usuario = do
     else do
       let livroId = num (head book)
       let listaFavoritos = favoriteBooks usuario
+      print listaFavoritos
       let listaFavoritosAtt = listaFavoritos ++ [livroId]
       let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
       userList <- getUserList

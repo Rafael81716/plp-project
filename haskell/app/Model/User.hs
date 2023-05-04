@@ -26,5 +26,5 @@ strToUser x = do
   let e = x !! 1
   let s = x !! 2
   let g = parseStrToList (x !! 3)
-  let f = []
+  let f = read (x !! 4)
   User n e s g f
