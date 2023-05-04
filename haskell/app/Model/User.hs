@@ -7,7 +7,7 @@ data User = User
     email :: String,
     password :: String,
     bookGenres :: [String],
-    books::[Book]
+    books::[Int]
   }
   deriving (Eq)
 
