@@ -6,6 +6,7 @@ import Model.User
 import Modules.BookModule (getBookByName, Book, wordsWhenB, strToBook, num)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
+import Modules.ValidInput.Validation (isValidSize, isValidIndex)
 
 
 loginOrRegisterMenu :: IO ()
@@ -45,13 +46,23 @@ addFavorites usuario = do
       let livroId = num (head book)
       let listaFavoritos = favoriteBooks usuario
       print listaFavoritos
-      let listaFavoritosAtt = listaFavoritos ++ [livroId]
-      let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
-      userList <- getUserList
-      let newList = user:filterUserList (email usuario) userList
-      print $ show newList
-      writeFile "users.csv" ""
-      CSV.append newList "users.csv"
+      if (isValidSize listaFavoritos) && (isValidIndex livroId listaFavoritos)
+        then do
+          let listaFavoritosAtt = listaFavoritos ++ [livroId]
+          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+          userList <- getUserList
+          let newList = user:filterUserList (email usuario) userList
+          print $ show newList
+          writeFile "users.csv" ""
+          CSV.append newList "users.csv"
+        else do
+          if not $ isValidSize listaFavoritos
+            then do
+              putStrLn "Lista De Favoritos Cheia!"
+            else do
+              putStrLn "Livro Já está nos Favoritos!"
+          
+
 
 recursiveAppend :: [User] -> IO()
 recursiveAppend [] = return ()
