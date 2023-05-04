@@ -6,7 +6,7 @@ import Modules.UtilModule (wordsWhen)
 import Data.Maybe
 import Modules.BookModule
 
-registerUser :: String -> String -> String -> [String] -> [Book] -> IO ()
+registerUser :: String -> String -> String -> [String] -> [Int] -> IO ()
 registerUser readName readEmail readPassword readGenres readFavorites = do
   let user = User readName readEmail readPassword readGenres readFavorites
   CSV.append [user] "users.csv"
