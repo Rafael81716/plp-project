@@ -13,7 +13,6 @@ registerUser readName readEmail readPassword readGenres readBook = do
   let user = User readName readEmail readPassword readGenres readBook
   CSV.append [user] "users.csv"
 
-  
 userIsNotRegistered :: String -> IO Bool
 userIsNotRegistered email = do
   maybeUser <- getUser email
@@ -40,11 +39,5 @@ loginUser em pass = do
 makeLoanByTitle:: User -> String -> IO()
 makeLoanByTitle user title = do
   book2 <- BookModule.getBookByName title
-  let bookUser = book2 ++ (books user)
-  registerUser (nameUser user) (email user) (password user) (bookGenres user) (bookUser)
+  registerUser (nameUser user) (email user) (password user) (bookGenres user) book2
   print ("Emprestimo realizado com sucesso!")
-
-  
-
-
-

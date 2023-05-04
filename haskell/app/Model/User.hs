@@ -1,5 +1,5 @@
 module Model.User where
-import Modules.UtilModule (parseStrToList, wordsWhen)
+import Modules.UtilModule (parseStrToList, wordsWhen, parseStrToBook)
 import Model.Book
 
 data User = User
@@ -14,11 +14,11 @@ data User = User
 instance Read User where
   readsPrec _ str =
     case wordsWhen (== ';') str of
-      [n, e, s, gs] -> [(strToUser [n, e, s, gs], "")]
+      [n, e, s, gs, b] -> [(strToUser [n, e, s, gs, b], "")]
       _ -> []
 
 instance Show User where
-    show (User name email password bookGenres books) = name ++ ";" ++ email ++ ";" ++ password ++ ";" ++ Prelude.show bookGenres ++ ";" ++ Prelude.show books
+    show (User nameUser email password bookGenres books) = nameUser ++ ";" ++ email ++ ";" ++ password ++ ";" ++ Prelude.show bookGenres ++ ";" ++ Prelude.show books
 
 strToUser :: [String] -> User
 strToUser x = do
@@ -26,6 +26,6 @@ strToUser x = do
   let e = x !! 1
   let s = x !! 2
   let g = parseStrToList (x !! 3)
-  let b = []
+  let b = parseStrToBook (x !! 4)
   User n e s g b
   

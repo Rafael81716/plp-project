@@ -13,3 +13,5 @@ read parser pathToFile = do
     let lines = wordsWhen (== '\n') csvData
     let dataList = map parser lines
     return dataList
+
+
