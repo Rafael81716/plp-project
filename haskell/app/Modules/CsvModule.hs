@@ -1,7 +1,7 @@
 module Modules.CsvModule where
 
 import Model.User (User)
-import Modules.UtilModule (wordsWhen)
+import Modules.UtilModule (splitBy)
 import System.IO
 
 append :: (Show t) => [t] -> FilePath -> IO ()
@@ -15,7 +15,7 @@ read filePath = do
   let parser s = Prelude.read s :: User
   csvData <- readFile filePath
   seq (length csvData) (return ())
-  let lines = wordsWhen (== '\n') csvData
+  let lines = splitBy '\n' csvData
   let dataList = map parser lines
   return dataList
 

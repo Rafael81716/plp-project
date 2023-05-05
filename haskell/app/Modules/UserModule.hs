@@ -5,7 +5,6 @@ import Data.Maybe
 import Model.User as User
 import Modules.BookModule
 import Modules.CsvModule as CSV
-import Modules.UtilModule (wordsWhen)
 
 registerUser :: String -> String -> String -> [String] -> [Int] -> IO ()
 registerUser readName readEmail readPassword readGenres readFavorites = do
