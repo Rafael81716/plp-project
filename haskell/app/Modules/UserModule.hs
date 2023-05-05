@@ -4,10 +4,12 @@ import Modules.CsvModule as CSV
 import Model.User
 import Model.Book
 import Modules.UtilModule (wordsWhen)
-import Modules.BookModule as BookModule
 import Data.Maybe
 import Modules.BookModule
 import Data.List
+import Model.User (User(bookGenres))
+import System.IO (putStrLn)
+
 
 registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
 registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan = do
@@ -58,7 +60,23 @@ returnFavoriteBooks (x:xs) = do
   let result = livro ++ livros
   return result
 
-makeLoanByTitle:: User -> String -> IO()
-makeLoanByTitle user title = do 
-  print("entrou")
+makeLoanByTitle:: User -> Int -> IO()
+makeLoanByTitle user bookId = do
+  let newBooks = (booksLoan user) ++ [bookId]
+  let actualUser = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) newBooks
+
+  userList <- getUserList
+  let newList = actualUser:filterUserList2 (email user) userList
+  writeFile "users.csv" ""
+  CSV.append newList "users.csv"
+  putStrLn "Livro emprestado com sucesso!"
+
+filterUserList2 :: String -> [User] -> [User]
+filterUserList2 _ [] = []
+filterUserList2 em (x:xs) = if email x == em
+  then filterUserList2 em xs
+  else x : filterUserList2 em xs
+  
+  
+
 

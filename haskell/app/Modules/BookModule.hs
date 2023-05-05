@@ -9,6 +9,9 @@ import System.IO.Unsafe
 import System.IO
 import System.Directory
 import Model.Book
+import Data.Text.Internal.Fusion.CaseMapping (titleMapping)
+import Data.List (null)
+
 
 registerBookAux :: Int -> String -> String -> String -> String -> Book
 registerBookAux id name author genre link = Book id name author genre link
@@ -84,3 +87,6 @@ printAllBooks (x:xs)
 
 showBookName :: Book -> String
 showBookName book = (name book)
+
+containsBook:: String -> IO Bool
+containsBook title = fmap null (getBookByName title)

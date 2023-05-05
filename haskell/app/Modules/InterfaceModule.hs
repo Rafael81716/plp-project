@@ -5,11 +5,10 @@ import Modules.UtilModule (centeredText, clear, mapGenres)
 import Modules.BookModule as BookModule
 import Model.User
 import Model.Book
-import Modules.BookModule (getBookByName,wordsWhenB, strToBook)
+import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
 import Modules.ValidInput.Validation (isValidSize, isValidIndex)
-import Model.User (User(nameUser))
 
 
 loginOrRegisterMenu :: IO ()
@@ -32,7 +31,7 @@ loginMenu = do
       print "Senha invalida, tente novamente"
       loginMenu
     Just user -> do
-      print (bookGenres user)
+      mainMenu user
 
 removeFavorites :: User -> IO()
 removeFavorites usuario = do
@@ -158,8 +157,18 @@ printMakeLoan user  = do
 printMakeLoanByTitle:: User -> IO()
 printMakeLoanByTitle user = do
   title <- getTitleWithContext "Empréstimo"
-  UserModule.makeLoanByTitle user title
+  book <- getBookByName title
+  if book == [] then do
+    print("Livro nao consta na base de dados!")
+    printMakeLoanByTitle user
+  
+  else do
+    let bookId = num(head book)
+    UserModule.makeLoanByTitle user bookId
 
+
+
+  
 printMakeLoanByAuthor::IO()
 printMakeLoanByAuthor = do
   putStrLn "autor"
