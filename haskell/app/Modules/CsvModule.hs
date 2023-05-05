@@ -1,11 +1,12 @@
 module Modules.CsvModule where
-import Modules.UtilModule (wordsWhen)
+
 import Model.User (User)
+import Modules.UtilModule (wordsWhen)
 import System.IO
 
 append :: (Show t) => [t] -> FilePath -> IO ()
 append values pathToFile = do
-    appendFile pathToFile csvContent
+  appendFile pathToFile csvContent
   where
     csvContent = unlines $ map show values
 
@@ -17,3 +18,9 @@ read filePath = do
   let lines = wordsWhen (== '\n') csvData
   let dataList = map parser lines
   return dataList
+
+write :: (Show t) => [t] -> FilePath -> IO ()
+write values pathToFile = do
+  writeFile pathToFile csvContent
+  where
+    csvContent = unlines $ map show values
