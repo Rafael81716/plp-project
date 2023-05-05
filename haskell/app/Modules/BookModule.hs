@@ -88,5 +88,5 @@ printAllBooks (x:xs)
 showBookName :: Book -> String
 showBookName book = (name book)
 
-containsBook:: String -> IO Bool
-containsBook title = fmap null (getBookByName title)
+contentLoanInUser:: [Int] -> Int -> Bool
+contentLoanInUser userBooks idBook = elem idBook userBooks

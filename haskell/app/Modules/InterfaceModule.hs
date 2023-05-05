@@ -2,7 +2,7 @@ module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
 import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan)
 import Modules.UtilModule (centeredText, clear, mapGenres)
-import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName)
+import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName, contentLoanInUser)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
 import Modules.ValidInput.Validation (isValidSize, isValidIndex, filterUserList)
@@ -152,14 +152,24 @@ printMakeLoanByTitle:: User -> IO()
 printMakeLoanByTitle user = do
   title <- getTitleWithContext "Empréstimo"
   book <- getBookByName title
+  let bookId = num(head book)
   if book == [] then do
-    print("Livro nao consta na base de dados!")
+    putStrLn("Livro nao consta na base de dados!")
     printMakeLoanByTitle user
   
   else
-    if isValidSize (boo)
-    let bookId = num(head book)
-    UserModule.makeLoanByTitle user bookId
+    if isValidSize (booksLoan user) == False then do
+      putStrLn("O Usuario ja atingiu o numero maximo de emprestimos")
+      mainMenu user
+
+    else
+      if contentLoanInUser (booksLoan user) bookId == True then do
+        putStrLn("Este usuario ja tem esse livro emprestado, escolha outro!")
+        printMakeLoanByTitle user
+        
+      else do
+      UserModule.makeLoanByTitle user bookId
+
 
 
 
