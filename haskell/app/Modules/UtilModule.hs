@@ -4,6 +4,8 @@ import Data.Maybe as Maybe
 import qualified Data.Maybe as Maybe
 import Model.Book
 
+
+
 genreMap :: Map.Map String String
 genreMap = Map.fromList [
     ("1", "Ficcao Cientifica"),
@@ -47,3 +49,5 @@ centeredText text =
   let width = 40
       padding = replicate ((width - length text) `div` 2) ' '
    in replicate width '-' ++ "\n" ++ padding ++ text ++ padding ++ "\n" ++ replicate width '-'
+
+

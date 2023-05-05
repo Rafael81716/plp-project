@@ -1,6 +1,5 @@
 module Model.User where
 import Modules.BookModule
-import Modules.UtilModule (parseStrToList, wordsWhen)
 import Modules.UtilModule (parseStrToList, wordsWhen, parseStrToBook)
 import Model.Book
 

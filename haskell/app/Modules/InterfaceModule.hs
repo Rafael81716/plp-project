@@ -2,13 +2,12 @@ module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
 import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan)
 import Modules.UtilModule (centeredText, clear, mapGenres)
-import Modules.BookModule as BookModule
-import Model.User
-import Model.Book
 import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
-import Modules.ValidInput.Validation (isValidSize, isValidIndex)
+import Modules.ValidInput.Validation (isValidSize, isValidIndex, filterUserList)
+import Model.User
+import Model.Book
 
 
 loginOrRegisterMenu :: IO ()
@@ -93,11 +92,6 @@ addFavorites usuario = do
             else do
               putStrLn "Livro Já está nos Favoritos!"
 
-filterUserList :: String -> [User] -> [User]
-filterUserList _ [] = []
-filterUserList em (x:xs) = if email x == em
-  then filterUserList em xs
-  else x : filterUserList em xs
 
 registeringMenu :: IO ()
 registeringMenu = do
@@ -162,7 +156,8 @@ printMakeLoanByTitle user = do
     print("Livro nao consta na base de dados!")
     printMakeLoanByTitle user
   
-  else do
+  else
+    if isValidSize (boo)
     let bookId = num(head book)
     UserModule.makeLoanByTitle user bookId
 

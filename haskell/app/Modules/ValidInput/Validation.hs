@@ -1,6 +1,7 @@
 module Modules.ValidInput.Validation where
 import Data.List (isInfixOf)
 import Data.Char (isDigit)
+import Model.User
 
 isValidEmail :: String -> Bool
 isValidEmail email
@@ -20,3 +21,9 @@ isValidIndex n (x:xs) = if n == x then False else isValidIndex n xs
 isValidSize :: [Int] -> Bool
 isValidSize [] = True
 isValidSize l1 = if length l1 < 10 then True else False
+
+filterUserList :: String -> [User] -> [User]
+filterUserList _ [] = []
+filterUserList em (x:xs) = if email x == em
+  then filterUserList em xs
+  else x : filterUserList em xs

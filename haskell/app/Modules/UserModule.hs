@@ -9,6 +9,7 @@ import Modules.BookModule
 import Data.List
 import Model.User (User(bookGenres))
 import System.IO (putStrLn)
+import Modules.ValidInput.Validation (filterUserList)
 
 
 registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
@@ -66,16 +67,10 @@ makeLoanByTitle user bookId = do
   let actualUser = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) newBooks
 
   userList <- getUserList
-  let newList = actualUser:filterUserList2 (email user) userList
+  let newList = actualUser:filterUserList (email user) userList
   writeFile "users.csv" ""
   CSV.append newList "users.csv"
   putStrLn "Livro emprestado com sucesso!"
-
-filterUserList2 :: String -> [User] -> [User]
-filterUserList2 _ [] = []
-filterUserList2 em (x:xs) = if email x == em
-  then filterUserList2 em xs
-  else x : filterUserList2 em xs
   
   
 
