@@ -1,7 +1,6 @@
 module Model.User where
-import Modules.BookModule
-import Modules.UtilModule (parseStrToList, wordsWhen, parseStrToBook)
-import Model.Book
+
+import Modules.UtilModule (parseStrToList, wordsWhen)
 
 data User = User
   { nameUser :: String,
@@ -9,8 +8,8 @@ data User = User
     password :: String,
     bookGenres :: [String],
     favoriteBooks :: [Int],
-    booksLoan:: [Int],
-    booksHistoric:: [Int]
+    booksLoan :: [Int],
+    booksHistoric :: [Int]
   }
   deriving (Eq)
 
@@ -21,7 +20,7 @@ instance Read User where
       _ -> []
 
 instance Show User where
-    show (User name email password bookGenres favoriteBooks booksLoan booksHistoric) = name ++ ";" ++ email ++ ";" ++ password ++ ";" ++ Prelude.show bookGenres ++ ";" ++ Prelude.show favoriteBooks ++ ";" ++ Prelude.show booksLoan ++ ";" ++ Prelude.show booksHistoric
+  show (User name email password bookGenres favoriteBooks booksLoan booksHistoric) = name ++ ";" ++ email ++ ";" ++ password ++ ";" ++ Prelude.show bookGenres ++ ";" ++ Prelude.show favoriteBooks ++ ";" ++ Prelude.show booksLoan ++ ";" ++ Prelude.show booksHistoric
 
 strToUser :: [String] -> User
 strToUser x = do
@@ -33,5 +32,3 @@ strToUser x = do
   let b = read (x !! 5)
   let a = read (x !! 6)
   User n e s g f b a
-
-

@@ -2,7 +2,6 @@ module Modules.CsvModule where
 
 import Model.User (User)
 import Modules.UtilModule (splitBy)
-import System.IO
 
 append :: (Show t) => [t] -> FilePath -> IO ()
 append values pathToFile = do
