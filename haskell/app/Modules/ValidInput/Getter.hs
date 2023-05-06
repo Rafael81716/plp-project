@@ -2,6 +2,7 @@ module Modules.ValidInput.Getter where
 import Modules.ValidInput.Validation (isValidEmail, isValidName, isValidPassword)
 import Modules.UtilModule (clear, centeredText)
 import Control.Monad.Trans.Cont (cont)
+import GHC.Cmm (SectionType(Text))
 
 getNameWithContext :: String -> IO String
 getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"
@@ -27,7 +28,7 @@ getPassword :: IO String
 getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
 
 getTitleWithContext:: String -> IO String
-getTitleWithContext context =  baseGetWithContext context ("Informe o título do livro: ") isValidName "Título inválido! Digite o título novamente: "
+getTitleWithContext context =  baseGetWithContext context ("Informe o título do livro: ") (\o -> o == "") "Título inválido! Digite o título novamente: "
 
 getAuthorWithContext:: String -> IO String
 getAuthorWithContext context = baseGetWithContext context ("Informe um autor para pesquisa: ") isValidName "Nome inválido! Digite o nome novamente: "
@@ -40,15 +41,16 @@ getLoginRegisterOption = baseGet ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolh
 
 getMainMenuOption:: String -> IO String
 getMainMenuOption context = baseGetWithContext context   ( " 1 - Realizar empréstimo \n"
-        ++ " 2 - Devolver livro \n"
-        ++ " 3 - Ver todos os livros do sistema \n"
-        ++ " 4 - Listar recomendações \n"
-        ++ " 5 - Cadastra favoritos \n"
-        ++ " 6 - Remover favoritos \n"
-        ++ " 7 - Listar favoritos \n"
-        ++ " 8 - Exibir histórico de leitura \n"
-        ++ " 9 - Editar perfil \n"
-        ++ " 10 - Logout \n" ++
+        ++ " 2 - Ver livros emprestados \n"
+        ++ " 3 - Devolver livro \n"
+        ++ " 4 - Ver todos os livros do sistema \n"
+        ++ " 5 - Listar recomendações \n"
+        ++ " 6 - Cadastra favoritos \n"
+        ++ " 7 - Remover favoritos \n"
+        ++ " 8 - Listar favoritos \n"
+        ++ " 9 - Exibir histórico de leitura \n"
+        ++ " 10 - Editar perfil \n"
+        ++ " 11 - Logout \n" ++
        " Escolha uma opção: "
     )  (\o -> o == "1" || o == "2" || o == "3" || o == "4" || o == "5" || o == "6" || o == "7" || o == "8" || o == "9" || o == "10") "Opção inválida"
 
