@@ -71,6 +71,15 @@ makeLoanByTitle user bookId = do
   writeFile "users.csv" ""
   CSV.append newList "users.csv"
   putStrLn "Livro emprestado com sucesso!"
+
+listLoans::[Int] -> IO()
+listLoans [] = putStr("")
+listLoan (x:xs) = do
+  actualBook <- (Modules.BookModule.getBookById x)
+  putStr (show actualBook)
+  
+ 
+  
   
   
 

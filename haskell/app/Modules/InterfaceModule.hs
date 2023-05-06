@@ -138,7 +138,7 @@ mainMenu user = do
 
 readMainMenu:: User -> String -> IO()
 readMainMenu user option | option == "1" = printMakeLoan user
-                    | option == "2" = printReturnBook
+                    | option == "2" = printListLoan user
                     | otherwise = print("todo other functionss")
 
 
@@ -206,8 +206,11 @@ printMakeLoanByGender user = do
         printMakeLoanByTitle user
 
 
+printListLoan:: User -> IO()
+printListLoan user = do 
+  let books = (booksLoan user)
+  UserModule.listLoans books
 
- 
-printReturnBook::IO()
-printReturnBook = do
-  print("foi")
+
+
+
