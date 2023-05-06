@@ -63,10 +63,6 @@ removeFavorites usuario = do
             else do
               putStrLn "Livro não está na lista de favoritos!"
 
-
-removeElement :: Eq a => a -> [a] -> [a]
-removeElement x xs = filter (/= x) xs
-
 addFavorites :: User -> IO()
 addFavorites usuario = do
   putStrLn "Insira o nome do livro: "
@@ -94,6 +90,9 @@ addFavorites usuario = do
               putStrLn "Lista De Favoritos Cheia!"
             else do
               putStrLn "Livro Já está nos Favoritos!"
+
+removeElement :: Eq a => a -> [a] -> [a]
+removeElement x xs = filter (/= x) xs
 
 
 registeringMenu :: IO ()
@@ -139,8 +138,8 @@ mainMenu user = do
 
 readMainMenu:: User -> String -> IO()
 readMainMenu user option | option == "1" = printMakeLoan user
-                    | option == "2" = printReturnBook
-                    | otherwise = print ("todo other functionss")
+                    | option == "2" = printListLoan user
+                    | option == "3" = printRemoveBookLoan user
 
 
 printMakeLoan:: User ->IO()
@@ -212,6 +211,36 @@ printHistoric user = printHistoricBooks (booksHistoric user)
 
 
 
+printListLoan:: User -> IO()
+printListLoan user = do 
+  let books = (booksLoan user)
+  UserModule.listLoans books 0
+
+
+printRemoveBookLoan:: User -> IO()
+printRemoveBookLoan user = do
+  putStrLn (centeredText "Devolucao" ++ "\n" ++ "Este sao os seus emprestimos:\n")
+  printListLoan user
+  putStr ("\n" ++ "Escolha um livro para devolver pelo titulo: ")
+  title <- getLine
+  book <- getBookByName title
+  let bookId = num(head book)
+
+  if length (booksLoan user) == 0 then do
+    putStrLn "Voce nao possui emprestimos!"
+    mainMenu user
+  else
+    if book == [] then do
+      putStrLn("Livro nao consta na base de dados, escolha outro!")
+      printRemoveBookLoan user
+  
+  else
+    if contentLoanInUser (booksLoan user) bookId == False then do
+      putStrLn("Este usuario nao tem esse livro emprestado, escolha outro!")
+      printRemoveBookLoan user
+      
+    else
+     UserModule.removeBookLoan user book
 
 printReturnBook::IO()
 printReturnBook = do
