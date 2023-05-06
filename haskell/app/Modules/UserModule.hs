@@ -1,14 +1,19 @@
 module Modules.UserModule where
 
-import Data.List
+import Modules.CsvModule as CSV
+import Model.Book
+import Modules.UtilModule (wordsWhen)
 import Data.Maybe
 import Model.User as User
 import Modules.BookModule
-import Modules.CsvModule as CSV
+import Data.List
+import Model.User (User(bookGenres))
+import Modules.ValidInput.Validation (filterUserList)
 
-registerUser :: String -> String -> String -> [String] -> [Int] -> IO ()
-registerUser readName readEmail readPassword readGenres readFavorites = do
-  let user = User readName readEmail readPassword readGenres readFavorites
+
+registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
+registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan = do
+  let user = User readName readEmail readPassword readGenres readFavorites readBooksLoan
   CSV.append [user] "users.csv"
 
 userIsNotRegistered :: String -> IO Bool
@@ -54,6 +59,39 @@ returnFavoriteBooks (x : xs) = do
   livros <- returnFavoriteBooks xs
   let result = livro ++ livros
   return result
+
+makeLoanByTitle:: User -> Int -> IO()
+makeLoanByTitle user bookId = do
+  let newBooks = (booksLoan user) ++ [bookId]
+  let actualUser = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) newBooks
+
+  userList <- getUserList
+  let newList = actualUser:filterUserList (email user) userList
+  writeFile "users.csv" ""
+  CSV.append newList "users.csv"
+  putStrLn "Livro emprestado com sucesso!"
+
+listLoans::[Int] -> Int -> IO()
+listLoans [] cont = putStrLn ""
+listLoans (h:t) cont = do
+  book <- getBookById h 
+  putStrLn (show (cont + 1) ++ ") " ++ name (book !! 0) ++ " - " ++ author (book !! 0) ++ " (" ++ genre (book !! 0) ++ ")")
+  listLoans t (cont + 1)
+
+removeBookLoan:: User -> [Book] -> IO()
+removeBookLoan user  book = do
+  let bookId =  num (head book)
+  let listBooksLoan = booksLoan user 
+  let bookLoansAtt = removeElement2 bookId listBooksLoan
+  let userActual = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) (bookLoansAtt)
+  userList <- getUserList
+  let newList = userActual:filterUserList (email user) userList
+  writeFile "users.csv" ""
+  CSV.append newList "users.csv"
+  putStrLn "Livro removido com sucesso!"
+
+removeElement2 :: Eq a => a -> [a] -> [a]
+removeElement2 x xs = filter (/= x) xs
 
 editEmail :: User -> String -> IO User
 editEmail user newEmail = do

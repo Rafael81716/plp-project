@@ -1,12 +1,15 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
-import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext)
+import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan, getAuthorWithContext, getGenreWithContext)
 import Modules.UtilModule (centeredText, clear, mapGenres)
-import Model.User
-import Modules.BookModule (getBookByName, Book, wordsWhenB, strToBook, num)
+import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName, contentLoanInUser, getBookByAuthor, printAllBooks, getBookByGenre)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
-import Modules.ValidInput.Validation (isValidSize, isValidIndex)
+import Modules.ValidInput.Validation (isValidSize, isValidIndex, filterUserList)
+import Model.User
+import Model.Book
+import Control.Monad.Trans.RWS.Lazy (put)
+import Data.Binary.Put (putWord64host)
 
 
 loginOrRegisterMenu :: IO ()
@@ -29,12 +32,7 @@ loginMenu = do
       print "Senha invalida, tente novamente"
       loginMenu
     Just user -> do
-      print (bookGenres user)
-      print (favoriteBooks user)
-      favoritos <- showFavorites user
-      putStr favoritos
-      removeFavorites user
-      addFavorites user
+      mainMenu user
 
 removeFavorites :: User -> IO()
 removeFavorites usuario = do
@@ -51,7 +49,7 @@ removeFavorites usuario = do
       if (length listaFavoritos > 0) && (not (isValidIndex livroId listaFavoritos))
         then do
           let listaFavoritosAtt = removeElement livroId listaFavoritos
-          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+          let user = User (nameUser usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
           writeFile "users.csv" ""
@@ -63,10 +61,6 @@ removeFavorites usuario = do
               putStrLn "Lista de favoritos vazia!"
             else do
               putStrLn "Livro não está na lista de favoritos!"
-
-
-removeElement :: Eq a => a -> [a] -> [a]
-removeElement x xs = filter (/= x) xs
 
 addFavorites :: User -> IO()
 addFavorites usuario = do
@@ -83,7 +77,7 @@ addFavorites usuario = do
       if (isValidSize listaFavoritos) && (isValidIndex livroId listaFavoritos)
         then do
           let listaFavoritosAtt = listaFavoritos ++ [livroId]
-          let user = User (name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt
+          let user = User (nameUser usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario)
           userList <- getUserList
           let newList = user:filterUserList (email usuario) userList
           writeFile "users.csv" ""
@@ -96,11 +90,9 @@ addFavorites usuario = do
             else do
               putStrLn "Livro Já está nos Favoritos!"
 
-filterUserList :: String -> [User] -> [User]
-filterUserList _ [] = []
-filterUserList em (x:xs) = if email x == em
-  then filterUserList em xs
-  else x : filterUserList em xs
+removeElement :: Eq a => a -> [a] -> [a]
+removeElement x xs = filter (/= x) xs
+
 
 registeringMenu :: IO ()
 registeringMenu = do
@@ -109,7 +101,7 @@ registeringMenu = do
   name <- getNameWithContext context
   email <- getEmailWithContext context
   userIsNotRegistered email >>= \isNotRegistered ->
-    if isNotRegistered == False then do
+    if not isNotRegistered then do
        clear
        putStrLn "Email já cadastrado, insira outro!"
        registeringMenu
@@ -122,7 +114,7 @@ registeringMenu = do
         genres <- getLine
         let genresFormated = words genres
         let listGenrers = mapGenres genresFormated
-        UserModule.registerUser name email password listGenrers []
+        UserModule.registerUser name email password listGenrers [] []
 
 printGenres :: IO ()
 printGenres = do
@@ -137,3 +129,116 @@ printGenres = do
     )
 
   putStrLn "Escolha os gêneros, separando cada um por espaço: "
+
+mainMenu:: User -> IO()
+mainMenu user = do
+  option <- getMainMenuOption "Menu Principal"
+  readMainMenu user option
+
+readMainMenu:: User -> String -> IO()
+readMainMenu user option | option == "1" = printMakeLoan user
+                    | option == "2" = printListLoan user
+                    | option == "3" = printRemoveBookLoan user
+
+
+printMakeLoan:: User ->IO()
+printMakeLoan user  = do
+  option <- getOptionsBookLoan "Empréstimo"
+  if option == "1" then printMakeLoanByTitle user
+  else if option == "2" then printMakeLoanByAuthor user
+  else printMakeLoanByGender user
+  
+
+printMakeLoanByTitle:: User -> IO()
+printMakeLoanByTitle user = do
+  title <- getTitleWithContext "Empréstimo"
+  book <- getBookByName title
+  let bookId = num(head book)
+  if book == [] then do
+    putStrLn("Livro nao consta na base de dados!")
+    printMakeLoanByTitle user
+  
+  else
+    if isValidSize (booksLoan user) == False then do
+      putStrLn("O Usuario ja atingiu o numero maximo de emprestimos")
+      mainMenu user
+
+    else
+      if contentLoanInUser (booksLoan user) bookId == True then do
+        putStrLn("Este usuario ja tem esse livro emprestado, escolha outro!")
+        printMakeLoanByTitle user
+        
+      else do
+      UserModule.makeLoanByTitle user bookId
+
+printMakeLoanByAuthor:: User -> IO()
+printMakeLoanByAuthor user = do
+  author <- getAuthorWithContext "Empréstimo"
+  books <- getBookByAuthor author
+  if isValidSize (booksLoan user) == False then  do
+      putStrLn("O Usuario ja atingiu o numero maximo de emprestimos")
+      mainMenu user
+      else 
+      if books == [] then do
+        putStrLn("Este autor nao esta cadastrado no sistema!")
+        printMakeLoanByAuthor user
+      else do
+        let booksAuthor = printAllBooks books
+        putStrLn (booksAuthor)
+        putStrLn "Escolha um livro pelo titulo: "
+        printMakeLoanByTitle user
+       
+printMakeLoanByGender:: User -> IO()
+printMakeLoanByGender user = do
+  genre <- getGenreWithContext "Empréstimo"
+  books <- getBookByGenre genre
+  if isValidSize (booksLoan user) == False then  do
+      putStrLn("O Usuario ja atingiu o numero maximo de emprestimos.")
+      mainMenu user
+  else if books == [] then do
+        putStrLn("Nao ha livros desse genero cadastrados no sistema.")
+        printMakeLoanByGender user
+  else do 
+        let booksGenre = printAllBooks books
+        putStrLn (booksGenre)
+        putStrLn "Escolha um livro pelo titulo: "
+        printMakeLoanByTitle user
+
+
+printListLoan:: User -> IO()
+printListLoan user = do 
+  let books = (booksLoan user)
+  UserModule.listLoans books 0
+
+
+printRemoveBookLoan:: User -> IO()
+printRemoveBookLoan user = do
+  putStrLn (centeredText "Devolucao" ++ "\n" ++ "Este sao os seus emprestimos:\n")
+  printListLoan user
+  putStr ("\n" ++ "Escolha um livro para devolver pelo titulo: ")
+  title <- getLine
+  book <- getBookByName title
+  let bookId = num(head book)
+
+  if length (booksLoan user) == 0 then do
+    putStrLn "Voce nao possui emprestimos!"
+    mainMenu user
+  else
+    if book == [] then do
+      putStrLn("Livro nao consta na base de dados, escolha outro!")
+      printRemoveBookLoan user
+  
+  else
+    if contentLoanInUser (booksLoan user) bookId == False then do
+      putStrLn("Este usuario nao tem esse livro emprestado, escolha outro!")
+      printRemoveBookLoan user
+      
+    else
+     UserModule.removeBookLoan user book
+
+    
+
+
+
+
+

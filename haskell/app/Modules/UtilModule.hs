@@ -2,6 +2,9 @@ module Modules.UtilModule where
 import Data.Map as Map
 import Data.Maybe as Maybe
 import qualified Data.Maybe as Maybe
+import Model.Book
+
+
 
 genreMap :: Map.Map String String
 genreMap = Map.fromList [
@@ -17,6 +20,12 @@ parseStrToList :: String -> [String]
 parseStrToList str = do
   let temp = Prelude.filter (/= '\\') str
   let lst = read temp :: [String]
+  lst
+
+parseStrToBook :: String -> [Book]
+parseStrToBook str = do
+  let temp = Prelude.filter (/= '\\') str
+  let lst = read temp :: [Book]
   lst
 
 mapGenres :: [String] -> [String]
@@ -40,3 +49,8 @@ centeredText text =
   let width = 40
       padding = replicate ((width - length text) `div` 2) ' '
    in replicate width '-' ++ "\n" ++ padding ++ text ++ padding ++ "\n" ++ replicate width '-'
+
+
+
+
+
