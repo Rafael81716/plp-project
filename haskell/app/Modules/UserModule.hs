@@ -79,6 +79,23 @@ listLoans (h:t) cont = do
   book <- getBookById h 
   putStrLn (show (cont + 1) ++ ") " ++ name (book !! 0) ++ " - " ++ author (book !! 0) ++ " (" ++ genre (book !! 0) ++ ")")
   listLoans t (cont + 1)
+
+removeBookLoan:: User -> [Book] -> IO()
+removeBookLoan user  book = do
+  let bookId =  num (head book)
+  let listBooksLoan = booksLoan user 
+  let bookLoansAtt = removeElement2 bookId listBooksLoan
+  let userActual = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) (bookLoansAtt)
+  userList <- getUserList
+  let newList = userActual:filterUserList (email user) userList
+  writeFile "users.csv" ""
+  CSV.append newList "users.csv"
+  putStrLn "Livro removido com sucesso!"
+
+removeElement2 :: Eq a => a -> [a] -> [a]
+removeElement2 x xs = filter (/= x) xs
+
+
   
  
   
