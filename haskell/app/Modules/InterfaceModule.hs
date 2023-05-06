@@ -209,7 +209,7 @@ printMakeLoanByGender user = do
 printListLoan:: User -> IO()
 printListLoan user = do 
   let books = (booksLoan user)
-  UserModule.listLoans books
+  UserModule.listLoans books 0
 
 
 

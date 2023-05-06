@@ -10,6 +10,7 @@ import Data.List
 import Model.User (User(bookGenres))
 import System.IO (putStrLn)
 import Modules.ValidInput.Validation (filterUserList)
+import Control.Monad.Trans.RWS (put)
 
 
 registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
@@ -72,11 +73,12 @@ makeLoanByTitle user bookId = do
   CSV.append newList "users.csv"
   putStrLn "Livro emprestado com sucesso!"
 
-listLoans::[Int] -> IO()
-listLoans [] = putStr("")
-listLoan (x:xs) = do
-  actualBook <- (Modules.BookModule.getBookById x)
-  putStr (show actualBook)
+listLoans::[Int] -> Int -> IO()
+listLoans [] cont = putStrLn ""
+listLoans (h:t) cont = do
+  book <- getBookById h 
+  putStrLn (show (cont + 1) ++ ") " ++ name (book !! 0) ++ " - " ++ author (book !! 0) ++ " (" ++ genre (book !! 0) ++ ")")
+  listLoans t (cont + 1)
   
  
   
