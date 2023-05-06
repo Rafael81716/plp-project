@@ -28,7 +28,7 @@ getPassword :: IO String
 getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
 
 getTitleWithContext:: String -> IO String
-getTitleWithContext context =  baseGetWithContext context ("Informe o título do livro: ") (\o -> o == "") "Título inválido! Digite o título novamente: "
+getTitleWithContext context =  baseGetWithContext context ("Informe o título do livro: ") (\o -> o /= "") "Título inválido! Digite o título novamente: "
 
 getAuthorWithContext:: String -> IO String
 getAuthorWithContext context = baseGetWithContext context ("Informe um autor para pesquisa: ") isValidName "Nome inválido! Digite o nome novamente: "

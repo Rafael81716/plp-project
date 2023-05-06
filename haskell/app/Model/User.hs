@@ -9,18 +9,19 @@ data User = User
     password :: String,
     bookGenres :: [String],
     favoriteBooks :: [Int],
-    booksLoan:: [Int]
+    booksLoan:: [Int],
+    booksHistoric:: [Int]
   }
   deriving (Eq)
 
 instance Read User where
   readsPrec _ str =
     case wordsWhen (== ';') str of
-      [n, e, s, gs, fb, bk] -> [(strToUser [n, e, s, gs, fb, bk], "")]
+      [n, e, s, gs, fb, bk, bh] -> [(strToUser [n, e, s, gs, fb, bk, bh], "")]
       _ -> []
 
 instance Show User where
-    show (User name email password bookGenres favoriteBooks booksLoan) = name ++ ";" ++ email ++ ";" ++ password ++ ";" ++ Prelude.show bookGenres ++ ";" ++ Prelude.show favoriteBooks ++ ";" ++ Prelude.show booksLoan
+    show (User name email password bookGenres favoriteBooks booksLoan booksHistoric) = name ++ ";" ++ email ++ ";" ++ password ++ ";" ++ Prelude.show bookGenres ++ ";" ++ Prelude.show favoriteBooks ++ ";" ++ Prelude.show booksLoan ++ ";" ++ Prelude.show booksHistoric
 
 strToUser :: [String] -> User
 strToUser x = do
@@ -30,6 +31,7 @@ strToUser x = do
   let g = parseStrToList (x !! 3)
   let f = read (x !! 4)
   let b = read (x !! 5)
-  User n e s g f b
+  let a = read (x !! 6)
+  User n e s g f b a
 
 
