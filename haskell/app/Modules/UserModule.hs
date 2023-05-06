@@ -1,16 +1,14 @@
 module Modules.UserModule where
 
 import Modules.CsvModule as CSV
-import Model.User
 import Model.Book
 import Modules.UtilModule (wordsWhen)
 import Data.Maybe
+import Model.User as User
 import Modules.BookModule
 import Data.List
 import Model.User (User(bookGenres))
-import System.IO (putStrLn)
 import Modules.ValidInput.Validation (filterUserList)
-import Control.Monad.Trans.RWS (put)
 
 
 registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
@@ -30,7 +28,7 @@ getUser em = do
 
   case user of
     [] -> return Nothing
-    (u:_) -> return (Just u)
+    (u : _) -> return (Just u)
 
 getUserList :: IO [User]
 getUserList = CSV.read "users.csv"
@@ -51,12 +49,12 @@ showFavorites user = do
   return result
 
 treatFavorites :: [Book] -> String
-treatFavorites []  = ""
-treatFavorites (x:xs) = show (num x) ++ " - " ++ showBookName x ++ "\n" ++ treatFavorites xs
+treatFavorites [] = ""
+treatFavorites (x : xs) = show (num x) ++ " - " ++ showBookName x ++ "\n" ++ treatFavorites xs
 
 returnFavoriteBooks :: [Int] -> IO [Book]
 returnFavoriteBooks [] = return []
-returnFavoriteBooks (x:xs) = do
+returnFavoriteBooks (x : xs) = do
   livro <- getBookById x
   livros <- returnFavoriteBooks xs
   let result = livro ++ livros
@@ -95,11 +93,27 @@ removeBookLoan user  book = do
 removeElement2 :: Eq a => a -> [a] -> [a]
 removeElement2 x xs = filter (/= x) xs
 
+editEmail :: User -> String -> IO User
+editEmail user newEmail = do
+  let newUser = User (User.name user) newEmail (password user) (bookGenres user) (favoriteBooks user)
+  updateUser user newUser
+  return newUser
 
-  
- 
-  
-  
-  
+editName :: User -> String -> IO User
+editName user newName = do
+  let newUser = User newName (email user) (password user) (bookGenres user) (favoriteBooks user)
+  updateUser user newUser
+  return newUser
 
+editPassword :: User -> String -> IO User
+editPassword user newPassword = do
+  let newUser = User (User.name user) (email user) newPassword (bookGenres user) (favoriteBooks user)
+  updateUser user newUser
+  return newUser
 
+updateUser :: User -> User -> IO User
+updateUser user newUser = do
+  allUsers <- getUserList
+  let updatedAllUsers = map (\u -> if email u == email user then newUser else u) allUsers
+  CSV.write updatedAllUsers "users.csv"
+  return user
