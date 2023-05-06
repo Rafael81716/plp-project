@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
+{-# OPTIONS_GHC -Wno-overlapping-patterns #-}
 module Modules.UserModule where
 
 import Modules.CsvModule as CSV
@@ -11,9 +13,9 @@ import Model.User (User(bookGenres))
 import Modules.ValidInput.Validation (filterUserList)
 
 
-registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> IO ()
-registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan = do
-  let user = User readName readEmail readPassword readGenres readFavorites readBooksLoan
+registerUser :: String -> String -> String -> [String] -> [Int]  -> [Int] -> [Int] -> IO ()
+registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan readBooksHistoric = do
+  let user = User readName readEmail readPassword readGenres readFavorites readBooksLoan readBooksHistoric
   CSV.append [user] "users.csv"
 
 userIsNotRegistered :: String -> IO Bool
@@ -63,14 +65,14 @@ returnFavoriteBooks (x : xs) = do
 makeLoanByTitle:: User -> Int -> IO()
 makeLoanByTitle user bookId = do
   let newBooks = (booksLoan user) ++ [bookId]
-  let actualUser = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) newBooks
+  let actualUser = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) newBooks (booksHistoric user)
 
   userList <- getUserList
   let newList = actualUser:filterUserList (email user) userList
   writeFile "users.csv" ""
   CSV.append newList "users.csv"
   putStrLn "Livro emprestado com sucesso!"
-
+ 
 listLoans::[Int] -> Int -> IO()
 listLoans [] cont = putStrLn ""
 listLoans (h:t) cont = do
@@ -117,3 +119,26 @@ updateUser user newUser = do
   let updatedAllUsers = map (\u -> if email u == email user then newUser else u) allUsers
   CSV.write updatedAllUsers "users.csv"
   return user
+
+
+addToHistoric :: User -> Int -> IO()
+addToHistoric user bookId = do
+  let newBooks = (booksHistoric user) ++ [bookId]
+  let actualUser = User (nameUser user) (email user) (password user) (bookGenres user) (favoriteBooks user) (booksLoan user) newBooks
+
+  userList <- getUserList
+  let newList = actualUser:filterUserList (email user) userList
+  writeFile "users.csv" ""
+  CSV.append newList "users.csv"
+  putStrLn "Livro Adicionado ao Historico de Leitura!"
+
+printHistoricBooks :: [Int] -> IO()
+printHistoricBooks  (x:xs)
+  | null (x:xs) = putStrLn ""
+  | null xs = do
+    book <- getBookById x
+    putStrLn (printAllBooks book)
+  | otherwise = do
+    book <- getBookById x
+    putStrLn (printAllBooks book)
+    printHistoricBooks xs
