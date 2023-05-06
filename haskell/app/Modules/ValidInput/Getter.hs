@@ -29,6 +29,12 @@ getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDi
 getTitleWithContext:: String -> IO String
 getTitleWithContext context =  baseGetWithContext context ("Informe o título do livro: ") isValidName "Título inválido! Digite o título novamente: "
 
+getAuthorWithContext:: String -> IO String
+getAuthorWithContext context = baseGetWithContext context ("Informe um autor para pesquisa: ") isValidName "Nome inválido! Digite o nome novamente: "
+
+getGenreWithContext:: String -> IO String
+getGenreWithContext context = baseGetWithContext context ("Informe um gênero para pesquisa: ") isValidName "Gênero inválido! Digite o gênero novamente: "
+
 getLoginRegisterOption :: IO String
 getLoginRegisterOption = baseGet ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
 

@@ -90,3 +90,6 @@ showBookName book = (name book)
 
 contentLoanInUser:: [Int] -> Int -> Bool
 contentLoanInUser userBooks idBook = elem idBook userBooks
+
+
+

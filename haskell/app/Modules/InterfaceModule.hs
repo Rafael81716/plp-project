@@ -1,13 +1,15 @@
 module Modules.InterfaceModule where
 import Modules.UserModule as UserModule
-import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan)
+import Modules.ValidInput.Getter (getNameWithContext, getEmailWithContext, getPasswordWithContext, getLoginRegisterOptionWithContext, getMainMenuOption, getTitleWithContext, getOptionsBookLoan, getAuthorWithContext, getGenreWithContext)
 import Modules.UtilModule (centeredText, clear, mapGenres)
-import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName, contentLoanInUser)
+import Modules.BookModule (getBookByName,wordsWhenB, strToBook, getBookByName, contentLoanInUser, getBookByAuthor, printAllBooks, getBookByGenre)
 import qualified Text.CSV
 import Modules.CsvModule as CSV
 import Modules.ValidInput.Validation (isValidSize, isValidIndex, filterUserList)
 import Model.User
 import Model.Book
+import Control.Monad.Trans.RWS.Lazy (put)
+import Data.Binary.Put (putWord64host)
 
 
 loginOrRegisterMenu :: IO ()
@@ -144,8 +146,8 @@ printMakeLoan:: User ->IO()
 printMakeLoan user  = do
   option <- getOptionsBookLoan "Empréstimo"
   if option == "1" then printMakeLoanByTitle user
-  else if option == "2" then printMakeLoanByAuthor
-  else printMakeLoanByGender
+  else if option == "2" then printMakeLoanByAuthor user
+  else printMakeLoanByGender user
   
 
 printMakeLoanByTitle:: User -> IO()
@@ -170,18 +172,42 @@ printMakeLoanByTitle user = do
       else do
       UserModule.makeLoanByTitle user bookId
 
+printMakeLoanByAuthor:: User -> IO()
+printMakeLoanByAuthor user = do
+  author <- getAuthorWithContext "Empréstimo"
+  books <- getBookByAuthor author
+  if isValidSize (booksLoan user) == False then  do
+      putStrLn("O Usuario ja atingiu o numero maximo de emprestimos")
+      mainMenu user
+      else 
+      if books == [] then do
+        putStrLn("Este autor nao esta cadastrado no sistema!")
+        printMakeLoanByAuthor user
+      else do
+        let booksAuthor = printAllBooks books
+        putStrLn (booksAuthor)
+        putStrLn "Escolha um livro pelo titulo: "
+        printMakeLoanByTitle user
+       
+printMakeLoanByGender:: User -> IO()
+printMakeLoanByGender user = do
+  genre <- getGenreWithContext "Empréstimo"
+  books <- getBookByGenre genre
+  if isValidSize (booksLoan user) == False then  do
+      putStrLn("O Usuario ja atingiu o numero maximo de emprestimos.")
+      mainMenu user
+  else if books == [] then do
+        putStrLn("Nao ha livros desse genero cadastrados no sistema.")
+        printMakeLoanByGender user
+  else do 
+        let booksGenre = printAllBooks books
+        putStrLn (booksGenre)
+        putStrLn "Escolha um livro pelo titulo: "
+        printMakeLoanByTitle user
 
 
 
-  
-printMakeLoanByAuthor::IO()
-printMakeLoanByAuthor = do
-  putStrLn "autor"
-
-printMakeLoanByGender::IO()
-printMakeLoanByGender = do
-  putStrLn "gender"
-
+ 
 printReturnBook::IO()
 printReturnBook = do
   print("foi")
