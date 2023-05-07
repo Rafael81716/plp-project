@@ -2,7 +2,6 @@ module Modules.UtilModule where
 
 import Data.Map as Map
 import Data.Maybe as Maybe
-import Model.Book
 import System.Directory (listDirectory)
 
 genreMap :: Map.Map String String
@@ -21,12 +20,6 @@ parseStrToList :: String -> [String]
 parseStrToList str = do
   let temp = Prelude.filter (/= '\\') str
   let lst = read temp :: [String]
-  lst
-
-parseStrToBook :: String -> [Book]
-parseStrToBook str = do
-  let temp = Prelude.filter (/= '\\') str
-  let lst = read temp :: [Book]
   lst
 
 mapGenres :: [String] -> [String]
@@ -76,3 +69,12 @@ findFile filename = do
   case matchingFiles of
     [match] -> return (Just match)
     _ -> return Nothing
+
+removeFromList :: Eq a => a -> [a] -> [a]
+removeFromList x = Prelude.filter (/= x)
+
+waitOnScreen :: IO ()
+waitOnScreen = do
+  putStrLn "Pressione qualquer tecla para continuar"
+  getLine
+  putStrLn ""
