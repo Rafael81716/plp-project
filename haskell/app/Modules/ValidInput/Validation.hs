@@ -17,11 +17,11 @@ isValidName name = not (any isDigit name)
 
 isValidIndex :: Int -> [Int] -> Bool
 isValidIndex n [] = True
-isValidIndex n (x : xs) = if n == x then False else isValidIndex n xs
+isValidIndex n (x : xs) = (n /= x) && isValidIndex n xs
 
 isValidSize :: [Int] -> Bool
 isValidSize [] = True
-isValidSize l1 = if length l1 < 10 then True else False
+isValidSize l1 = length l1 < 10
 
 isValidGenre :: String -> Bool
 isValidGenre genre = do
