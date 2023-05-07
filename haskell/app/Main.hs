@@ -1,11 +1,12 @@
 module Main where
 
-import Modules.CLI.LoginAndRegisterModule as LRM
-import Modules.CLI.MainMenu as MM
+import Modules.CLI.LoginAndRegisterModule as NotAuthInterface
+import Modules.CLI.MainMenu as AuthInterface
 import Modules.UtilModule (ensureUserFilesExists)
 
 main :: IO ()
 main = do
   ensureUserFilesExists
-  user <- LRM.loginOrRegisterMenu
-  MM.mainMenu user
+  user <- NotAuthInterface.loginOrRegisterMenu
+  AuthInterface.mainMenu user
+  putStrLn "Tchau Tchau :)"
