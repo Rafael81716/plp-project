@@ -64,7 +64,7 @@
         other-modules:
             Modules.UtilModule
             Modules.UserModule
-            Modules.InterfaceModule
+            Modules.CLI.InterfaceModule
             Model.User
             Model.Book
             Modules.CsvModule
@@ -76,7 +76,7 @@
 
         -- Other library packages from which modules are imported.
            
-        build-depends: base >=4.7 && <5, haskell-say ^>=1.0.0.0, csv, bytestring >= 0.10.10.0 && < 0.12, vector >= 0.12.1.2 && < 0.14, cassava >= 0.5.2.0 && < 0.6, directory, split, containers, transformers, template-haskell, text, ghc, binary
+        build-depends: base >=4.7 && <5, haskell-say ^>=1.0.0.0, csv, bytestring >= 0.10.10.0 && < 0.12, vector >= 0.12.1.2 && < 0.14, cassava >= 0.5.2.0 && < 0.6, directory, split, containers, transformers, template-haskell, text, ghc, binary, filepath
         
     
         -- Directories containing source files.

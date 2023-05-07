@@ -8,10 +8,11 @@ import Modules.BookModule
 import Modules.CsvModule as CSV
 import Modules.ValidInput.Validation (filterUserList)
 
-registerUser :: String -> String -> String -> [String] -> [Int] -> [Int] -> [Int] -> IO ()
+registerUser :: String -> String -> String -> [String] -> [Int] -> [Int] -> [Int] -> IO User
 registerUser readName readEmail readPassword readGenres readFavorites readBooksLoan readBooksHistoric = do
   let user = User readName readEmail readPassword readGenres readFavorites readBooksLoan readBooksHistoric
   CSV.append [user] "users.csv"
+  return user
 
 userIsNotRegistered :: String -> IO Bool
 userIsNotRegistered email = do
@@ -125,6 +126,9 @@ addToHistoric user bookId = do
   writeFile "users.csv" ""
   CSV.append newList "users.csv"
   putStrLn "Livro Adicionado ao Historico de Leitura!"
+
+printHistoric :: User -> IO ()
+printHistoric user = printHistoricBooks (booksHistoric user)
 
 printHistoricBooks :: [Int] -> IO ()
 printHistoricBooks (x : xs)

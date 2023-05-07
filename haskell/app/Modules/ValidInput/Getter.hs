@@ -1,7 +1,7 @@
 module Modules.ValidInput.Getter where
 
-import Modules.UtilModule (centeredText, clear)
-import Modules.ValidInput.Validation (isValidEmail, isValidName, isValidPassword)
+import Modules.UtilModule (centeredText, clear, getAllGenresString)
+import Modules.ValidInput.Validation (isValidEmail, isValidGenre, isValidName, isValidPassword)
 
 getNameWithContext :: String -> IO String
 getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"
@@ -58,6 +58,9 @@ getMainMenuOption context =
 
 getOptionsBookLoan :: String -> IO String
 getOptionsBookLoan context = baseGetWithContext context ("Escolha uma forma de consulta:\n" ++ "1 - Título\n" ++ "2 - Autor\n" ++ "3 - Gênero\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2" || o == "3") "Opção inválida"
+
+getBookGenresWithContext :: String -> IO String
+getBookGenresWithContext context = baseGetWithContext context ("Escolha até 5 gêneros literários pelos seus respectivos números em ordem de preferência e separados por espaço: " ++ getAllGenresString) isValidGenre "Gêneros inválidos! Digite os gêneros novamente: "
 
 baseGetWithContext :: String -> String -> (String -> Bool) -> String -> IO String
 baseGetWithContext context prompt predicate errMsg = customGet

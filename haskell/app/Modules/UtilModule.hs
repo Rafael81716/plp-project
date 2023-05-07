@@ -3,6 +3,7 @@ module Modules.UtilModule where
 import Data.Map as Map
 import Data.Maybe as Maybe
 import Model.Book
+import System.Directory (listDirectory)
 
 genreMap :: Map.Map String String
 genreMap =
@@ -31,6 +32,16 @@ parseStrToBook str = do
 mapGenres :: [String] -> [String]
 mapGenres = Prelude.map (\k -> Maybe.fromMaybe "Non Existent Genre" (Map.lookup k genreMap))
 
+getAllGenresString :: String
+getAllGenresString = do
+  "\n 1 - Ficção Cientifica \n"
+    ++ " 2 - Fantasia \n"
+    ++ " 3 - Infantil \n"
+    ++ " 4 - Misterio \n"
+    ++ " 5 - Historia \n"
+    ++ " 6 - Aventura \n"
+    ++ " 7 - Romance \n"
+
 wordsWhen :: (Char -> Bool) -> String -> [String]
 wordsWhen p s = case dropWhile p s of
   "" -> []
@@ -39,7 +50,7 @@ wordsWhen p s = case dropWhile p s of
       (w, s'') = break p s'
 
 splitBy :: Char -> String -> [String]
-splitBy sep str = wordsWhen (== sep) str
+splitBy sep = wordsWhen (== sep)
 
 clear :: IO ()
 clear = putStrLn "\ESC[2J"
@@ -49,3 +60,19 @@ centeredText text =
   let width = 40
       padding = replicate ((width - length text) `div` 2) ' '
    in replicate width '-' ++ "\n" ++ padding ++ text ++ padding ++ "\n" ++ replicate width '-'
+
+ensureUserFilesExists :: IO ()
+ensureUserFilesExists = do
+  foundUsers <- findFile "users.csv"
+
+  case foundUsers of
+    Nothing -> writeFile "users.csv" ""
+    _ -> return ()
+
+findFile :: String -> IO (Maybe FilePath)
+findFile filename = do
+  files <- listDirectory "."
+  let matchingFiles = Prelude.filter (== filename) files
+  case matchingFiles of
+    [match] -> return (Just match)
+    _ -> return Nothing
