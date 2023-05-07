@@ -1,85 +1,49 @@
 module Modules.BookModule where
 
 import Model.Book
+import Modules.CsvModule as CSV
+import Modules.UtilModule (waitOnScreen)
 
-registerBookAux :: Int -> String -> String -> String -> String -> Book
-registerBookAux id name author genre link = Book id name author genre link
+getBook :: String -> String -> IO [Book]
+getBook em att = do
+  bookList <- CSV.read strToBook "books.csv"
+  let field = fieldSelectorFor att
+  return $ filter (\u -> field u == em) bookList
 
-getBookCsv :: String -> String -> IO [Book]
-getBookCsv em att = do
-  let fileName = "books.csv"
-  csvData <- readFile fileName
-  let lines = wordsWhenB (== '\n') csvData
-  let temp = map (\s -> wordsWhenB (== ';') s) lines
-  let bookList = map strToBook temp
-  if att == "name"
-    then return $ filter (\u -> name (u) == em) bookList
-    else
-      if att == "author"
-        then return $ filter (\u -> author (u) == em) bookList
-        else return $ filter (\u -> genre (u) == em) bookList
+fieldSelectorFor :: String -> (Book -> String)
+fieldSelectorFor f = case f of
+  "name" -> name
+  "author" -> author
+  _ -> genre
 
 getBookByName :: String -> IO [Book]
-getBookByName em = getBookCsv em "name"
+getBookByName em = getBook em "name"
 
 getBookByAuthor :: String -> IO [Book]
-getBookByAuthor em = getBookCsv em "author"
+getBookByAuthor em = getBook em "author"
 
 getBookByGenre :: String -> IO [Book]
-getBookByGenre em = getBookCsv em "genre"
+getBookByGenre em = getBook em "genre"
 
-getBookById :: Int -> IO [Book]
-getBookById em = do
-  let fileName = "books.csv"
-  csvData <- readFile fileName
-  let lines = wordsWhenB (== '\n') csvData
-  let temp = map (\s -> wordsWhenB (== ';') s) lines
-  let bookList = map strToBook temp
-  let jet = filter (\u -> num (u) == em) bookList
-  return jet
-
-strToBook :: [String] -> Book
-strToBook x = do
-  let n = read (head x)
-  let e = x !! 1
-  let s = x !! 2
-  let g = x !! 3
-  let j = x !! 4
-  registerBookAux n e s g j
-
-parseStrToListB :: String -> [String]
-parseStrToListB str = do
-  let temp = filter (/= '\\') str
-  let lst = read temp :: [String]
-  lst
-
-wordsWhenB :: (Char -> Bool) -> String -> [String]
-wordsWhenB p s = case dropWhile p s of
-  "" -> []
-  s' -> w : wordsWhenB p s''
-    where
-      (w, s'') = break p s'
-
-splitBy :: Char -> String -> [String]
-splitBy sep = wordsWhenB (== sep)
+getBookById :: [Int] -> IO [Book]
+getBookById targets = do
+  bookList <- CSV.read strToBook "books.csv"
+  let result = filter (\u -> num u `elem` targets) bookList
+  return result
 
 getAllBooks :: IO [Book]
-getAllBooks = do
-  let fileName = "books.csv"
-  csvData <- readFile fileName
-  let lines = wordsWhenB (== '\n') csvData
-  let temp = map (\s -> wordsWhenB (== ';') s) lines
-  let bookList = map strToBook temp
-  return bookList
+getAllBooks = CSV.read (\s -> Prelude.read s :: Book) "books.csv"
 
-printAllBooks :: [Book] -> String
-printAllBooks (x : xs)
-  | null (x : xs) = ""
-  | null xs = show (num x) ++ " - " ++ name x ++ " - " ++ author x ++ " (" ++ genre x ++ ")" ++ "\n"
-  | otherwise = show (num x) ++ " - " ++ name x ++ " - " ++ author x ++ " (" ++ genre x ++ ")" ++ "\n" ++ printAllBooks xs
+printBooks :: [Book] -> IO ()
+printBooks books = do
+  let strBooks = map formatBook books
+  mapM_ putStrLn strBooks
+  waitOnScreen
 
-showBookName :: Book -> String
-showBookName book = (name book)
+printAllBooks :: IO ()
+printAllBooks = do
+  allBooks <- getAllBooks
+  printBooks allBooks
 
 contentLoanInUser :: [Int] -> Int -> Bool
 contentLoanInUser userBooks idBook = elem idBook userBooks
