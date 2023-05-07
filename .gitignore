@@ -1,5 +1,5 @@
 dist-newstyle/
-*.csv
+users.csv
 *.hi
 *.o
 *.exe
