@@ -4,20 +4,20 @@ import Model.Book
 import Model.User
 import Modules.BookModule
 import Modules.UserModule as UserModule
-import Modules.UtilModule (centeredText)
+import Modules.UtilModule (centeredText, waitOnScreen)
 import Modules.ValidInput.Getter (getAuthorWithContext, getGenreWithContext, getOptionsBookLoan, getTitleWithContext)
 import Modules.ValidInput.Validation (isValidSize)
 
-printMakeLoan :: User -> IO ()
+printMakeLoan :: User -> IO User
 printMakeLoan user = do
   option <- getOptionsBookLoan "Empréstimo"
 
   case option of
     "1" -> printMakeLoanByTitle user
     "2" -> printMakeLoanByAuthor user
-    "3" -> printMakeLoanByGender user
+    "3" -> printMakeLoanByGenre user
 
-printMakeLoanByTitle :: User -> IO ()
+printMakeLoanByTitle :: User -> IO User
 printMakeLoanByTitle user = do
   title <- getTitleWithContext "Empréstimo"
   book <- getBookByName title
@@ -30,57 +30,62 @@ printMakeLoanByTitle user = do
       if isValidSize (booksLoan user) == False
         then do
           putStrLn ("O Usuario ja atingiu o numero maximo de emprestimos")
+          return user
         else
           if contentLoanInUser (booksLoan user) bookId == True
             then do
               putStrLn ("Este usuario ja tem esse livro emprestado, escolha outro!")
               printMakeLoanByTitle user
             else do
-              UserModule.makeLoanByTitle user bookId
-              printHistoric user
+              updatedUser <- makeLoanByTitle user bookId
+              printRecent updatedUser
+              return updatedUser
 
-printMakeLoanByAuthor :: User -> IO ()
+printMakeLoanByAuthor :: User -> IO User
 printMakeLoanByAuthor user = do
   author <- getAuthorWithContext "Empréstimo"
   books <- getBookByAuthor author
   if isValidSize (booksLoan user) == False
     then do
       putStrLn ("O Usuario ja atingiu o numero maximo de emprestimos")
+      return user
     else
       if books == []
         then do
           putStrLn ("Este autor nao esta cadastrado no sistema!")
           printMakeLoanByAuthor user
         else do
-          let booksAuthor = printAllBooks books
-          putStrLn (booksAuthor)
+          printBooks books
           putStrLn "Escolha um livro pelo titulo: "
-          printMakeLoanByTitle user
+          updatedUser <- printMakeLoanByTitle user
+          return updatedUser
 
-printMakeLoanByGender :: User -> IO ()
-printMakeLoanByGender user = do
+printMakeLoanByGenre :: User -> IO User
+printMakeLoanByGenre user = do
   genre <- getGenreWithContext "Empréstimo"
   books <- getBookByGenre genre
   if isValidSize (booksLoan user) == False
     then do
       putStrLn ("O Usuario ja atingiu o numero maximo de emprestimos.")
+      return user
     else
       if books == []
         then do
           putStrLn ("Nao ha livros desse genero cadastrados no sistema.")
-          printMakeLoanByGender user
+          printMakeLoanByGenre user
         else do
-          let booksGenre = printAllBooks books
-          putStrLn (booksGenre)
+          printBooks books
           putStrLn "Escolha um livro pelo titulo: "
-          printMakeLoanByTitle user
+          updatedUser <- printMakeLoanByTitle user
+          return updatedUser
 
-printListLoan :: User -> IO ()
+printListLoan :: User -> IO User
 printListLoan user = do
-  let books = (booksLoan user)
-  UserModule.listLoans books 0
+  UserModule.listLoans user
+  waitOnScreen
+  return user
 
-printRemoveBookLoan :: User -> IO ()
+printRemoveBookLoan :: User -> IO User
 printRemoveBookLoan user = do
   putStrLn (centeredText "Devolucao" ++ "\n" ++ "Este sao os seus emprestimos:\n")
   printListLoan user
@@ -92,6 +97,7 @@ printRemoveBookLoan user = do
   if length (booksLoan user) == 0
     then do
       putStrLn "Voce nao possui emprestimos!"
+      return user
     else
       if book == []
         then do
@@ -102,4 +108,6 @@ printRemoveBookLoan user = do
             then do
               putStrLn ("Este usuario nao tem esse livro emprestado, escolha outro!")
               printRemoveBookLoan user
-            else UserModule.removeBookLoan user book
+            else do
+              updatedUser <- UserModule.removeBookLoan user (head book)
+              return updatedUser
