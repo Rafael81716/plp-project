@@ -1,6 +1,5 @@
 module Modules.CsvModule where
 
-import Model.User (User)
 import Modules.UtilModule (splitBy)
 
 append :: (Show t) => [t] -> FilePath -> IO ()
@@ -9,9 +8,8 @@ append values pathToFile = do
   where
     csvContent = unlines $ map show values
 
-read :: String -> IO [User]
-read filePath = do
-  let parser s = Prelude.read s :: User
+read :: (String -> t) -> String -> IO [t]
+read parser filePath = do
   csvData <- readFile filePath
   seq (length csvData) (return ())
   let lines = splitBy '\n' csvData
