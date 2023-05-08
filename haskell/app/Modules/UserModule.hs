@@ -123,41 +123,23 @@ printRecent user = do
 addFavorites :: User  -> [Int] -> Int  -> IO User
 addFavorites user favoriteList bookId  = do
   let favoriteListAtt = favoriteList ++ [bookId]
-
   let updatedUser = User (User.name user) (email user) (password user) (bookGenres user) favoriteListAtt  (booksLoan user) (recentBooks user)
   updateUser user updatedUser
   putStrLn "Livro favoritado com sucesso!"
   return updatedUser
+  
        
 
 
-removeFavorites :: User -> IO ()
-removeFavorites usuario = do
-  putStrLn "Insira o nome do livro: "
-  nomeLivro <- getLine
-  book <- getBookByName nomeLivro
-  if book == []
-    then do
-      putStrLn "Livro nao encontrado!"
-      removeFavorites usuario
-    else do
-      let livroId = num (head book)
-      let listaFavoritos = favoriteBooks usuario
-      if (length listaFavoritos > 0) && (not (isValidIndex livroId listaFavoritos))
-        then do
-          let listaFavoritosAtt = removeFromList livroId listaFavoritos
-          let user = User (User.name usuario) (email usuario) (password usuario) (bookGenres usuario) listaFavoritosAtt (booksLoan usuario) (recentBooks usuario)
-          userList <- getUserList
-          let newList = user : filterUserList (email usuario) userList
-          writeFile "users.csv" ""
-          CSV.append newList "users.csv"
-          putStrLn "Livro removido com sucesso!"
-        else do
-          if length listaFavoritos == 0
-            then do
-              putStrLn "Lista de favoritos vazia!"
-            else do
-              putStrLn "Livro não está na lista de favoritos!"
+removeFavorites :: User -> [Int] -> Int -> IO User
+removeFavorites user favoriteList bookId  = do
+  let favoriteList = favoriteBooks user
+  let favoriteListAtt = removeFromList bookId favoriteList
+  let updatedUser = User (User.name user) (email user) (password user) (bookGenres user) favoriteListAtt (booksLoan user) (recentBooks user)
+  updateUser user updatedUser
+  putStrLn "Favorito removido com sucesso!"
+  return updatedUser
+       
 
 
 
