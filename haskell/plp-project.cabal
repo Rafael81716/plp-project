@@ -64,13 +64,16 @@
         other-modules:
             Modules.UtilModule
             Modules.UserModule
-            Modules.CLI.InterfaceModule
             Model.User
             Model.Book
             Modules.CsvModule
             Modules.BookModule
             Modules.ValidInput.Getter
             Modules.ValidInput.Validation
+            Modules.CLI.Favorites
+            Modules.CLI.Loan
+            Modules.CLI.LoginAndRegisterModule
+            Modules.CLI.MainMenu
         -- LANGUAGE extensions used by modules in this package.
         -- other-extensions:
 

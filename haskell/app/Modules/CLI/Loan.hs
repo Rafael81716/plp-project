@@ -89,7 +89,7 @@ printRemoveBookLoan :: User -> IO User
 printRemoveBookLoan user = do
   putStrLn (centeredText "Devolucao" ++ "\n" ++ "Este sao os seus emprestimos:\n")
   printListLoan user
-  putStr ("\n" ++ "Escolha um livro para devolver pelo titulo: ")
+  putStrLn ("\n" ++ "Escolha um livro para devolver pelo titulo: ")
   title <- getLine
   book <- getBookByName title
   let bookId = num (head book)
