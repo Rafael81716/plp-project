@@ -127,6 +127,7 @@ addFavorites user favoriteList bookId  = do
   updateUser user updatedUser
   putStrLn "Livro favoritado com sucesso!"
   return updatedUser
+  
        
 
 
