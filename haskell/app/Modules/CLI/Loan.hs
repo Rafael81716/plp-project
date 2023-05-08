@@ -85,10 +85,15 @@ printListLoan user = do
   waitOnScreen
   return user
 
+printListLoanRemove :: User -> IO User
+printListLoanRemove user = do
+  UserModule.listLoans user
+  return user
+
 printRemoveBookLoan :: User -> IO User
 printRemoveBookLoan user = do
   putStrLn (centeredText "Devolucao" ++ "\n" ++ "Este sao os seus emprestimos:\n")
-  printListLoan user
+  printListLoanRemove user
   putStrLn ("\n" ++ "Escolha um livro para devolver pelo titulo: ")
   title <- getLine
   book <- getBookByName title
