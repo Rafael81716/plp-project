@@ -2,7 +2,7 @@ module Modules.BookModule where
 
 import Model.Book
 import Modules.CsvModule as CSV
-import Modules.UtilModule (waitOnScreen)
+import Modules.UtilModule (waitOnScreen, centeredText)
 import Data.Char (toUpper)
 
 getBook :: String -> String -> IO [Book]
@@ -44,6 +44,7 @@ printBooks books = do
 
 printAllBooks :: IO ()
 printAllBooks = do
+  putStrLn (centeredText "Biblioteca")
   allBooks <- getAllBooks
   printBooks allBooks
 

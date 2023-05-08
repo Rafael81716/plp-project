@@ -66,7 +66,7 @@ listLoans :: User -> IO ()
 listLoans u = do
   let targets = booksLoan u
   books <- getBookById targets
-  mapM_ (putStrLn . formatBook) books
+  mapM_ (putStrLn . (++ "\n") . formatBook) books
 
 removeBookLoan :: User -> Book -> IO User
 removeBookLoan u b = do

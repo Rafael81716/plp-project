@@ -81,6 +81,7 @@ printMakeLoanByGenre user = do
 
 printListLoan :: User -> IO User
 printListLoan user = do
+  putStrLn (centeredText "Meus Empréstimos")
   UserModule.listLoans user
   waitOnScreen
   return user
