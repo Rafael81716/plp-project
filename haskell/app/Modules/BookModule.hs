@@ -3,12 +3,14 @@ module Modules.BookModule where
 import Model.Book
 import Modules.CsvModule as CSV
 import Modules.UtilModule (waitOnScreen)
+import Data.Char (toUpper)
 
 getBook :: String -> String -> IO [Book]
 getBook em att = do
   bookList <- CSV.read strToBook "books.csv"
   let field = fieldSelectorFor att
-  return $ filter (\u -> field u == em) bookList
+  let emUpper = map toUpper em
+  return $ filter (\u -> map toUpper (field u) == emUpper) bookList
 
 fieldSelectorFor :: String -> (Book -> String)
 fieldSelectorFor f = case f of
