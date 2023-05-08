@@ -5,7 +5,7 @@ import Model.User as User
 import Modules.BookModule
 import Modules.CsvModule as CSV
 import Modules.UserModule as UserModule
-import Modules.UtilModule (removeFromList)
+import Modules.UtilModule (removeFromList, centeredText, waitOnScreen)
 import Modules.ValidInput.Validation (filterUserList, isValidIndex, isValidSize)
 import Modules.ValidInput.Getter(getTitleWithContext)
 import Modules.BookModule(getBookByName)
@@ -54,5 +54,12 @@ printRemoveFavorites user = do
             else do
               return user
 
+printListFavorites :: User -> IO()
+printListFavorites user = do
+  putStrLn (centeredText "Livros Favoritos")
+  listaFav <- UserModule.listFavorites user
+  putStrLn listaFav
+  waitOnScreen
+  
 
 
