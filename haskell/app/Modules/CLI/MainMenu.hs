@@ -3,7 +3,7 @@ module Modules.CLI.MainMenu where
 import Model.User
 import Modules.BookModule (getAllBooks, printAllBooks)
 import Modules.CLI.Loan (printListLoan, printMakeLoan, printRemoveBookLoan)
-import Modules.CLI.Favorites(printAddFavorites)
+import Modules.CLI.Favorites(printAddFavorites, printRemoveFavorites)
 import Modules.UserModule (printRecent)
 import Modules.ValidInput.Getter (getMainMenuOption)
 
@@ -29,8 +29,7 @@ readMainMenu user option
   | option == "6" = do
       printAddFavorites user 
   | option == "7" = do
-      print "TODO"
-      return user
+    printRemoveFavorites user
   | option == "8" = do
       print "TODO"
       return user
