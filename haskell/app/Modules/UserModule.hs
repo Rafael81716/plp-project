@@ -6,7 +6,7 @@ import Model.Book as Book
 import Model.User as User
 import Modules.BookModule
 import Modules.CsvModule as CSV
-import Modules.UtilModule (removeFromList)
+import Modules.UtilModule (removeFromList, centeredText)
 import Modules.ValidInput.Validation (filterUserList, isValidIndex, isValidSize)
 import Modules.ValidInput.Getter(getIsRead)
 
@@ -126,8 +126,9 @@ addToRecent user bookId = do
 printRecent :: User -> IO User
 printRecent user = do
   let targets = recentBooks user
-  books <- getBookById targets
-  mapM_ (putStrLn . formatBook) books
+  books <- getBookById2 targets
+  putStrLn (centeredText "Histórico de Leitura:")
+  mapM_ (putStrLn . formatBook)  (take 10(reverse books))
   return user
 
 addFavorites :: User  -> [Int] -> Int  -> IO User
