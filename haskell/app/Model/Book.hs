@@ -8,12 +8,13 @@ data Book = Book
     name :: String,
     author :: String,
     genre :: String,
-    link :: String
+    link :: String,
+    sinopse :: String
   }
   deriving (Eq)
 
 instance Show Book where
-  show (Book num n a g l) = show num ++ ";" ++ n ++ ";" ++ a ++ ";" ++ g ++ ";" ++ l
+  show (Book num n a g l s) = show num ++ ";" ++ n ++ ";" ++ a ++ ";" ++ g ++ ";" ++ l ++ ";" ++ s
 
 instance Read Book where
   readsPrec _ str = [(strToBook str, "")]
@@ -30,7 +31,8 @@ strToBook userStr = do
   let a = attList !! 2
   let g = attList !! 3
   let l = attList !! 4
-  Book num n a g l
+  let s = attList !! 5
+  Book num n a g l s
 
 formatBook :: Book -> String
 formatBook b = show (num b) ++ " - " ++ name b ++ " - " ++ author b ++ " (" ++ genre b ++ ")"
