@@ -4,6 +4,8 @@ import Model.Book
 import Modules.CsvModule as CSV
 import Modules.UtilModule (waitOnScreen, centeredText)
 import Data.Char (toUpper)
+import Data.List (filter)
+
 
 getBook :: String -> String -> IO [Book]
 getBook em att = do
@@ -32,6 +34,14 @@ getBookById targets = do
   bookList <- CSV.read strToBook "books.csv"
   let result = filter (\u -> num u `elem` targets) bookList
   return result
+
+getBookById2 :: [Int] -> IO [Book]
+getBookById2 targets = do
+  bookList <- CSV.read strToBook "books.csv"
+  let result = filter (\u -> num u `elem` targets) bookList
+      orderedResult = [book | target <- targets, book <- result, num book == target]
+  return orderedResult
+
 
 getAllBooks :: IO [Book]
 getAllBooks = CSV.read (\s -> Prelude.read s :: Book) "books.csv"
