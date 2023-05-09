@@ -89,11 +89,6 @@ removeBookLoan u b = do
     putStrLn "Livro adicionado no histórico de leitura!\nLivro removido com sucesso!"
     return updateuser
 
-
-
-
-   
-
 editEmail :: User -> String -> IO User
 editEmail user newEmail = do
   let newUser = User (User.name user) newEmail (password user) (bookGenres user) (favoriteBooks user) (booksLoan user) (recentBooks user)
@@ -142,9 +137,6 @@ addFavorites user favoriteList bookId  = do
   updateUser user updatedUser
   putStrLn "Livro favoritado com sucesso!"
   return updatedUser
-  
-       
-
 
 removeFavorites :: User -> [Int] -> Int -> IO User
 removeFavorites user favoriteList bookId  = do
