@@ -1,6 +1,7 @@
 module Model.Book where
 
 import Modules.UtilModule (splitBy)
+import System.Console.ANSI
 
 data Book = Book
   { num :: Int,
@@ -28,8 +29,17 @@ strToBook userStr = do
   let n = attList !! 1
   let a = attList !! 2
   let g = attList !! 3
-  let l = read (attList !! 4)
+  let l = attList !! 4
   Book num n a g l
 
 formatBook :: Book -> String
 formatBook b = show (num b) ++ " - " ++ name b ++ " - " ++ author b ++ " (" ++ genre b ++ ")"
+
+formatBookWithLoan :: Book -> String
+formatBookWithLoan b = show (num b) ++ " - " ++ name b ++ " - " ++ author b ++ " (" ++ genre b ++ ") " ++ formatLink (link b)
+
+formatLink :: String -> String
+formatLink url = setSGRCode [SetColor Foreground Vivid blue, SetUnderlining SingleUnderline] ++ url ++ setSGRCode [Reset]
+
+blue :: Color
+blue = Blue
