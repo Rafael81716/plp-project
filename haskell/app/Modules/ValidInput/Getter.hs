@@ -39,6 +39,8 @@ getLoginRegisterOption = baseGet ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolh
 getIsRead:: IO String
 getIsRead = baseGet ("\nVocê leu esse livro?\nDigite <1> para Sim ou <2> para Não: ") (\o -> o == "1" || o == "2" ) "Opção inválida, digite novamente!"
 
+
+
 getMainMenuOption :: String -> IO String
 getMainMenuOption context =
   baseGetWithContext
