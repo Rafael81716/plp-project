@@ -8,6 +8,7 @@ import Modules.BookModule
 import Modules.CsvModule as CSV
 import Modules.UtilModule (removeFromList)
 import Modules.ValidInput.Validation (filterUserList, isValidIndex, isValidSize)
+import Modules.ValidInput.Getter(getIsRead)
 
 registerUser :: String -> String -> String -> [String] -> [Int] -> [Int] -> [Int] -> IO User
 registerUser n e p g fB bL rB = do
@@ -70,14 +71,28 @@ listLoans u = do
 
 removeBookLoan :: User -> Book -> IO User
 removeBookLoan u b = do
+  isReadBook <- getIsRead
   let bookId = num b
   let listBooksLoan = booksLoan u
   let bookLoansAtt = removeFromList bookId listBooksLoan
-  let updatedUser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) bookLoansAtt (recentBooks u)
 
-  updateUser u updatedUser
-  putStrLn "Livro removido com sucesso!"
-  return updatedUser
+  if isReadBook == "2" then do 
+    let updatedUser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) bookLoansAtt (recentBooks u)
+    updateUser u updatedUser
+    putStrLn "Livro removido com sucesso!"
+    return updatedUser
+
+  else do
+    let newBooks = recentBooks u ++ [bookId]
+    let updateuser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) (bookLoansAtt) (newBooks)
+    updateUser u updateuser
+    putStrLn "Livro adicionado no histórico de leitura!\nLivro removido com sucesso!"
+    return updateuser
+
+
+
+
+   
 
 editEmail :: User -> String -> IO User
 editEmail user newEmail = do
