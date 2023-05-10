@@ -39,7 +39,6 @@ printMakeLoanByTitle user = do
               printMakeLoanByTitle user
             else do
               updatedUser <- makeLoanByTitle user bookId
-              printRecent updatedUser
               return updatedUser
 
 printMakeLoanByAuthor :: User -> IO User

@@ -11,8 +11,14 @@ getNameWithContext context = baseGetWithContext context "Digite seu nome: " isVa
 getEmailWithContext :: String -> IO String
 getEmailWithContext context = baseGetWithContext context "Digite seu email: " isValidEmail "Email inválido!\nDigite seu email novamente!"
 
+getNewEmailWithContext :: String -> IO String
+getNewEmailWithContext context = baseGetWithContext context "Digite seu novo email: " isValidEmail "Email inválido!\nDigite seu email novamente!"
+
 getPasswordWithContext :: String -> IO String
 getPasswordWithContext context = baseGetWithContext context "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
+
+getNewPasswordWithContext :: String -> IO String
+getNewPasswordWithContext context = baseGetWithContext context "Digite sua nova senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
 
 getLoginRegisterOptionWithContext :: String -> IO String
 getLoginRegisterOptionWithContext context = baseGetWithContext context ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
