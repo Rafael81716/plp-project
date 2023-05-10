@@ -4,6 +4,7 @@ import Model.User
 import Modules.BookModule (getAllBooks, printLibrary)
 import Modules.CLI.Loan (printListLoan, printMakeLoan, printRemoveBookLoan)
 import Modules.CLI.Favorites(printAddFavorites, printRemoveFavorites, printListFavorites)
+import Modules.CLI.SetProfile(printSetProfile)
 import Modules.UserModule (printRecent)
 import Modules.ValidInput.Getter (getMainMenuOption)
 
@@ -35,6 +36,5 @@ readMainMenu user option
       return user
   | option == "9" = printRecent user
   | option == "10" = do
-      print "TODO"
-      return user
+      printSetProfile user
   | option == "11" = return user
