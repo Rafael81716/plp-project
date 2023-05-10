@@ -23,8 +23,8 @@ loginMenu = do
   result <- UserModule.loginUser email password
   case result of
     Nothing -> do
-      print "Senha invalida, tente novamente"
-      loginMenu
+      putStrLn "Credenciais inválidas, tente novamente"
+      loginOrRegisterMenu
     Just user -> return user
 
 registeringMenu :: IO User
