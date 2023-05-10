@@ -2,6 +2,8 @@ module Modules.ValidInput.Getter where
 
 import Modules.UtilModule (centeredText, clear, getAllGenresString)
 import Modules.ValidInput.Validation (isValidEmail, isValidGenre, isValidName, isValidPassword)
+import System.Console.ANSI
+
 
 getNameWithContext :: String -> IO String
 getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"
@@ -23,6 +25,12 @@ getEmail = baseGet "Digite seu email: " isValidEmail "Email inválido!\nDigite s
 
 getPassword :: IO String
 getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
+
+getIdLibrary :: String -> IO String
+getIdLibrary context = baseGetWithContextLibrary context "Informe o Id do Livro: " (\o -> (read o :: Int) `elem` [1 .. 21]) "Opção inválida!"
+
+getLibraryOption :: String -> IO String
+getLibraryOption context = baseGetWithContextLibrary context ("\n1 - Voltar\n" ++ "2 - Ver Livro\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
 
 getTitleWithContext :: String -> IO String
 getTitleWithContext context = baseGetWithContext context "Informe o título do livro: " (/= "") "Título inválido! Digite o título novamente: "
@@ -73,7 +81,9 @@ baseGetWithContext context prompt predicate errMsg = customGet
     customGet :: IO String
     customGet = do
       -- PRINTS CONTEXT
+      setSGR [SetColor Foreground Vivid Green] -- define a cor do texto
       putStrLn (centeredText context)
+      setSGR [Reset] -- reseta a cor e o estilo do texto
       putStrLn prompt
       input <- getLine
 
@@ -93,6 +103,29 @@ baseGet prompt predicate errMsg = customGet
     customGet :: IO String
     customGet = do
       -- DOESN'T PRINT CONTEXT
+      putStrLn prompt
+      input <- getLine
+
+      let invalidInput = not (predicate input)
+      if invalidInput
+        then do
+          clear
+          putStrLn errMsg
+          customGet
+        else do
+          clear
+          return input
+
+baseGetWithContextLibrary :: String -> String -> (String -> Bool) -> String -> IO String
+baseGetWithContextLibrary context prompt predicate errMsg = customGet
+  where
+    customGet :: IO String
+    customGet = do
+      -- PRINTS CONTEXT
+      setSGR [SetColor Foreground Vivid Green] -- define a cor do texto
+      putStrLn (centeredText "Biblioteca")
+      setSGR [Reset] -- reseta a cor e o estilo do texto
+      putStrLn (context ++ "\n")
       putStrLn prompt
       input <- getLine
 

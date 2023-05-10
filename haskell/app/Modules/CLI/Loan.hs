@@ -7,6 +7,7 @@ import Modules.UserModule as UserModule
 import Modules.UtilModule (centeredText, waitOnScreen)
 import Modules.ValidInput.Getter (getAuthorWithContext, getGenreWithContext, getOptionsBookLoan, getTitleWithContext)
 import Modules.ValidInput.Validation (isValidSize)
+import System.Console.ANSI
 
 printMakeLoan :: User -> IO User
 printMakeLoan user = do
@@ -93,7 +94,10 @@ printListLoanRemove user = do
 
 printRemoveBookLoan :: User -> IO User
 printRemoveBookLoan user = do
-  putStrLn (centeredText "Devolucao" ++ "\n" ++ "Este sao os seus emprestimos:\n")
+  setSGR [SetColor Foreground Vivid Green]
+  putStrLn (centeredText "Devolucao")
+  setSGR [Reset]
+  putStrLn "\nEste sao os seus emprestimos:\n"
   printListLoanRemove user
   putStrLn ("\n" ++ "Escolha um livro para devolver pelo titulo: ")
   title <- getLine

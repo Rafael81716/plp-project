@@ -1,10 +1,14 @@
 module Modules.BookModule where
 
+import Text.Read (readMaybe)
 import Model.Book
 import Modules.CsvModule as CSV
-import Modules.UtilModule (waitOnScreen, centeredText)
+import Modules.UtilModule (waitOnScreen, centeredText, clear)
 import Data.Char (toUpper)
-import Data.List (filter)
+import Modules.ValidInput.Getter (getIdLibrary, getLibraryOption)
+import Control.Category (Category(id))
+import Data.List (intercalate)
+import System.Console.ANSI
 
 
 getBook :: String -> String -> IO [Book]
@@ -46,17 +50,42 @@ getBookById2 targets = do
 getAllBooks :: IO [Book]
 getAllBooks = CSV.read (\s -> Prelude.read s :: Book) "books.csv"
 
-printBooks :: [Book] -> IO ()
+printBooks :: [Book] -> IO()
 printBooks books = do
   let strBooks = map formatBook books
   mapM_ putStrLn strBooks
-  waitOnScreen
 
-printAllBooks :: IO ()
+stringBooks :: [Book] -> String
+stringBooks books = do
+  let strBooks = map formatBook books
+  intercalate "\n" strBooks
+
+printLibrary :: IO()
+printLibrary = do
+  contextBooks <- printAllBooks
+  option <- getLibraryOption contextBooks
+  if option == "1" then return ()
+  else do
+    printSinopse
+
+printSinopse :: IO()
+printSinopse = do
+    contextBooks <- printAllBooks
+    bookidt <- getIdLibrary contextBooks
+    let bookid = Prelude.read bookidt :: Int
+    book <- getBookById [bookid]
+    setSGR [SetColor Foreground Vivid Yellow]
+    putStrLn (centeredText (name (book !! 0)))
+    setSGR [Reset]
+    putStrLn (sinopse (book !! 0))
+    putStrLn ""
+    waitOnScreen
+    clear
+
+printAllBooks :: IO String
 printAllBooks = do
-  putStrLn (centeredText "Biblioteca")
   allBooks <- getAllBooks
-  printBooks allBooks
+  return (stringBooks allBooks)
 
 contentLoanInUser :: [Int] -> Int -> Bool
 contentLoanInUser userBooks idBook = elem idBook userBooks

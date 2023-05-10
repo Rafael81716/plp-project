@@ -1,7 +1,7 @@
 module Modules.CLI.MainMenu where
 
 import Model.User
-import Modules.BookModule (getAllBooks, printAllBooks)
+import Modules.BookModule (getAllBooks, printLibrary)
 import Modules.CLI.Loan (printListLoan, printMakeLoan, printRemoveBookLoan)
 import Modules.CLI.Favorites(printAddFavorites, printRemoveFavorites, printListFavorites)
 import Modules.UserModule (printRecent)
@@ -21,7 +21,7 @@ readMainMenu user option
   | option == "2" = printListLoan user
   | option == "3" = printRemoveBookLoan user
   | option == "4" = do
-      printAllBooks
+      printLibrary
       return user
   | option == "5" = do
       print "TODO"
