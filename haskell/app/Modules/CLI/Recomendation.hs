@@ -1,9 +1,16 @@
-module Modules.CLI.Recomendations where
+module Modules.CLI.Recomendation where
 
 import Model.Book
 import Model.User
 import Modules.BookModule (getBookById)
-import System.Random
+import Modules.RecomendationModule(recomendation)
+import Model.User (User (bookGenres))
+
+
+printRecomendations:: User -> IO User
+printRecomendations user = do
+    recomendation user
+   
 
 -- recommend :: User -> IO [Book]
 -- recommend (User _ _ _ [] _ _ _) = do
