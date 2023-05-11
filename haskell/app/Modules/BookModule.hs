@@ -1,15 +1,14 @@
 module Modules.BookModule where
 
-import Text.Read (readMaybe)
+import Control.Category (Category (id))
+import Data.Char (toUpper)
+import Data.List (intercalate)
 import Model.Book
 import Modules.CsvModule as CSV
-import Modules.UtilModule (waitOnScreen, centeredText, clear)
-import Data.Char (toUpper)
+import Modules.UtilModule (centeredText, clear, waitOnScreen)
 import Modules.ValidInput.Getter (getIdLibrary, getLibraryOption)
-import Control.Category (Category(id))
-import Data.List (intercalate)
 import System.Console.ANSI
-
+import Text.Read (readMaybe)
 
 getBook :: String -> String -> IO [Book]
 getBook em att = do
@@ -39,18 +38,17 @@ getBookById targets = do
   let result = filter (\u -> num u `elem` targets) bookList
   return result
 
-getBookById2 :: [Int] -> IO [Book]
-getBookById2 targets = do
+getBookByIdSorted :: [Int] -> IO [Book]
+getBookByIdSorted targets = do
   bookList <- CSV.read strToBook "books.csv"
   let result = filter (\u -> num u `elem` targets) bookList
       orderedResult = [book | target <- targets, book <- result, num book == target]
   return orderedResult
 
-
 getAllBooks :: IO [Book]
 getAllBooks = CSV.read (\s -> Prelude.read s :: Book) "books.csv"
 
-printBooks :: [Book] -> IO()
+printBooks :: [Book] -> IO ()
 printBooks books = do
   let strBooks = map formatBook books
   mapM_ putStrLn strBooks
@@ -60,27 +58,28 @@ stringBooks books = do
   let strBooks = map formatBook books
   intercalate "\n" strBooks
 
-printLibrary :: IO()
+printLibrary :: IO ()
 printLibrary = do
   contextBooks <- printAllBooks
   option <- getLibraryOption contextBooks
-  if option == "1" then return ()
-  else do
-    printSinopse
+  if option == "1"
+    then return ()
+    else do
+      printSinopse
 
-printSinopse :: IO()
+printSinopse :: IO ()
 printSinopse = do
-    contextBooks <- printAllBooks
-    bookidt <- getIdLibrary contextBooks
-    let bookid = Prelude.read bookidt :: Int
-    book <- getBookById [bookid]
-    setSGR [SetColor Foreground Vivid Yellow]
-    putStrLn (centeredText (name (book !! 0)))
-    setSGR [Reset]
-    putStrLn (sinopse (book !! 0))
-    putStrLn ""
-    waitOnScreen
-    clear
+  contextBooks <- printAllBooks
+  bookidt <- getIdLibrary contextBooks
+  let bookid = Prelude.read bookidt :: Int
+  book <- getBookById [bookid]
+  setSGR [SetColor Foreground Vivid Yellow]
+  putStrLn (centeredText (name (book !! 0)))
+  setSGR [Reset]
+  putStrLn (sinopse (book !! 0))
+  putStrLn ""
+  waitOnScreen
+  clear
 
 printAllBooks :: IO String
 printAllBooks = do
