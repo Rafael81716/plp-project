@@ -16,10 +16,10 @@ registerUser n e p g fB bL rB = do
   CSV.append [user] "users.csv"
   return user
 
-userIsNotRegistered :: String -> IO Bool
-userIsNotRegistered email = do
+isUserRegistered :: String -> IO Bool
+isUserRegistered email = do
   maybeUser <- getUser email
-  return $ isNothing maybeUser
+  return $ isJust maybeUser
 
 getUser :: String -> IO (Maybe User)
 getUser em = do

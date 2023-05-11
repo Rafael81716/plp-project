@@ -33,7 +33,7 @@ registeringMenu = do
 
   name <- getNameWithContext context
   email <- getEmailWithContext context
-  userIsNotRegistered email >>= \isNotRegistered ->
+  isUserRegistered email >>= \isNotRegistered ->
     if not isNotRegistered
       then do
         clear
