@@ -54,8 +54,21 @@ centeredText text =
       padding = replicate ((width - length text) `div` 2) ' '
    in replicate width '-' ++ "\n" ++ padding ++ text ++ padding ++ "\n" ++ replicate width '-'
 
-ensureUserFilesExists :: IO ()
-ensureUserFilesExists = do
+ensureNeededFilesExist :: IO ()
+ensureNeededFilesExist = do
+  ensureBooksFileExists
+  ensureUserFileExists
+
+ensureBooksFileExists :: IO ()
+ensureBooksFileExists = do
+  foundBooks <- findFile "books.csv"
+
+  case foundBooks of
+    Nothing -> writeFile "books.csv" ""
+    _ -> return ()
+
+ensureUserFileExists :: IO ()
+ensureUserFileExists = do
   foundUsers <- findFile "users.csv"
 
   case foundUsers of
