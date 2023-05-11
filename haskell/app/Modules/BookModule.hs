@@ -40,9 +40,8 @@ getBookById targets = do
 
 getBookByIdSorted :: [Int] -> IO [Book]
 getBookByIdSorted targets = do
-  bookList <- CSV.read strToBook "books.csv"
-  let result = filter (\u -> num u `elem` targets) bookList
-      orderedResult = [book | target <- targets, book <- result, num book == target]
+  result <- getBookById targets
+  let orderedResult = [book | target <- targets, book <- result, num book == target]
   return orderedResult
 
 getAllBooks :: IO [Book]

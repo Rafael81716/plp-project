@@ -75,7 +75,7 @@
             Modules.CLI.LoginAndRegisterModule
             Modules.CLI.MainMenu
             Modules.CLI.SetProfile
-            Modules.CLI.Recomendations
+            Modules.CLI.Recomendation
         -- LANGUAGE extensions used by modules in this package.
         -- other-extensions:
 

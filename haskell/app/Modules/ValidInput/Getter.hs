@@ -4,7 +4,6 @@ import Modules.UtilModule (centeredText, clear, getAllGenresString)
 import Modules.ValidInput.Validation (isValidEmail, isValidGenre, isValidName, isValidPassword)
 import System.Console.ANSI
 
-
 getNameWithContext :: String -> IO String
 getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"
 
@@ -33,7 +32,7 @@ getPassword :: IO String
 getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
 
 getIdLibrary :: String -> IO String
-getIdLibrary context = baseGetWithContextLibrary context "Informe o Id do Livro: " (\o -> (read o :: Int) `elem` [1 .. 21]) "Opção inválida!"
+getIdLibrary context = baseGetWithContextLibrary context "Informe o Id do Livro: " (\o -> (read o :: Int) `elem` [1 .. 204]) "Opção inválida!"
 
 getLibraryOption :: String -> IO String
 getLibraryOption context = baseGetWithContextLibrary context ("\n1 - Voltar\n" ++ "2 - Ver Livro\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
@@ -50,10 +49,8 @@ getGenreWithContext context = baseGetWithContext context "Informe um gênero par
 getLoginRegisterOption :: IO String
 getLoginRegisterOption = baseGet ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
 
-getIsRead:: IO String
-getIsRead = baseGet ("\nVocê leu esse livro?\nDigite <1> para Sim ou <2> para Não: ") (\o -> o == "1" || o == "2" ) "Opção inválida, digite novamente!"
-
-
+getIsRead :: IO String
+getIsRead = baseGet ("\nVocê leu esse livro?\nDigite <1> para Sim ou <2> para Não: ") (\o -> o == "1" || o == "2") "Opção inválida, digite novamente!"
 
 getMainMenuOption :: String -> IO String
 getMainMenuOption context =
