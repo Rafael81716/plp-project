@@ -33,8 +33,8 @@ registeringMenu = do
 
   name <- getNameWithContext context
   email <- getEmailWithContext context
-  isUserRegistered email >>= \isNotRegistered ->
-    if not isNotRegistered
+  isUserRegistered email >>= \isRegistered ->
+    if isRegistered
       then do
         clear
         putStrLn "Email já cadastrado, insira outro!"
