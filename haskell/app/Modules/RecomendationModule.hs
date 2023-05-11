@@ -46,7 +46,7 @@ flatten (x : xs) = do
 getRandomBooksByGenre :: [Book] -> String -> Int -> IO [Book]
 getRandomBooksByGenre forbbidenBooks genre amount = do
   allBooksByGenre <- getBookByGenre genre
-  let notForbbiden = removeDuplicates forbbidenBooks allBooksByGenre
+  let notForbbiden = removeDuplicates allBooksByGenre forbbidenBooks
   result <- getNRandomBooks notForbbiden amount
   return result
 
