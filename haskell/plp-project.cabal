@@ -74,12 +74,14 @@
             Modules.CLI.Loan
             Modules.CLI.LoginAndRegisterModule
             Modules.CLI.MainMenu
+            Modules.CLI.SetProfile
+            Modules.CLI.Recomendation
         -- LANGUAGE extensions used by modules in this package.
         -- other-extensions:
 
         -- Other library packages from which modules are imported.
            
-        build-depends: base >=4.7 && <5, haskell-say ^>=1.0.0.0, csv, bytestring >= 0.10.10.0 && < 0.12, vector >= 0.12.1.2 && < 0.14, cassava >= 0.5.2.0 && < 0.6, directory, split, containers, transformers, template-haskell, text, ghc, binary, filepath, ansi-terminal
+        build-depends: base >=4.7 && <5, haskell-say ^>=1.0.0.0, csv, bytestring >= 0.10.10.0 && < 0.12, vector >= 0.12.1.2 && < 0.14, cassava >= 0.5.2.0 && < 0.6, directory, split, containers, transformers, template-haskell, text, ghc, binary, filepath, ansi-terminal, random >=1.2.1.1
         
     
         -- Directories containing source files.

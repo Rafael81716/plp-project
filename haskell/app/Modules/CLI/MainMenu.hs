@@ -2,10 +2,13 @@ module Modules.CLI.MainMenu where
 
 import Model.User
 import Modules.BookModule (getAllBooks, printLibrary)
+import Modules.CLI.Favorites (printAddFavorites, printListFavorites, printRemoveFavorites)
 import Modules.CLI.Loan (printListLoan, printMakeLoan, printRemoveBookLoan)
-import Modules.CLI.Favorites(printAddFavorites, printRemoveFavorites, printListFavorites)
-import Modules.CLI.SetProfile(printSetProfile)
+import Modules.CLI.Recomendation (printRecomendations)
+import Modules.CLI.SetProfile (printSetProfile)
 import Modules.UserModule (printRecent)
+-- import Modules.RecomendationModule(recomendation)
+
 import Modules.ValidInput.Getter (getMainMenuOption)
 
 mainMenu :: User -> IO ()
@@ -25,12 +28,11 @@ readMainMenu user option
       printLibrary
       return user
   | option == "5" = do
-      print "TODO"
-      return user
+      printRecomendations user
   | option == "6" = do
-      printAddFavorites user 
+      printAddFavorites user
   | option == "7" = do
-    printRemoveFavorites user
+      printRemoveFavorites user
   | option == "8" = do
       printListFavorites user
       return user

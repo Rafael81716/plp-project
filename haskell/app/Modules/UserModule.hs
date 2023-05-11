@@ -6,9 +6,9 @@ import Model.Book as Book
 import Model.User as User
 import Modules.BookModule
 import Modules.CsvModule as CSV
-import Modules.UtilModule (removeFromList, centeredText)
+import Modules.UtilModule (centeredText, removeFromList)
+import Modules.ValidInput.Getter (getIsRead)
 import Modules.ValidInput.Validation (filterUserList, isValidIndex, isValidSize)
-import Modules.ValidInput.Getter(getIsRead)
 
 registerUser :: String -> String -> String -> [String] -> [Int] -> [Int] -> [Int] -> IO User
 registerUser n e p g fB bL rB = do
@@ -76,21 +76,20 @@ removeBookLoan u b = do
   let listBooksLoan = booksLoan u
   let bookLoansAtt = removeFromList bookId listBooksLoan
 
-  if isReadBook == "2" then do 
-    let updatedUser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) bookLoansAtt (recentBooks u)
-    updateUser u updatedUser
-    putStrLn "Livro removido com sucesso!"
-    return updatedUser
+  if isReadBook == "2"
+    then do
+      let updatedUser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) bookLoansAtt (recentBooks u)
+      updateUser u updatedUser
+      putStrLn "Livro removido com sucesso!"
+      return updatedUser
+    else do
+      let newBooks = recentBooks u ++ [bookId]
+      let updateuser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) (bookLoansAtt) (newBooks)
+      updateUser u updateuser
+      putStrLn "Livro adicionado no histórico de leitura!\nLivro removido com sucesso!"
+      return updateuser
 
-  else do
-    let newBooks = recentBooks u ++ [bookId]
-    let updateuser = User (User.name u) (email u) (password u) (bookGenres u) (favoriteBooks u) (bookLoansAtt) (newBooks)
-    updateUser u updateuser
-    putStrLn "Livro adicionado no histórico de leitura!\nLivro removido com sucesso!"
-    return updateuser
-
-
-setUser:: User -> String -> String -> [String] -> IO User
+setUser :: User -> String -> String -> [String] -> IO User
 setUser user newEmail newPassword newBookGenres = do
   let newUser = User (User.name user) newEmail newPassword newBookGenres (favoriteBooks user) (booksLoan user) (recentBooks user)
   updateUser user newUser
@@ -115,28 +114,24 @@ addToRecent user bookId = do
 printRecent :: User -> IO User
 printRecent user = do
   let targets = recentBooks user
-  books <- getBookById2 targets
+  books <- getBookByIdSorted targets
   putStrLn (centeredText "Histórico de Leitura:")
-  mapM_ (putStrLn . formatBook)  (take 10(reverse books))
+  mapM_ (putStrLn . formatBook) (take 10 (reverse books))
   return user
 
-addFavorites :: User  -> [Int] -> Int  -> IO User
-addFavorites user favoriteList bookId  = do
+addFavorites :: User -> [Int] -> Int -> IO User
+addFavorites user favoriteList bookId = do
   let favoriteListAtt = favoriteList ++ [bookId]
-  let updatedUser = User (User.name user) (email user) (password user) (bookGenres user) favoriteListAtt  (booksLoan user) (recentBooks user)
+  let updatedUser = User (User.name user) (email user) (password user) (bookGenres user) favoriteListAtt (booksLoan user) (recentBooks user)
   updateUser user updatedUser
   putStrLn "Livro favoritado com sucesso!"
   return updatedUser
 
 removeFavorites :: User -> [Int] -> Int -> IO User
-removeFavorites user favoriteList bookId  = do
+removeFavorites user favoriteList bookId = do
   let favoriteList = favoriteBooks user
   let favoriteListAtt = removeFromList bookId favoriteList
   let updatedUser = User (User.name user) (email user) (password user) (bookGenres user) favoriteListAtt (booksLoan user) (recentBooks user)
   updateUser user updatedUser
   putStrLn "Favorito removido com sucesso!"
   return updatedUser
-       
-
-
-
