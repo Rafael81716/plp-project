@@ -69,7 +69,7 @@ getMainMenuOption context =
         ++ " 11 - Logout \n"
         ++ " Escolha uma opção: "
     )
-    (\o -> (read o :: Int) `elem` [1 .. 11])
+    (\o -> o `elem` ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"])
     "Opção inválida"
 
 getOptionsBookLoan :: String -> IO String
