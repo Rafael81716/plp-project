@@ -5,34 +5,35 @@ import Data.Typeable
 import Model.Book
 import Model.User
 import Modules.BookModule (getAllBooks, getBookByGenre, getBookById, getBookByIdSorted, printBooks)
-import Modules.UtilModule (centeredText, clear, waitOnScreen)
+import Modules.UtilModule (centeredText, clear, removeDuplicates, waitOnScreen)
 import System.Console.ANSI
 import System.Random
 
 recomendation :: User -> IO [Book]
 recomendation u = do
-  allBooks <- getAllBooks
+  forbbidenBooks <- getBookById (recentBooks u)
   if (bookGenres u) == []
-    then randomRecomendation
+    then randomRecomendation forbbidenBooks
     else do
       let genres = bookGenres u
       let booksPerGenre = floor (10.0 / fromIntegral (length genres))
-      result <- getRandomBooksFromGenres genres booksPerGenre
+      result <- getRandomBooksFromGenres forbbidenBooks genres booksPerGenre
       let missingBooks = 10 - (length result)
-      restOfBooks <- getRandomBooksFromGenres [(head genres)] missingBooks
+      restOfBooks <- getRandomBooksFromGenres forbbidenBooks [(head genres)] missingBooks
       let concatenatedList = concat [restOfBooks, result]
       return concatenatedList
 
-randomRecomendation :: IO [Book]
-randomRecomendation = do
+randomRecomendation :: [Book] -> IO [Book]
+randomRecomendation forbbidenBooks = do
   -- Gere um 10 números aleatório entre 1 e 204
   randomBooksId <- sequence $ replicate 10 (randomRIO (1, 204)) :: IO [Int]
   -- Busque o livro com esse id
-  getBookById randomBooksId
+  result <- getBookById randomBooksId
+  return (removeDuplicates result forbbidenBooks)
 
-getRandomBooksFromGenres :: [String] -> Int -> IO [Book]
-getRandomBooksFromGenres genres amount = do
-  let allBooksByEachGenre = map (\g -> getRandomBooksByGenre g amount) genres
+getRandomBooksFromGenres :: [Book] -> [String] -> Int -> IO [Book]
+getRandomBooksFromGenres forbbidenBooks genres amount = do
+  let allBooksByEachGenre = map (\g -> getRandomBooksByGenre forbbidenBooks g amount) genres
   flatten allBooksByEachGenre
 
 flatten :: [IO [Book]] -> IO [Book]
@@ -42,10 +43,11 @@ flatten (x : xs) = do
   xs' <- flatten xs
   return (x' ++ xs')
 
-getRandomBooksByGenre :: String -> Int -> IO [Book]
-getRandomBooksByGenre genre amount = do
+getRandomBooksByGenre :: [Book] -> String -> Int -> IO [Book]
+getRandomBooksByGenre forbbidenBooks genre amount = do
   allBooksByGenre <- getBookByGenre genre
-  result <- getNRandomBooks allBooksByGenre amount
+  let notForbbiden = removeDuplicates forbbidenBooks allBooksByGenre
+  result <- getNRandomBooks notForbbiden amount
   return result
 
 getNRandomBooks :: [Book] -> Int -> IO [Book]

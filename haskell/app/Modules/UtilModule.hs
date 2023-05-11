@@ -78,3 +78,6 @@ waitOnScreen = do
   putStrLn "Pressione qualquer tecla para continuar"
   getLine
   putStrLn ""
+
+removeDuplicates :: Eq a => [a] -> [a] -> [a]
+removeDuplicates xs ys = Prelude.filter (`notElem` ys) xs
