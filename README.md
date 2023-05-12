@@ -76,14 +76,14 @@ Caso o usuário já esteja cadastrado, ele verá as seguintes opções disponív
 ### Logout
 - O sistema encerra a execução.
 
-## 💻 Equipe
+## 👤 Equipe
 <table>
   <tr align="center">
-    <td><a href="https://github.com/GabrielYuriRF0" title="Gabriel Yuri"><img src="" width="115px" alt="Foto de perfil de Gabriel Yuri" /><br /><sub>Gabriel Yuri</sub></a></td>
+    <td><a href="https://github.com/GabrielYuriRF0" title="Gabriel Yuri"><img src="https://avatars.githubusercontent.com/u/104874807?v=4" width="115px" alt="Foto de perfil de Gabriel Yuri" /><br /><sub>Gabriel Yuri</sub></a></td>
     <td><a href="https://github.com/elipcs" title="Lucas Emmanuel"><img src="https://avatars.githubusercontent.com/u/88330410?v=4" width="115px" alt="Foto de perfil de Lucas Emmanuel" /><br /><sub>Lucas Emmanuel</sub></a></td>
     <td><a href="https://github.com/joaovictorsl" title="joão Vitor"><img src="https://avatars.githubusercontent.com/u/79459468?v=4" width="115px" alt="Foto de perfil de João Vitor" /><br /><sub>João Vitor</sub></a></td>
-    <td><a href="https://github.com/lucas-q-c" title="Lucas Queiroz"><img src="https://cdn.discordapp.com/attachments/873188956928348250/1106358403082768444/41b3f9cb-cfa9-4106-ab57-7c36520b5e0b.jpeg" width="115px" alt="Foto de perfil de Lucas Queiroz" /><br /><sub>Lucas Queiroz</sub></a></td>
-    <td><a href="https://github.com/Rafael81716" title="Rafael de Sousa><img src="https://avatars.githubusercontent.com/u/88330410?v=4" width="115px" alt="Foto de perfil de Rafael de Sousa" /><br /><sub>Rafael de Sousa</sub></a></td>
+    <td><a href="https://github.com/lucas-q-c" title="Lucas Queiroz"><img src="https://avatars.githubusercontent.com/u/99377995?v=4" width="115px" alt="Foto de perfil de Lucas Queiroz" /><br /><sub>Lucas Queiroz</sub></a></td>
+    <td><a href="https://github.com/Rafael81716" title="Rafael de Sousa"><img src="https://avatars.githubusercontent.com/u/70725746?v=4" width="115px" alt="Foto de perfil de Rafael de Sousa" /><br /><sub>Rafael de Sousa</sub></a></td>
   </tr>
 </table>
 
