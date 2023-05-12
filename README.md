@@ -80,7 +80,7 @@ Caso o usuário já esteja cadastrado, ele verá as seguintes opções disponív
 <table>
   <tr align="center">
     <td><a href="https://github.com/GabrielYuriRF0" title="Gabriel Yuri"><img src="https://avatars.githubusercontent.com/u/104874807?v=4" width="115px" alt="Foto de perfil de Gabriel Yuri" /><br /><sub>Gabriel Yuri</sub></a></td>
-    <td><a href="https://github.com/elipcs" title="Lucas Emmanuel"><img src="https://avatars.githubusercontent.com/u/88330410?v=4" width="115px" alt="Foto de perfil de Lucas Emmanuel" /><br /><sub>Lucas Emmanuel</sub></a></td>
+    <td><a href="https://github.com/lucasemmanuelsa" title="Lucas Emmanuel"><img src="https://avatars.githubusercontent.com/u/88330410?v=4" width="115px" alt="Foto de perfil de Lucas Emmanuel" /><br /><sub>Lucas Emmanuel</sub></a></td>
     <td><a href="https://github.com/joaovictorsl" title="joão Vitor"><img src="https://avatars.githubusercontent.com/u/79459468?v=4" width="115px" alt="Foto de perfil de João Vitor" /><br /><sub>João Vitor</sub></a></td>
     <td><a href="https://github.com/lucas-q-c" title="Lucas Queiroz"><img src="https://avatars.githubusercontent.com/u/99377995?v=4" width="115px" alt="Foto de perfil de Lucas Queiroz" /><br /><sub>Lucas Queiroz</sub></a></td>
     <td><a href="https://github.com/Rafael81716" title="Rafael de Sousa"><img src="https://avatars.githubusercontent.com/u/70725746?v=4" width="115px" alt="Foto de perfil de Rafael de Sousa" /><br /><sub>Rafael de Sousa</sub></a></td>
