@@ -4,7 +4,7 @@ import Model.Book
 import Model.User
 import Modules.BookModule
 import Modules.UserModule as UserModule
-import Modules.UtilModule (centeredText, waitOnScreen)
+import Modules.UtilModule (centeredText, clear, waitOnScreen)
 import Modules.ValidInput.Getter (getAuthorWithContext, getGenreWithContext, getOptionsBookLoan, getTitleWithContext)
 import Modules.ValidInput.Validation (isValidSize)
 import System.Console.ANSI
@@ -55,8 +55,10 @@ printMakeLoanByAuthor user = do
           putStrLn ("Este autor nao esta cadastrado no sistema!")
           printMakeLoanByAuthor user
         else do
+          setSGR [SetColor Foreground Vivid Green]
+          putStrLn (centeredText ("Livros"))
+          setSGR [Reset]
           printBooks books
-          putStrLn "Escolha um livro pelo titulo: "
           updatedUser <- printMakeLoanByTitle user
           return updatedUser
 
@@ -74,16 +76,21 @@ printMakeLoanByGenre user = do
           putStrLn ("Nao ha livros desse genero cadastrados no sistema.")
           printMakeLoanByGenre user
         else do
+          setSGR [SetColor Foreground Vivid Green]
+          putStrLn (centeredText ("Livros"))
+          setSGR [Reset]
           printBooks books
-          putStrLn "Escolha um livro pelo titulo: "
           updatedUser <- printMakeLoanByTitle user
           return updatedUser
 
 printListLoan :: User -> IO User
 printListLoan user = do
+  setSGR [SetColor Foreground Vivid Green]
   putStrLn (centeredText "Meus Empréstimos")
+  setSGR [Reset]
   UserModule.listLoans user
   waitOnScreen
+  clear
   return user
 
 printListLoanRemove :: User -> IO User

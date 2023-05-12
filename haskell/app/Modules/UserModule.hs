@@ -6,9 +6,10 @@ import Model.Book as Book
 import Model.User as User
 import Modules.BookModule
 import Modules.CsvModule as CSV
-import Modules.UtilModule (centeredText, removeFromList)
+import Modules.UtilModule (centeredText, clear, removeFromList, waitOnScreen)
 import Modules.ValidInput.Getter (getIsRead)
 import Modules.ValidInput.Validation (filterUserList, isValidIndex, isValidSize)
+import System.Console.ANSI
 
 registerUser :: String -> String -> String -> [String] -> [Int] -> [Int] -> [Int] -> IO User
 registerUser n e p g fB bL rB = do
@@ -115,8 +116,12 @@ printRecent :: User -> IO User
 printRecent user = do
   let targets = recentBooks user
   books <- getBookByIdSorted targets
+  setSGR [SetColor Foreground Vivid Green]
   putStrLn (centeredText "Histórico de Leitura:")
+  setSGR [Reset]
   mapM_ (putStrLn . formatBook) (take 10 (reverse books))
+  waitOnScreen
+  clear
   return user
 
 addFavorites :: User -> [Int] -> Int -> IO User
