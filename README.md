@@ -14,6 +14,11 @@ git clone https://github.com/GabrielYuriRF0/plp-project.git
 ```
 cd haskell
 ```
+
+- Execute o Cabal update
+```
+cabal update
+```
 - Execute o Cabal Run
 ```
 cabal run
