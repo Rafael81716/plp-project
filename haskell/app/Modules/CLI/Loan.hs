@@ -112,11 +112,13 @@ printRemoveBookLoan user = do
 
   if length (booksLoan user) == 0
     then do
+      clear
       putStrLn "Voce nao possui emprestimos!"
       return user
     else
       if book == []
         then do
+          clear
           putStrLn ("Livro nao consta na base de dados, escolha outro!")
           printRemoveBookLoan user
         else
