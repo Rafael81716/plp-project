@@ -5,7 +5,7 @@ import Modules.ValidInput.Validation (isValidEmail, isValidGenre, isValidName, i
 import System.Console.ANSI
 
 getNameWithContext :: String -> IO String
-getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nDigite seu nome novamente!"
+getNameWithContext context = baseGetWithContext context "Digite seu nome: " isValidName "Nome inválido!\nO nome não deve ter nenhum dígito nele\nDigite seu nome novamente!"
 
 getEmailWithContext :: String -> IO String
 getEmailWithContext context = baseGetWithContext context "Digite seu email: " isValidEmail "Email inválido!\nDigite seu email novamente!"
@@ -14,10 +14,10 @@ getNewEmailWithContext :: String -> IO String
 getNewEmailWithContext context = baseGetWithContext context "Digite seu novo email: " isValidEmail "Email inválido!\nDigite seu email novamente!"
 
 getPasswordWithContext :: String -> IO String
-getPasswordWithContext context = baseGetWithContext context "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
+getPasswordWithContext context = baseGetWithContext context "Digite sua senha: " isValidPassword "Senha inválida!\nA senha deve ter no minimo 6 caracteres\nDigite sua senha novamente!"
 
 getNewPasswordWithContext :: String -> IO String
-getNewPasswordWithContext context = baseGetWithContext context "Digite sua nova senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
+getNewPasswordWithContext context = baseGetWithContext context "Digite sua nova senha: " isValidPassword "Senha inválida!\nA senha deve ter no minimo 6 caracteres\nDigite sua senha novamente!"
 
 getLoginRegisterOptionWithContext :: String -> IO String
 getLoginRegisterOptionWithContext context = baseGetWithContext context ("1 - Entrar\n" ++ "2 - Cadastrar\n" ++ "Escolha uma opção: ") (\o -> o == "1" || o == "2") "Opção inválida!"
@@ -29,7 +29,7 @@ getEmail :: IO String
 getEmail = baseGet "Digite seu email: " isValidEmail "Email inválido!\nDigite seu email novamente!"
 
 getPassword :: IO String
-getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nDigite sua senha novamente!"
+getPassword = baseGet "Digite sua senha: " isValidPassword "Senha inválida!\nA senha deve ter no minimo 6 caracteres\nDigite sua senha novamente!"
 
 getIdLibrary :: String -> IO String
 getIdLibrary context = baseGetWithContextLibrary context "Informe o Id do Livro: " (\o -> (read o :: Int) `elem` [1 .. 204]) "Opção inválida!"
