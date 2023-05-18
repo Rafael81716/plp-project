@@ -59,7 +59,7 @@ swipl
 
 - Carregue o arquivo principal:
 ```
-[helloworld.pl].
+[helloworld].
 ```
 
 - Execute o main:
