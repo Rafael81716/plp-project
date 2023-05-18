@@ -64,7 +64,7 @@ swipl
 
 - Execute o main:
 ```
-main
+main.
 ```
 
 ## 💻 Organização do Terminal
