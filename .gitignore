@@ -3,3 +3,4 @@ users.csv
 *.hi
 *.o
 *.exe
+.build
