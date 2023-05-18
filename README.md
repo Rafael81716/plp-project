@@ -1,7 +1,7 @@
 # 📚 Sistema de Biblioteca com Recomendação de Livros
 Esse é um sistema de biblioteca com recomendação de livros, que permite que usuários se cadastrem, consultem, emprestem e devolvam livros, além de receberem recomendações personalizadas baseadas em suas preferências de gêneros e histórico de leitura.
 
-## ⚙️ Como usar o sistema
+## ⚙️ Como usar o sistema (Haskell)
 - Observação 1: Primeiramente é necessário que você tenha uma versão de [Haskell](https://www.haskell.org/ghcup/ "Página inicial de Haskell") instalada no seu sistema .
 - Observação 2: O books.csv deve estar na raiz do projeto.
 
@@ -22,6 +22,49 @@ cabal update
 - Execute o Cabal Run
 ```
 cabal run
+```
+
+## ⚙️ Como usar o sistema (Prolog)
+- Observação 1: Primeiramente é necessário que você tenha uma versão de [Prolog](https://www.swi-prolog.org/ "Página inicial de Prolog") instalada no seu sistema ou docker.
+- Observação 2: O books.csv deve estar na raiz do projeto.
+
+- Clone o repositório:
+```
+git clone https://github.com/GabrielYuriRF0/plp-project.git
+```
+
+- Acesse a pasta prolog:
+```
+cd prolog
+```
+
+### Docker
+
+- Execute o makefile:
+```
+make build && make
+```
+
+### Sem Docker
+
+- Instale Prolog:
+```
+apt install swi-prolog -y
+```
+
+- Inicie o interpretador:
+```
+swipl
+```
+
+- Carregue o arquivo principal:
+```
+[helloworld.pl].
+```
+
+- Execute o main:
+```
+main
 ```
 
 ## 💻 Organização do Terminal
@@ -91,6 +134,3 @@ Caso o usuário já esteja cadastrado, ele verá as seguintes opções disponív
     <td><a href="https://github.com/Rafael81716" title="Rafael de Sousa"><img src="https://avatars.githubusercontent.com/u/70725746?v=4" width="115px" alt="Foto de perfil de Rafael de Sousa" /><br /><sub>Rafael de Sousa</sub></a></td>
   </tr>
 </table>
-
-
-
