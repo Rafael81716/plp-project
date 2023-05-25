@@ -1,4 +1,6 @@
+:- module(MainMenuModule,[printMainMenu/0, readMainMenu/2]).
 :- use_module("../UtilModule.pl").
+
 printMainMenu:-
 centeredText("Inicio",40),
 write("\n1 - Entrar\n2 - Cadastrar\nEscolha uma opcao: "),
