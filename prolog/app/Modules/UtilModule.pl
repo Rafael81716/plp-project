@@ -1,4 +1,15 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, member/2, countCharInString/3]).
+
+countCharInString([], _, 0).
+countCharInString([Char|T], Char, Count) :-
+    countCharInString(T, Char, Count1),
+    Count is Count1 + 1.
+countCharInString([_|T], Char, Count) :-
+    countCharInString(T, Char, Count).
+
+
+member(X, [X|_]).
+member(X, [_|T]) :- member(X, T).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
