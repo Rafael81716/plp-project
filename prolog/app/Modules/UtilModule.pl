@@ -36,17 +36,14 @@ clearScreen :-
     shell('clear').
 
 
-readOptions(Numbers) :-
+readOptions([Number| Rest]) :-
     read(Number),
-    read_numbers_aux(Number, Numbers).
-
-read_numbers_aux(-1, []).
-read_numbers_aux(Number, [Number|Rest]) :-
-    read(Next),
-    read_numbers_aux(Next, Rest).
+    Number \= -1,
+    readOptions(Rest), !.
+readOptions([]).
 
 
-mapGenres([], []).
+mapGenres([], []):-!.
 mapGenres([1|T], ['Ficcao'|MappedTail]) :-
     mapGenres(T, MappedTail).
 mapGenres([2|T], ['Fantasia'|MappedTail]) :-

@@ -13,11 +13,8 @@ write("\nDigite sua senha: "),
 read(ReadPassword),
 printGenres(),
 readOptions(Numbers),
-
 mapGenres(Numbers, ReadGenres),
-write(Numbers),
-ReadFile = "users.csv",
-registerUser(ReadFile, ReadName, ReadEmail, ReadPassword).
+addUser('../users.csv', ReadName, ReadEmail, ReadPassword).
 
 printGenres:-
 clearScreen,
