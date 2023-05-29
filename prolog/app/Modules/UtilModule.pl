@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2]).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -34,6 +34,40 @@ clearScreen :-
 clearScreen :-
     current_prolog_flag(unix, true), !,
     shell('clear').
+
+
+readOptions(Numbers) :-
+    read(Number),
+    read_numbers_aux(Number, Numbers).
+
+read_numbers_aux(-1, []).
+read_numbers_aux(Number, [Number|Rest]) :-
+    read(Next),
+    read_numbers_aux(Next, Rest).
+
+
+mapGenres([], []).
+mapGenres([1|T], ['Ficcao'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([2|T], ['Fantasia'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([3|T], ['Infantil'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([4|T], ['Misterio'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([5|T], ['Historia'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([6|T], ['Aventura'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([7|T], ['Romance'|MappedTail]) :-
+    mapGenres(T, MappedTail).
+mapGenres([_|T], MappedList) :-
+    mapGenres(T, MappedList).
+
+
+
+
+
 
 
 
