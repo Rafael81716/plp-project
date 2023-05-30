@@ -4,3 +4,4 @@ users.csv
 *.o
 *.exe
 .build
+learning/
