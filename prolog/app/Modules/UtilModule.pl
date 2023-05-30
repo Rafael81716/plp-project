@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2]).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -60,6 +60,12 @@ mapGenres([7|T], ['Romance'|MappedTail]) :-
     mapGenres(T, MappedTail).
 mapGenres([_|T], MappedList) :-
     mapGenres(T, MappedList).
+
+listToString(List, String) :-
+    atomic_list_concat(List, ',', String).
+
+
+
 
 
 

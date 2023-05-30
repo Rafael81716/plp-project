@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/6, addUser/4]).
+:- module(UserModule,[registerUser/6, addUser/5]).
 :- use_module(library(csv)).
 
 
@@ -9,6 +9,6 @@ readCsv(FilePath,File),
 registerUser(FilePath,File,Name, Email, Password, ReadGenres).
 
 registerUser(FilePath,File, Name, Email, Password, ReadGenres):-
-    append(File, [row(Name, Email, Password)], Saida),
+    append(File, [row(Name, Email, Password, ReadGenres)], Saida),
     csv_write_file(FilePath, Saida),
     write("Usuario cadastrado com sucesso!"),!.
