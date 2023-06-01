@@ -14,9 +14,8 @@ read(ReadPassword),
 printGenres(),
 readOptions(Numbers),
 mapGenres(Numbers, ReadGenres),
-listToString(ReadGenres, StrinlistToStringgReadGenres),
-write(StrinlistToStringgReadGenres),
-addUser('../users.csv', ReadName, ReadEmail, ReadPassword, StrinlistToStringgReadGenres).
+listToString(ReadGenres, StringReadGenres),
+addUser('../users.csv', ReadName, ReadEmail, ReadPassword, StringReadGenres).
 
 printGenres:-
 clearScreen,
