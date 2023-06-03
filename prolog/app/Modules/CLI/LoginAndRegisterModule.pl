@@ -11,8 +11,8 @@ read(ReadName),
 write("\nDigite seu email: "),
 read(ReadEmail),
 getUsers(Users),
-%checkUserRegister(ReadEmail, Users,IsValidEmail),
-%checkEmail(IsValidEmail),
+checkUserRegister(ReadEmail, Users,IsValidEmail),
+checkEmail(IsValidEmail),
 
 write("\nDigite sua senha: "),
 read(ReadPassword),
@@ -28,7 +28,7 @@ centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e digite -1 para finzalizar a digitação:\n1 - Ficcao\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n").
 
 
-checkEmail('invalido'):- clearScreen,write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu.
+checkEmail('invalido'):- clearScreen,write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
 checkEmail('valido'):- !.
 
 
