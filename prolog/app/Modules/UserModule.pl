@@ -8,7 +8,9 @@ addUser(FilePath, Name, Email, Password, ReadGenres):-
 readCsv(FilePath,File),
 registerUser(FilePath,File,Name, Email, Password, ReadGenres).
 
-registerUser(FilePath,File, Name, Email, Password, ReadGenres):-
-    append(File, [row(Name, Email, Password, ReadGenres)], Saida),
-    csv_write_file(FilePath, Saida),
-    write("Usuario cadastrado com sucesso!"),!.
+registerUser(FilePath, File, Name, Email, Password, ReadGenres) :-
+    open(FilePath, append, Stream),
+    format(Stream, "~w;~w;~w;~w~n", [Name, Email, Password, ReadGenres]),
+    close(Stream),
+    write("Usuário cadastrado com sucesso!"), !.
+
