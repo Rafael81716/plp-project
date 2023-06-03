@@ -1,23 +1,25 @@
-:- module(ValidationModule,[isValidEmail/1, isValidPassword/1]).
+:- module(ValidationModule,[isValidEmail/2, isValidPassword/2]).
 :- use_module("../UtilModule.pl").
 
-isValidEmail(Email):-
-    ValidDomainList = ["gmail.com", "hotmail.com", "ccc.ufcg.edu.br", "estudante.ufcg.edu.br", "outlook.com", "yahoo.com"],
-    string_chars(Email, EmailChars),
-    countCharInString(EmailChars, '@', Count),
-    (Count == 1 ->
-        split_string(Email, '@', '', [Username, Domain]),
-        member(Domain, ValidDomainList),
-        string_chars(Username, UsernameChars),
-        length(UsernameChars, Len),
-        Len >= 3
-        ;
-        false),!.
+validDomain("gmail.com"):-!.
+validDomain("hotmail.com"):- !.
+validDomain("ccc.ufcg.edu.br"):- !.
+validDomain("estudante.ufcg.edu.br"):- !.
+validDomain("outlook.com"):- !.
+validDomain("yahoo.com"):- !.
 
-isValidPassword(Password):-
-    string_chars(Password, Chars),
-    length(Chars, Len),
-    Len >= 6.
+
+isValidEmail(Email, Result) :-
+    split_string(Email, "@", "", [_, Domain]),
+    validDomain(Domain),
+    Result = 'valido',!.
+
+isValidEmail(_, Result) :-
+    Result = 'invalido',!.
+
+
+isValidPassword(Password, Result):- string_length(Password, Size), Size < 6, Result = 'invalido',!.
+isValidPassword(Password,Result):- string_length(Password, Size), Size >= 6, Result = 'valido',!.
 
 isValidName(Name) :-
     \+ (atom_chars(Name, Chars), member(Char, Chars), char_type(Char, digit)).
@@ -31,18 +33,3 @@ isValidSize([]).
 isValidSize(L1) :-
     length(L1, Len),
     Len < 10.
-
-%isValidGenre :: String -> Bool
-%isValidGenre genre = do
-%  let genreList = words genre
-%  let validSize = length genreList <= 5
-%  let validChoices = all (\num -> num >= 1 && num <= 7) (map read genreList :: [Int])
-%  validSize && validChoices
-%
-%filterUserList :: String -> [User] -> [User]
-%filterUserList _ [] = []
-%filterUserList em (x : xs) =
-%  if email x == em
-%    then filterUserList em xs
-%    else x : filterUserList em xs
-%
