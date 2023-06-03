@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2]).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -64,7 +64,10 @@ mapGenres([_|T], MappedList) :-
 listToString(List, String) :-
     atomic_list_concat(List, ',', String).
 
-
+toUpperCase(String, StringMaiuscula) :-
+    atom_string(Atom, String),
+    upcase_atom(Atom, AtomMaiusculo),
+    atom_string(AtomMaiusculo, StringMaiuscula).
 
 
 

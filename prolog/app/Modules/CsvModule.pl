@@ -1,4 +1,6 @@
+:- module(CsvModule, [getBooks/1, getUsers/1]).
 :- use_module(library(csv)).
+
 
 ler_csv(Linhas, NameFile) :-
     open(NameFile, read, Arquivo),
