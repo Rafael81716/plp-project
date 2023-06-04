@@ -13,9 +13,10 @@ write("\nDigite seu email: "),
 read(ReadEmail),
 isValidEmail(ReadEmail, EmailResult),
 checkEmailFormat(EmailResult),
-getUsers(Users),
-checkUserRegister(ReadEmail, Users,IsValidEmail),
-checkEmail(IsValidEmail),
+%getUsers(Users),
+%write(Users),
+%checkUserRegister(ReadEmail, Users,IsValidEmail),
+%checkEmail(IsValidEmail),
 
 write("\nDigite sua senha: "),
 read(ReadPassword),
@@ -25,7 +26,7 @@ printGenres(),
 readOptions(Numbers),
 mapGenres(Numbers, ReadGenres),
 listToString(ReadGenres, StringReadGenres),
-addUser('../users.csv', ReadName, ReadEmail, ReadPassword, StringReadGenres),!.
+addUser('../users.csv', ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
 
 printGenres:-
 clearScreen,
