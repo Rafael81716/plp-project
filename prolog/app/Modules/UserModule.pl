@@ -1,12 +1,12 @@
-:- module(UserModule,[registerUser/9, addUser/8,checkUserRegister/3]).
+:- module(UserModule,[registerUser/9, addUser/8,checkUserRegister/3,checkUserPassword/3]).
 :- use_module(library(csv)).
 
 
 readCsv(FilePath, File):- csv_read_file(FilePath,File),!.
 
 addUser(FilePath, Name, Email, Password, ReadGenres, Loans, Favorites, Historic):-
-readCsv(FilePath,File),
-registerUser(FilePath,File,Name, Email, Password, ReadGenres, Loans, Favorites, Historic),!.
+    readCsv(FilePath,File),
+    registerUser(FilePath,File,Name, Email, Password, ReadGenres, Loans, Favorites, Historic),!.
 
 registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites, Historic) :-
     open(FilePath, append, Stream),
@@ -14,7 +14,15 @@ registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites
     close(Stream),
     write("Usuário cadastrado com sucesso!"), halt.
 
-checkUserRegister(_,[],'valido'):- !.
-checkUserRegister(Email,[H|T],Resp):- nth1(2,H,UserEmail), Email == UserEmail, Resp = 'invalido',!.
-checkUserRegister(Email,[H|T],Resp):- nth1(2,H,UserEmail), Email \== UserEmail, checkUserRegister(Email,T,Resp),!.
+checkUserRegister(_,[],['']):-!.
+
+checkUserRegister(ReadEmail, [H|T], [H]):- nth1(2,H, UserEmail), ReadEmail == UserEmail,!.
+
+checkUserRegister(ReadEmail, [H|T], [H1|T1]):- nth1(2,H, UserEmail), ReadEmail \== UserEmail, checkUserRegister(ReadEmail, T,[H1|T1]),!.
+
+checkUserPassword(Password, [H|T], Result):- nth1(3,H, UserPassword), Password == UserPassword,Result = 'valida',!.
+
+checkUserPassword(Password, [H|T], Result):- nth1(3, H, UserPassword), Password \== UserPassword, Result = 'invalida',!.
+
+
 
