@@ -10,16 +10,15 @@ centeredText("Login",40),
 writeln("\nDigite seu email: "),
 read(ReadEmail),
 getUsers(Users),
-write(Users),
 checkUserRegister(ReadEmail, Users,ActualUser),
-write(ActualUser),  
 checkLogin(ActualUser),
 
 writeln("Digite a sua senha: "),
 read(ReadPassword),
 checkUserPassword(ReadPassword, ActualUser, IsValidPassword),
 checkPassword2(IsValidPassword),
-printUserMenu(ActualUser),!.
+nth0(0, ActualUser, User),
+printUserMenu(User),!.
 
 registerUserMenu :-
 centeredText("Cadastre-se",40),
@@ -43,7 +42,7 @@ printGenres(),
 readOptions(Numbers),
 mapGenres(Numbers, ReadGenres),
 listToString(ReadGenres, StringReadGenres),
-addUser('../users.csv', ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
+addUser('./Data/users.csv', ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
 
 printGenres:-
 clearScreen,
