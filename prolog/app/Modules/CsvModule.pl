@@ -4,11 +4,11 @@
 
 
 getUsers(Users) :- 
-ler_arquivo_csv('../users.csv', DadosT), 
+ler_arquivo_csv('./Data/users.csv', DadosT), 
 len(DadosT, R),
 atualizaUsers(DadosT, R, 1, Users).
 
-getBooks(X) :- ler_arquivo_csv('../Data/books.csv', X).
+getBooks(X) :- ler_arquivo_csv('./Data/books.csv', X).
 
 ler_arquivo_csv(NomeArquivo, Dados) :-
     open(NomeArquivo, read, Arquivo),
