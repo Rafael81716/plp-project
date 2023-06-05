@@ -19,9 +19,9 @@ checkUserRegister(Email,[H|T],Resp, H):- nth1(2,H,UserEmail), Email == UserEmail
 
 checkUserRegister(Email,[H|T],Resp, [H1|T1]):- nth1(2,H,UserEmail), Email \== UserEmail, checkUserRegister(Email,T,Resp,[H1|T1]),!.
 
-checkUserPassword(Password, [H|T], Result):- nth1(3,[H|T], UserPassword), Password == UserPassword, write('valida') ,Result = 'valida',!.
+checkUserPassword(Password, [H|T], Result):- nth1(3,[H|T], UserPassword), Password == UserPassword, Result = 'valida',!.
 
-checkUserPassword(Password, [H|T], Result):- nth1(3,[H|T], UserPassword), Password \== UserPassword, write('invalida'), Result = 'invalida',!.
+checkUserPassword(Password, [H|T], Result):- nth1(3,[H|T], UserPassword), Password \== UserPassword, Result = 'invalida',!.
 
 
 

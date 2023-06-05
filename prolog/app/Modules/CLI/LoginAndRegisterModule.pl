@@ -12,8 +12,8 @@ Users = ['gabriel','gabriel@gmail.com',456456,['Ficcao','Fantasia'],[],[],[]],
 
 write("Digite a sua senha: "),
 read(ReadPassword),
-checkUserPassword(ReadPassword, Users, isValidPassword),
-checkPassword2(isValidPassword),
+checkUserPassword(ReadPassword, Users, IsValidPassword),
+checkPassword2(IsValidPassword),
 write("foi"),!.
 
 
