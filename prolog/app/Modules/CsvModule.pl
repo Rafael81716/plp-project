@@ -1,8 +1,17 @@
+
+:- module(CsvModule,[getUsers/1,getBooks/1, ler_arquivo_csv/2, row_to_list/2, rows_to_lists/2,nth/3,convertCsvStringGenresToList/4,string_to_list/2,atualizar_posicao/4,len/2]).
 :- use_module(library(csv)).
 
 
+
+ler_csv(Linhas, NameFile) :-
+    open(NameFile, read, Arquivo),
+    csv_read_file(NameFile, Linhas, []),
+    close(Arquivo).
+
+
 getUsers(Users) :- 
-ler_arquivo_csv('users.csv', DadosT), 
+ler_arquivo_csv('../users.csv', DadosT), 
 len(DadosT, R),
 atualizaUsers(DadosT, R, 1, Users).
 
@@ -28,8 +37,11 @@ nth(N, [_|T], X) :-
     N1 is N - 1,
     nth(N1, T, X).
 
-atualizaUsers(Users, R, C, Users) :- C > R,!.
-atualizaUsers(Users, R, C, Retorno) :-
+
+
+convertCsvStringGenresToList(Users, R, C, Users) :- C > R,!.
+convertCsvStringGenresToList(Users, R, C, Retorno) :-
+
 nth(C, Users, Usuario),
 nth(4, Usuario, Genres),
 nth(5, Usuario, Loans),
@@ -66,3 +78,4 @@ atualizar_posicao(Posicao, NovoElemento, [H|T], [H|Resto]) :-
 
 len([],0).
 len([_|T],R) :- len(T,R2), R is R2 + 1.
+

@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2]).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -10,37 +10,37 @@ centeredText(Text, Width) :-
     write(Text),
     write_spaces(Line1SpacesAfter),
     nl,
-    write_dashed_line(Width).
+    write_dashed_line(Width),!.
 
 write_dashed_line(Width) :-
     Width > 0,
     write('-'),
     Width1 is Width - 1,
-    write_dashed_line(Width1).
-write_dashed_line(0).
+    write_dashed_line(Width1),!.
+write_dashed_line(0):-!.
 
 write_spaces(N) :-
     N > 0,
     write(' '),
     N1 is N - 1,
-    write_spaces(N1).
-write_spaces(0).
+    write_spaces(N1),!.
+write_spaces(0):-!.
 
 
 clearScreen :-
     current_prolog_flag(windows, true), !,
-    shell('cls').
+    shell('cls'),!.
 
 clearScreen :-
     current_prolog_flag(unix, true), !,
-    shell('clear').
+    shell('clear'),!.
 
 
 readOptions([Number| Rest]) :-
     read(Number),
     Number \= -1,
     readOptions(Rest), !.
-readOptions([]).
+readOptions([]):-!.
 
 
 mapGenres([], []):-!.
@@ -62,9 +62,12 @@ mapGenres([_|T], MappedList) :-
     mapGenres(T, MappedList).
 
 listToString(List, String) :-
-    atomic_list_concat(List, ',', String).
+    atomic_list_concat(List, ',', String),!.
 
-
+toUpperCase(String, StringMaiuscula) :-
+    atom_string(Atom, String),
+    upcase_atom(Atom, AtomMaiusculo),
+    atom_string(AtomMaiusculo, StringMaiuscula).
 
 
 
