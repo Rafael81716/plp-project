@@ -7,7 +7,7 @@
 
 loginMenu :-
 centeredText("Login",40),
-write("\nDigite seu email: "),
+writeln("\nDigite seu email: "),
 read(ReadEmail),
 getUsers(Users),
 write(Users),
@@ -15,7 +15,7 @@ checkUserRegister(ReadEmail, Users,ActualUser),
 write(ActualUser),  
 checkLogin(ActualUser),
 
-write("Digite a sua senha: "),
+writeln("Digite a sua senha: "),
 read(ReadPassword),
 checkUserPassword(ReadPassword, ActualUser, IsValidPassword),
 checkPassword2(IsValidPassword),
@@ -23,10 +23,10 @@ printUserMenu(ActualUser),!.
 
 registerUserMenu :-
 centeredText("Cadastre-se",40),
-write("\nDigite seu nome: "),
+writeln("\nDigite seu nome: "),
 read(ReadName),
 
-write("\nDigite seu email: "),
+writeln("\nDigite seu email: "),
 read(ReadEmail),
 isValidEmail(ReadEmail, EmailResult),
 checkEmailFormat(EmailResult),
@@ -35,7 +35,7 @@ getUsers(Users),
 checkUserRegister(ReadEmail, Users,ListUser),
 checkEmail(ListUser),
 
-write("\nDigite sua senha: "),
+writeln("\nDigite sua senha: "),
 read(ReadPassword),
 isValidPassword(ReadPassword,PasswordResult),
 checkPassword(PasswordResult),
