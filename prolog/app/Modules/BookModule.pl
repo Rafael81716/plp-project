@@ -1,4 +1,4 @@
-:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre, getBooksByAuthor/2]).
+:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
