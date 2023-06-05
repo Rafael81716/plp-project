@@ -3,7 +3,7 @@
 
 
 getUsers(Users) :- 
-ler_arquivo_csv('users.csv', DadosT), 
+ler_arquivo_csv('../users.csv', DadosT), 
 len(DadosT, R),
 atualizaUsers(DadosT, R, 1, Users).
 
