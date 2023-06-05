@@ -67,7 +67,7 @@ listToString(List, String) :-
 toUpperCase(String, StringMaiuscula) :-
     atom_string(Atom, String),
     upcase_atom(Atom, AtomMaiusculo),
-    atom_string(AtomMaiusculo, StringMaiuscula).
+    atom_string(AtomMaiusculo, StringMaiuscula),!.
 
 
 

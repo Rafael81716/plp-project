@@ -1,11 +1,25 @@
-:- module(LoginAndRegisterModule,[registerUserMenu/0, printGenres/0, checkEmail/1]).
+:- module(LoginAndRegisterModule,[registerUserMenu/0, printGenres/0, checkEmail/1, loginMenu/0]).
 :- use_module('../UserModule.pl').
 :- use_module('../UtilModule.pl').
 :- use_module('../CsvModule.pl').
 :- use_module('../ValidInput/Validation.pl').
 
+loginMenu :-
+centeredText("Login",40),
+write("\nDigite seu email: "),
+read(ReadEmail),
+Users = ['gabriel','gabriel@gmail.com',456456,['Ficcao','Fantasia'],[],[],[]],
+
+write("Digite a sua senha: "),
+read(ReadPassword),
+checkUserPassword(ReadPassword, Users, isValidPassword),
+checkPassword2(isValidPassword),
+write("foi"),!.
+
+
+
 registerUserMenu :-
-centeredText("Cadastre-se",40),
+%centeredText("Cadastre-se",40),
 write("\nDigite seu nome: "),
 read(ReadName),
 
@@ -35,13 +49,22 @@ write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ord
 
 
 checkEmail('invalido'):- clearScreen,write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
+
 checkEmail('valido'):- !.
 
 checkEmailFormat('invalido'):- clearScreen,write("Este email nao e valido!\nEscolha outro:\n"), registerUserMenu,!.
+
 checkEmailFormat('valido'):- !.
 
 checkPassword('invalido'):-  clearScreen ,write("A senha tem que conter no minimo 6 digitos!\nDigite novamente: \n"), registerUserMenu,!.
+
 checkPassword('valido'):- !.
+
+checkPassword2('invalida'):- clearScreen, writeln("Senha incorreta!\nInsira seus dados novamente: \n"), loginMenu,!.
+
+checkPassword2('valida'):- !.
+
+
 
 
 
