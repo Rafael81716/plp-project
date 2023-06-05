@@ -31,10 +31,12 @@ write("\nDigite seu email: "),
 read(ReadEmail),
 isValidEmail(ReadEmail, EmailResult),
 checkEmailFormat(EmailResult),
+
 %getUsers(Users),
 %write(Users),
 %checkUserRegister(ReadEmail, Users,ListUser),
 %checkEmail(ListUser),
+
 
 write("\nDigite sua senha: "),
 read(ReadPassword),

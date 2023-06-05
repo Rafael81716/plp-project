@@ -1,19 +1,11 @@
-
-:- module(CsvModule,[getUsers/1,getBooks/1, ler_arquivo_csv/2, row_to_list/2, rows_to_lists/2,nth/3,convertCsvStringGenresToList/4,string_to_list/2,atualizar_posicao/4,len/2]).
+:- module(CsvModule,[getUsers/1,getBooks/1, ler_arquivo_csv/2, row_to_list/2, rows_to_lists/2,nth/3,string_to_list/2,atualizar_posicao/4,len/2,atualizaUsers/4]).
 :- use_module(library(csv)).
-
-
-
-ler_csv(Linhas, NameFile) :-
-    open(NameFile, read, Arquivo),
-    csv_read_file(NameFile, Linhas, []),
-    close(Arquivo).
 
 
 getUsers(Users) :- 
 ler_arquivo_csv('../users.csv', DadosT), 
 len(DadosT, R),
-convertCsvStringGenresToList(DadosT, R, 1, Users).
+atualizaUsers(DadosT, R, 1, Users).
 
 getBooks(X) :- ler_arquivo_csv('books.csv', X).
 
@@ -37,25 +29,35 @@ nth(N, [_|T], X) :-
     N1 is N - 1,
     nth(N1, T, X).
 
-
-convertCsvStringGenresToList(Users, R, C, Users) :- C > R,!.
-convertCsvStringGenresToList(Users, R, C, Retorno) :-
+atualizaUsers(Users, R, C, Users) :- C > R,!.
+atualizaUsers(Users, R, C, Retorno) :-
 nth(C, Users, Usuario),
 nth(4, Usuario, Genres),
+nth(5, Usuario, Loans),
+nth(6, Usuario, Favorites),
+nth(7, Usuario, Historic),
 string_to_list(Genres, ListGenres),
-atualizar_posicao(3, ListGenres, Usuario, Usuarioatt),
+string_to_list(Loans, ListLoans),
+string_to_list(Favorites, ListFavorites),
+string_to_list(Historic, ListHistoric),
+atualizar_posicao(3, ListGenres, Usuario, Usuarioatt1),
+atualizar_posicao(4, ListLoans, Usuarioatt1, Usuarioatt2),
+atualizar_posicao(5, ListFavorites, Usuarioatt2, Usuarioatt3),
+atualizar_posicao(6, ListHistoric, Usuarioatt3, Usuarioatt4),
 Index is C - 1,
-atualizar_posicao(Index, Usuarioatt, Users, Usersatt),
+atualizar_posicao(Index, Usuarioatt4, Users, Usersatt),
 C2 is C + 1,
-convertCsvStringGenresToList(Usersatt, R, C2, Retorno).
+atualizaUsers(Usersatt, R, C2, Retorno).
 
 
-string_to_list(String, Lista) :-
-    atomic_list_concat(Substrings, ', ', String),
-    maplist(atom_string, Lista, Substrings).
+string_to_list('[]', []).
+string_to_list(String, Lista) :- %converte '[Fantasia, Terror]' para ['Fantasia', 'Terror'].
+    string_concat('[', Substring, String), 
+    string_concat(ElementosString, ']', Substring),
+    atomic_list_concat(Elementos, ', ', ElementosString),
+    maplist(atom_string, Lista, Elementos).
 
-
-atualizar_posicao(_, _, [], []). %troca um elemento do array por outro
+atualizar_posicao(_, _, [], []).
 atualizar_posicao(0, NovoElemento, [_|T], [NovoElemento|T]).
 atualizar_posicao(Posicao, NovoElemento, [H|T], [H|Resto]) :-
     Posicao > 0,
@@ -64,4 +66,3 @@ atualizar_posicao(Posicao, NovoElemento, [H|T], [H|Resto]) :-
 
 len([],0).
 len([_|T],R) :- len(T,R2), R is R2 + 1.
-
