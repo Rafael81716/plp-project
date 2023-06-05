@@ -70,7 +70,6 @@ main.
 ## 💻 Organização do Terminal
 Ao iniciar o sistema, o usuário verá a opção de cadastrar ou logar com um usuário. Caso ele não esteja cadastrado, ele precisará realizar o cadastro fornecendo nome, email, senha e até cinco gêneros de livros em ordem de preferência. O email será validado e o sistema não permitirá o cadastro de usuários com o mesmo email.
 
-<a href="https://cdn.discordapp.com/attachments/873188956928348250/1106352205012926464/5832416.png"><img alt="book" height="200" width="200" border="0" align="right" background-color="transparent" src="https://cdn.discordapp.com/attachments/873188956928348250/1106352205012926464/5832416.png"></a>
 
 Caso o usuário já esteja cadastrado, ele verá as seguintes opções disponíveis:
 - Realizar empréstimo
