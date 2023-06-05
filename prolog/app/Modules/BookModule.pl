@@ -23,6 +23,31 @@ getBooksByGenre(Genre, Book) :-
     length(Books, Len), 
     getBooksByGenreAux(Books, 0, Len, Genre, [], Book).
 
+printAllBooks :-
+    getAllBooks(Books),
+    printBooks(Books).
+
+printBooks([]):-halt.
+printBooks([Head|Tail]) :- 
+    nth0(0, Head, Id),
+    nth0(1, Head, Name),
+    nth0(2, Head, Author),
+    nth0(3, Head, Genre),
+    nth0(4, Head, Link),
+    nth0(5, Head, Description),
+    write(Id),
+    write(" - "),
+    write(Name),
+    write(" - "),
+    write(Author),
+    write(" - "),
+    write(Genre),
+    write(" - "),
+    write(Link),
+    write(" - "),
+    write(Description),
+    writeln("\n"),
+    printBooks(Tail).
 
 getBooksByAuthorAux(Array, Cont, Len, Author, Books, Books):-
     Cont =:= Len, !.
@@ -67,5 +92,4 @@ getBooksByGenreAux(Array, Cont, Len, Genre, Books, Resposta):-
     NameGenreUpper \= GenreUpper,
     Cont2 is Cont + 1,
     getBooksByGenreAux(Array, Cont2, Len, Genre, Books, Resposta).
-    
     
