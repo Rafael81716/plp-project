@@ -1,4 +1,4 @@
-:- module(BookModule, [main/0, getBookById/2, getBookByName/2, getBooksByGenre, getBooksByAuthor/2]).
+:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre, getBooksByAuthor/2]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
@@ -48,10 +48,6 @@ printBooks([Head|Tail]) :-
     write(Description),
     writeln("\n"),
     printBooks(Tail).
-
-main:-
-    printAllBooks.
-
 
 getBooksByAuthorAux(Array, Cont, Len, Author, Books, Books):-
     Cont =:= Len, !.
