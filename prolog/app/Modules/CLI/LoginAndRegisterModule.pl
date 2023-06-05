@@ -8,11 +8,13 @@ loginMenu :-
 centeredText("Login",40),
 write("\nDigite seu email: "),
 read(ReadEmail),
-Users = ['gabriel','gabriel@gmail.com',456456,['Ficcao','Fantasia'],[],[],[]],
+Users = [['gabriel','gabriel@gmail.com',456456,['Ficcao','Fantasia'],[],[],[]],['rafa','rafa@gmail.com',123456,['Ficcao'],[],[],[]] ],
+checkUserRegister(ReadEmail, Users, IsValidEmail, ActualUser),
+write(ActualUser),
 
 write("Digite a sua senha: "),
 read(ReadPassword),
-checkUserPassword(ReadPassword, Users, IsValidPassword),
+checkUserPassword(ReadPassword, ActualUser, IsValidPassword),
 checkPassword2(IsValidPassword),
 write("foi"),!.
 

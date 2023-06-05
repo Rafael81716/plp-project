@@ -14,7 +14,8 @@ registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites
     close(Stream),
     write("Usuário cadastrado com sucesso!"), halt.
 
-checkUserRegister(_,[],'valido', []):- !.
+checkUserRegister(_,[],'valido', []):- write('nao tem'), !.
+
 checkUserRegister(Email,[H|T],Resp, H):- nth1(2,H,UserEmail), Email == UserEmail, Resp = 'invalido',!.
 
 checkUserRegister(Email,[H|T],Resp, [H1|T1]):- nth1(2,H,UserEmail), Email \== UserEmail, checkUserRegister(Email,T,Resp,[H1|T1]),!.
