@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/9, addUser/8,checkUserRegister/4,checkUserPassword/3]).
+:- module(UserModule,[registerUser/9, addUser/8,checkUserRegister/3,checkUserPassword/3]).
 :- use_module(library(csv)).
 
 
@@ -14,15 +14,15 @@ registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites
     close(Stream),
     write("Usuário cadastrado com sucesso!"), halt.
 
-checkUserRegister(_,[],'valido', []):- write('nao tem'), !.
+checkUserRegister(_,[],['']):-!.
 
-checkUserRegister(Email,[H|T],Resp, H):- nth1(2,H,UserEmail), Email == UserEmail, Resp = 'invalido',!.
+checkUserRegister(ReadEmail, [H|T], [H]):- nth1(2,H, UserEmail), ReadEmail == UserEmail,!.
 
-checkUserRegister(Email,[H|T],Resp, [H1|T1]):- nth1(2,H,UserEmail), Email \== UserEmail, checkUserRegister(Email,T,Resp,[H1|T1]),!.
+checkUserRegister(ReadEmail, [H|T], [H1|T1]):- nth1(2,H, UserEmail), ReadEmail \== UserEmail, checkUserRegister(ReadEmail, T,[H1|T1]),!.
 
-checkUserPassword(Password, [H|T], Result):- nth1(3,[H|T], UserPassword), Password == UserPassword, Result = 'valida',!.
+checkUserPassword(Password, [H|T], Result):- nth1(3,H, UserPassword), Password == UserPassword,Result = 'valida',!.
 
-checkUserPassword(Password, [H|T], Result):- nth1(3,[H|T], UserPassword), Password \== UserPassword, Result = 'invalida',!.
+checkUserPassword(Password, [H|T], Result):- nth1(3, H, UserPassword), Password \== UserPassword, Result = 'invalida',!.
 
 
 

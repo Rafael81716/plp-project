@@ -1,15 +1,16 @@
 :- module(MainMenuModule,[printMainMenu/0, readMainMenu/2,printUserMenu/1,readUserMenu/2]).
 :- use_module("../UtilModule.pl").
+:- use_module("LoginAndRegisterModule.pl").
 
 printMainMenu:-
 centeredText("Inicio",40),
 write("\n1 - Entrar\n2 - Cadastrar\nEscolha uma opcao: "),
 read(Option),
-readMainMenu(Option,R),
+readMainMenu(Option),
 write(R).
 
-readMainMenu(Option,"todo login"):- Option =:= 1,!.
-readMainMenu(Option,"todo register"):- Option =:= 2,!.
+readMainMenu(Option):- Option =:= 1, loginMenu, !.
+readMainMenu(Option):- Option =:= 2, registerUserMenu,!.
 readMainMenu(_,R):- clearScreen,write("Opcao invalida, digite novamente!\n"), printMainMenu.
 
 printUserMenu(User):- 

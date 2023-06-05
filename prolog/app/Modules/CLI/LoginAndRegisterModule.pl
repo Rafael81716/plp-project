@@ -3,25 +3,27 @@
 :- use_module('../UtilModule.pl').
 :- use_module('../CsvModule.pl').
 :- use_module('../ValidInput/Validation.pl').
+:- use_module('MainMenu.pl').
 
 loginMenu :-
 centeredText("Login",40),
 write("\nDigite seu email: "),
 read(ReadEmail),
 Users = [['gabriel','gabriel@gmail.com',456456,['Ficcao','Fantasia'],[],[],[]],['rafa','rafa@gmail.com',123456,['Ficcao'],[],[],[]] ],
-checkUserRegister(ReadEmail, Users, IsValidEmail, ActualUser),
-write(ActualUser),
+
+checkUserRegister(ReadEmail, Users,ActualUser),
+write(ActualUser),  
+checkLogin(ActualUser),
 
 write("Digite a sua senha: "),
 read(ReadPassword),
 checkUserPassword(ReadPassword, ActualUser, IsValidPassword),
+write(IsValidPassword),
 checkPassword2(IsValidPassword),
-write("foi"),!.
-
-
+printUserMenu(ActualUser),!.
 
 registerUserMenu :-
-%centeredText("Cadastre-se",40),
+centeredText("Cadastre-se",40),
 write("\nDigite seu nome: "),
 read(ReadName),
 
@@ -31,8 +33,8 @@ isValidEmail(ReadEmail, EmailResult),
 checkEmailFormat(EmailResult),
 %getUsers(Users),
 %write(Users),
-%checkUserRegister(ReadEmail, Users,IsValidEmail),
-%checkEmail(IsValidEmail),
+%checkUserRegister(ReadEmail, Users,ListUser),
+%checkEmail(ListUser),
 
 write("\nDigite sua senha: "),
 read(ReadPassword),
@@ -50,9 +52,9 @@ centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e digite -1 para finzalizar a digitação:\n1 - Ficcao\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.
 
 
-checkEmail('invalido'):- clearScreen,write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
+checkEmail([a]):- clearScreen,write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
 
-checkEmail('valido'):- !.
+checkEmail(['']):- !.
 
 checkEmailFormat('invalido'):- clearScreen,write("Este email nao e valido!\nEscolha outro:\n"), registerUserMenu,!.
 
@@ -62,9 +64,12 @@ checkPassword('invalido'):-  clearScreen ,write("A senha tem que conter no minim
 
 checkPassword('valido'):- !.
 
-checkPassword2('invalida'):- clearScreen, writeln("Senha incorreta!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkPassword2('invalida'):- clearScreen, write("Senha incorreta!\nInsira seus dados novamente: \n"), loginMenu,!.
 
 checkPassword2('valida'):- !.
+
+checkLogin(['']):- clearScreen, write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkLogin(_):- !.
 
 
 
