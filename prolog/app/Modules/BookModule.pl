@@ -1,4 +1,4 @@
-:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre, getBooksByAuthor/2]).
+:- module(BookModule, [main/0, getBookById/2, getBookByName/2, getBooksByGenre, getBooksByAuthor/2]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
@@ -22,6 +22,35 @@ getBooksByGenre(Genre, Book) :-
     getAllBooks(Books), 
     length(Books, Len), 
     getBooksByGenreAux(Books, 0, Len, Genre, [], Book).
+
+printAllBooks :-
+    getAllBooks(Books),
+    printBooks(Books).
+
+printBooks([]):-halt.
+printBooks([Head|Tail]) :- 
+    nth0(0, Head, Id),
+    nth0(1, Head, Name),
+    nth0(2, Head, Author),
+    nth0(3, Head, Genre),
+    nth0(4, Head, Link),
+    nth0(5, Head, Description),
+    write(Id),
+    write(" - "),
+    write(Name),
+    write(" - "),
+    write(Author),
+    write(" - "),
+    write(Genre),
+    write(" - "),
+    write(Link),
+    write(" - "),
+    write(Description),
+    writeln("\n"),
+    printBooks(Tail).
+
+main:-
+    printAllBooks.
 
 
 getBooksByAuthorAux(Array, Cont, Len, Author, Books, Books):-
@@ -67,5 +96,4 @@ getBooksByGenreAux(Array, Cont, Len, Genre, Books, Resposta):-
     NameGenreUpper \= GenreUpper,
     Cont2 is Cont + 1,
     getBooksByGenreAux(Array, Cont2, Len, Genre, Books, Resposta).
-    
     
