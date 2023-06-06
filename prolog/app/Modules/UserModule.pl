@@ -46,7 +46,6 @@ addAllUsers(NewUsers).
 
 attUserAtribute(User, NewAtribute, AtributePos) :-
 atualizar_posicao(AtributePos, NewAtribute, User, Useratt),
-writeln(Useratt),
 attUser(User, Useratt).
 
 erase_csv_data(FilePath) :-
