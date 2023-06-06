@@ -42,7 +42,7 @@ printGenres(),
 readOptions(Numbers),
 mapGenres(Numbers, ReadGenres),
 listToString(ReadGenres, StringReadGenres),
-addUser('./Data/users.csv', ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
+addUser(ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
 
 printGenres:-
 clearScreen,

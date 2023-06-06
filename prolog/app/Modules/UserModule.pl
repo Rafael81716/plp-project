@@ -1,11 +1,14 @@
-:- module(UserModule,[registerUser/9, addUser/8,checkUserRegister/3,checkUserPassword/3]).
+:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
+:- use_module('../Data/Data.pl').
 
 readCsv(FilePath, File):- csv_read_file(FilePath,File),!.
 
-addUser(FilePath, Name, Email, Password, ReadGenres, Loans, Favorites, Historic):-
+addUser(Name, Email, Password, ReadGenres, Loans, Favorites, Historic):-
+    caminhar_ate_diretorio_atual(Diretorio),
+    string_concat(Diretorio, '/users.csv', FilePath),
     readCsv(FilePath,File),
     registerUser(FilePath,File,Name, Email, Password, ReadGenres, Loans, Favorites, Historic),!.
 
@@ -39,9 +42,13 @@ getPosUser([A|AS], Email, Count, Pos) :- nth(2, A, EmailUser), Email == EmailUse
 getPosUser([A|AS], Email, Count, Pos) :- nth(2, A, EmailUser), Email \= EmailUser, P2 is Count + 1, getPosUser(AS, Email, P2, Pos).
 
 addAllUsers([A]) :- nth(1,A,Name), nth(2,A,Email), nth(3,A,Password), nth(4,A,ReadGenres), nth(5,A,Loans), nth(6,A,Favorites), nth(7,A,Historic),
-registerUser2('users.csv', Name, Email, Password, ReadGenres, Loans, Favorites, Historic).
+caminhar_ate_diretorio_atual(Diretorio),
+string_concat(Diretorio, '/users.csv', Path),
+registerUser2(Path, Name, Email, Password, ReadGenres, Loans, Favorites, Historic).
 addAllUsers([A|AS]) :- nth(1,A,Name), nth(2,A,Email), nth(3,A,Password), nth(4,A,ReadGenres), nth(5,A,Loans), nth(6,A,Favorites), nth(7,A,Historic),
-registerUser2('users.csv', Name, Email, Password, ReadGenres, Loans, Favorites, Historic), addAllUsers(AS).
+caminhar_ate_diretorio_atual(Diretorio),
+string_concat(Diretorio, '/users.csv', Path),
+registerUser2(Path, Name, Email, Password, ReadGenres, Loans, Favorites, Historic), addAllUsers(AS).
 
 attUser(User, NewUser) :-
 getUsers(Users),
@@ -49,7 +56,9 @@ nth(2, User, UserEmail),
 getPosUser(Users, UserEmail, 0, Pos),
 atualizar_posicao(Pos, NewUser, Users, NewUsers),
 writeln(NewUsers),
-erase_csv_data('users.csv'),
+caminhar_ate_diretorio_atual(Diretorio),
+string_concat(Diretorio, '/users.csv', Path),
+erase_csv_data(Path),
 addAllUsers(NewUsers).
 
 attUserAtribute(User, NewAtribute, AtributePos) :-

@@ -1,14 +1,17 @@
 :- module(CsvModule,[getUsers/1,getBooks/1, ler_arquivo_csv/2, row_to_list/2, rows_to_lists/2,nth/3,string_to_list/2,atualizar_posicao/4,len/2,atualizaUsers/4]).
 
 :- use_module(library(csv)).
-
+:- use_module('../Data/Data.pl').
 
 getUsers(Users) :- 
-ler_arquivo_csv('./Data/users.csv', DadosT), 
+caminhar_ate_diretorio_atual(Diretorio),
+string_concat(Diretorio, '/users.csv', Path),
+ler_arquivo_csv(Path, DadosT), 
 len(DadosT, R),
 atualizaUsers(DadosT, R, 1, Users).
 
-getBooks(X) :- ler_arquivo_csv('./Data/books.csv', X).
+getBooks(X) :- caminhar_ate_diretorio_atual(Diretorio),
+string_concat(Diretorio, '/books.csv', Path), ler_arquivo_csv(Path, X).
 
 ler_arquivo_csv(NomeArquivo, Dados) :-
     open(NomeArquivo, read, Arquivo),
