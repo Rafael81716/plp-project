@@ -1,4 +1,4 @@
-:- module(ValidationModule,[isValidEmail/2, isValidPassword/2]).
+:- module(ValidationModule,[isValidEmail/2, isValidPassword/2, isValidSize/2]).
 :- use_module("../UtilModule.pl").
 
 validDomain("gmail.com"):-!.
@@ -22,14 +22,16 @@ isValidPassword(Password, Result):- string_length(Password, Size), Size < 6, Res
 isValidPassword(Password,Result):- string_length(Password, Size), Size >= 6, Result = 'valido',!.
 
 isValidName(Name) :-
-    \+ (atom_chars(Name, Chars), member(Char, Chars), char_type(Char, digit)).
+    \+ (atom_chars(Name, Chars), member(Char, Chars), char_type(Char, digit)),!.
 
 isValidIndex(_, []).
 isValidIndex(N, [X|Xs]) :-
     N \= X,
-    isValidIndex(N, Xs).
+    isValidIndex(N, Xs),!.
 
-isValidSize([]).
-isValidSize(L1) :-
-    length(L1, Len),
-    Len < 10.
+
+isValidSize(L, R) :-
+length(L, Size),
+Size =< 9,  R = 'valido',!.
+
+isValidSize(_, R):- R = 'invalido',!.

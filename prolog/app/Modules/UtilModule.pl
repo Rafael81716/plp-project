@@ -45,21 +45,21 @@ readOptions([]):-!.
 
 mapGenres([], []):-!.
 mapGenres([1|T], ['Ficcao'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([2|T], ['Fantasia'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([3|T], ['Infantil'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([4|T], ['Misterio'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([5|T], ['Historia'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([6|T], ['Aventura'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([7|T], ['Romance'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([_|T], MappedList) :-
-    mapGenres(T, MappedList).
+    mapGenres(T, MappedList),!.
 
 listToString(List, String) :-
     atomic_list_concat(List, ',', String),!.
@@ -68,13 +68,5 @@ toUpperCase(String, StringMaiuscula) :-
     atom_string(Atom, String),
     upcase_atom(Atom, AtomMaiusculo),
     atom_string(AtomMaiusculo, StringMaiuscula),!.
-
-
-
-
-
-
-
-
 
 
