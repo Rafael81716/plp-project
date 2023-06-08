@@ -3,4 +3,4 @@
 
 caminhar_ate_diretorio_atual(Diretorio) :-
     source_file(Predicado, Arquivo),
-    file_directory_name(Arquivo, Diretorio).
+    file_directory_name(Arquivo, Diretorio),!.

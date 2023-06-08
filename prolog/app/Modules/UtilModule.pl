@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, split_string/3]).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -45,21 +45,21 @@ readOptions([]):-!.
 
 mapGenres([], []):-!.
 mapGenres([1|T], ['Ficcao'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([2|T], ['Fantasia'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([3|T], ['Infantil'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([4|T], ['Misterio'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([5|T], ['Historia'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([6|T], ['Aventura'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([7|T], ['Romance'|MappedTail]) :-
-    mapGenres(T, MappedTail).
+    mapGenres(T, MappedTail),!.
 mapGenres([_|T], MappedList) :-
-    mapGenres(T, MappedList).
+    mapGenres(T, MappedList),!.
 
 listToString(List, String) :-
     atomic_list_concat(List, ',', String),!.
@@ -69,6 +69,22 @@ toUpperCase(String, StringMaiuscula) :-
     upcase_atom(Atom, AtomMaiusculo),
     atom_string(AtomMaiusculo, StringMaiuscula),!.
 
+
+split_string(String, Delimitador, Partes) :-
+    split_string(String, Delimitador, "", Partes).
+
+split_string("", _, "", []).
+split_string(String, Delimitador, Acumulador, [Parte|Partes]) :-
+    sub_string(String, Antes, Tamanho, Depois, Delimitador),
+    sub_string(String, 0, Antes, _, Parte),
+    NovaPosicao is Antes + Tamanho,
+    sub_string(String, NovaPosicao, Depois, _, Restante),
+    atom_string(Ac, Acumulador),
+    string_concat(Ac, Parte, NovoAcumulador),
+    string_concat(NovoAcumulador, Delimitador, AcumuladorComDelimitador),
+    string_concat(AcumuladorComDelimitador, Restante, NovoAc),
+    atom_string(NovoAc, NovoAcumulador),
+    split_string(NovoAc, Delimitador, Partes).
 
 
 
