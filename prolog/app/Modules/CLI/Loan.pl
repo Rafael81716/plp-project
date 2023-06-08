@@ -30,8 +30,7 @@ write("\n Informe um autor para pesquisa: \n"),
 read(Author),
 getBooksByAuthor(Author, Books),
 checkAuthor(User ,Books),
-printBooks(Books),
-write('foi'),!.
+printBooks(Books),!.
 
 
 printMakeLoanByTitle(User):-
