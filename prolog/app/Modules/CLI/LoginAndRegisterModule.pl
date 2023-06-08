@@ -45,16 +45,16 @@ listToString(ReadGenres, StringReadGenres),
 addUser(ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
 
 printGenres:-
-clearScreen,
+
 centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e digite -1 para finzalizar a digitação:\n1 - Ficcao\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.
 
 
-checkEmail([_]):- clearScreen,write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
+checkEmail([_]):- write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
 
 checkEmail([]):- !.
 
-checkEmailFormat('invalido'):- clearScreen,write("Este email nao e valido!\nEscolha outro:\n"), registerUserMenu,!.
+checkEmailFormat('invalido'):- write("Este email nao e valido!\nEscolha outro:\n"), registerUserMenu,!.
 
 checkEmailFormat('valido'):- !.
 
@@ -62,11 +62,11 @@ checkPassword('invalido'):-  clearScreen ,write("A senha tem que conter no minim
 
 checkPassword('valido'):- !.
 
-checkPassword2('invalida'):- clearScreen, write("Senha incorreta!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkPassword2('invalida'):-  write("Senha incorreta!\nInsira seus dados novamente: \n"), loginMenu,!.
 
 checkPassword2('valida'):- !.
 
-checkLogin([]):- clearScreen, write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkLogin([]):-  write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
 checkLogin([_]):- !.
 
 
