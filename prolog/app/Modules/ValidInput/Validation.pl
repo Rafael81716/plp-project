@@ -32,6 +32,6 @@ isValidIndex(N, [X|Xs]) :-
 
 isValidSize(L, R) :-
 length(L, Size),
-Size =< 10,  R = 'valido',!.
+Size =< 9,  R = 'valido',!.
 
 isValidSize(_, R):- R = 'invalido',!.

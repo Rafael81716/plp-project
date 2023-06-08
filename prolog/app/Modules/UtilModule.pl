@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, split_string/3]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2]).
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -68,29 +68,5 @@ toUpperCase(String, StringMaiuscula) :-
     atom_string(Atom, String),
     upcase_atom(Atom, AtomMaiusculo),
     atom_string(AtomMaiusculo, StringMaiuscula),!.
-
-
-split_string(String, Delimitador, Partes) :-
-    split_string(String, Delimitador, "", Partes).
-
-split_string("", _, "", []).
-split_string(String, Delimitador, Acumulador, [Parte|Partes]) :-
-    sub_string(String, Antes, Tamanho, Depois, Delimitador),
-    sub_string(String, 0, Antes, _, Parte),
-    NovaPosicao is Antes + Tamanho,
-    sub_string(String, NovaPosicao, Depois, _, Restante),
-    atom_string(Ac, Acumulador),
-    string_concat(Ac, Parte, NovoAcumulador),
-    string_concat(NovoAcumulador, Delimitador, AcumuladorComDelimitador),
-    string_concat(AcumuladorComDelimitador, Restante, NovoAc),
-    atom_string(NovoAc, NovoAcumulador),
-    split_string(NovoAc, Delimitador, Partes).
-
-
-
-
-
-
-
 
 

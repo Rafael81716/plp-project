@@ -10,6 +10,7 @@ checkLoan([H|T], BookId, Result):- H =:= BookId, Result = 'existe',!.
 checkLoan([H|T], BookId, Result):- H \== BookId, checkLoan(T, BookId, Result),!. 
 
 bookLoan(User, BookId):-
+    write("Livro emprestado com sucesso!\n"),
     nth1(5, User, Loans),
     nth1(2, User, ActualEmail),
     append(Loans, [BookId], ActualLoans),
@@ -17,7 +18,7 @@ bookLoan(User, BookId):-
     getUsers(Users),
     checkUserRegister(ActualEmail, Users, NewUsers),
     nth1(1,NewUsers, NewUser),
-    write("Livro emprestado com sucesso!\n"),
+    
     printUserMenu(NewUser),!.
 
 
