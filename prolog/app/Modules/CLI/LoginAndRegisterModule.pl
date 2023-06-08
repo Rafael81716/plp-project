@@ -66,8 +66,8 @@ checkPassword2('invalida'):- clearScreen, write("Senha incorreta!\nInsira seus d
 
 checkPassword2('valida'):- !.
 
-checkLogin(['']):- clearScreen, write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
-checkLogin(_):- !.
+checkLogin([]):- clearScreen, write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkLogin([_]):- !.
 
 
 
