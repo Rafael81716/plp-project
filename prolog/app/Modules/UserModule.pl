@@ -37,11 +37,11 @@ registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites
     close(Stream),
     write("Usuário cadastrado com sucesso!"), halt.
 
-checkUserRegister(_,[],['']):-!.
+checkUserRegister(_,[],[]):-!.
 
 checkUserRegister(ReadEmail, [H|T], [H]):- nth1(2,H, UserEmail), ReadEmail == UserEmail,!.
 
-checkUserRegister(ReadEmail, [H|T], [H1|T1]):- nth1(2,H, UserEmail), ReadEmail \== UserEmail, checkUserRegister(ReadEmail, T,[H1|T1]),!.
+checkUserRegister(ReadEmail, [H|T], []):- nth1(2,H, UserEmail), ReadEmail \== UserEmail, checkUserRegister(ReadEmail, T,[]),!.
 
 checkUserPassword(Password, [H|T], Result):- nth1(3,H, UserPassword), Password == UserPassword,Result = 'valida',!.
 

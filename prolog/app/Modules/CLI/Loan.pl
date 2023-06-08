@@ -78,22 +78,22 @@ nth1(1, Book, Id),
 %TODO Verificar se o usuario ja tem esse livro emprestado
 bookLoan(User, Id),!.
 
-checkIsValidSize(User,'invalido'):- clearScreen, write("Voce ja atingiu o numero maximo de emprestimos!\n Devolva um livro ou escolha outra opcao!\n"), printUserMenu(User),!.
+checkIsValidSize(User,'invalido'):- write("Voce ja atingiu o numero maximo de emprestimos!\n Devolva um livro ou escolha outra opcao!\n"), printUserMenu(User),!.
 
 checkIsValidSize(_,'valido'):-!.
 
-checkBook(User, []):- clearScreen, write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), printMakeLoanByTitle(User), !.
+checkBook(User, []):- write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), printMakeLoanByTitle(User), !.
 
 checkBook(_,[H|T]):- !.
 
-checkAuthor(User, []):- clearScreen, write("\nEste autor nao esta cadastrado na base de dados!\nEscolha outro: \n"), printMakeLoanByAuthor(User),!.
+checkAuthor(User, []):- write("\nEste autor nao esta cadastrado na base de dados!\nEscolha outro: \n"), printMakeLoanByAuthor(User),!.
 checkAuthor(_,[H|T]):- !.
 
 
-checkUserLoans(User , 'existe'):- clearScreen, write("voce ja tem esse livro emprestado!\n Escolha outro: \n"), printMakeLoanByTitle(User),!.
+checkUserLoans(User , 'existe'):- write("voce ja tem esse livro emprestado!\n Escolha outro: \n"), printMakeLoanByTitle(User),!.
 checkUserLoans(_,'nao existe'):- !.
 
-checkGenres(User, []):- clearScreen, write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
+checkGenres(User, []):- write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
 checkGenres(_,[H|T]):-!.
 
 
