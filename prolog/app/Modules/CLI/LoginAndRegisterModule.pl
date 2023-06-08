@@ -38,14 +38,14 @@ writeln("\nDigite sua senha: "),
 read(ReadPassword),
 isValidPassword(ReadPassword,PasswordResult),
 checkPassword(PasswordResult),
-printGenres,
+printGenres(),
 readOptions(Numbers),
 mapGenres(Numbers, ReadGenres),
 listToString(ReadGenres, StringReadGenres),
 addUser(ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),!.
 
 printGenres:-
-%clearScreen,
+clearScreen,
 centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e digite -1 para finzalizar a digitação:\n1 - Ficcao\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.
 

@@ -19,6 +19,27 @@ readMakeLoan(User,2):- printMakeLoanByAuthor(User),!.
 readMakeLoan(User,3):- printMakeLoanByGenre(User),!.
 
 
+printMakeLoanByGenre(User):-
+%Verificar se o usuario ainda pode fazer emprestimo
+nth1(5, User, Loans),
+isValidSize(Loans, Result),
+checkIsValidSize(User,Result),
+centeredText("Emprestimo",63),
+write("\n Informe um genero para pesquisa: \n"),
+read(Genre),
+getBooksByGenre(Genre, Books),
+checkGenres(User ,Books),
+clearScreen,
+centeredText("Livros\n", 63),
+write("\n"),
+printBooks(Books),
+write("\nInforme o titulo do livro:\n"),
+read(Title), 
+getBookByName(Title, Book),
+nth1(1, Book, Id),
+%TODO Verificar se o usuario ja tem esse livro emprestado
+bookLoan(User, Id),!.
+
 printMakeLoanByAuthor(User):-
 clearScreen,
 %Verificar se o usuario ainda pode fazer emprestimo
@@ -30,7 +51,16 @@ write("\n Informe um autor para pesquisa: \n"),
 read(Author),
 getBooksByAuthor(Author, Books),
 checkAuthor(User ,Books),
-printBooks(Books),!.
+clearScreen,
+centeredText("Livros\n", 63),
+write("\n"),
+printBooks(Books),
+write("\nInforme o titulo do livro:\n"),
+read(Title), 
+getBookByName(Title, Book),
+nth1(1, Book, Id),
+%TODO Verificar se o usuario ja tem esse livro emprestado
+bookLoan(User, Id),!.
 
 
 printMakeLoanByTitle(User):-
@@ -62,6 +92,9 @@ checkAuthor(_,[H|T]):- !.
 
 checkUserLoans(User , 'existe'):- clearScreen, write("voce ja tem esse livro emprestado!\n Escolha outro: \n"), printMakeLoanByTitle(User),!.
 checkUserLoans(_,'nao existe'):- !.
+
+checkGenres(User, []):- clearScreen, write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
+checkGenres(_,[H|T]):-!.
 
 
 
