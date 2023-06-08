@@ -68,7 +68,24 @@ bookLoan(User, Id),!.
 printMakeLoanByTitle(User):-
 %Verificar se o usuario ainda pode fazer emprestimo
 nth1(5, User, Loans),
+length(Loan, Size),
+Size < 1,
+centeredText("Emprestimo",63),
+write("\nInforme o titulo do livro:\n"),
+read(Title), 
+getBookByName(Title, Book),
+checkBook(User, Book),
+nth1(1, Book, Id),
+%TODO Verificar se o usuario ja tem esse livro emprestado
+bookLoan(User, Id),!.
+
+printMakeLoanByTitle(User):-
+%Verificar se o usuario ainda pode fazer emprestimo
+nth1(5, User, Loans),
+length(Loan, Size),
+Size >= 1,
 nth1(1, Loans, First),
+
 split_string(First,",","", FormatedLoans),
 checkIsValidSize(User, FormatedLoans),
 
