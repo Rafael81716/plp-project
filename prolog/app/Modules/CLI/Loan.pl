@@ -5,6 +5,7 @@
 :- use_module('../CsvModule.pl').
 :- use_module('../UserModule.pl').
 :- use_module('../BookModule.pl').
+:- use_module('Historic.pl').
 
 printMakeLoan(User):-
     centeredText("Emprestimo",63),
@@ -67,7 +68,10 @@ bookLoan(User, Id),!.
 printMakeLoanByTitle(User):-
 %Verificar se o usuario ainda pode fazer emprestimo
 nth1(5, User, Loans),
+length(Loan, Size),
+Size >= 1,
 nth1(1, Loans, First),
+
 split_string(First,",","", FormatedLoans),
 checkIsValidSize(User, FormatedLoans),
 

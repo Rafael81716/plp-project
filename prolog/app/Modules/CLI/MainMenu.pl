@@ -2,6 +2,7 @@
 :- use_module("../UtilModule.pl").
 :- use_module("LoginAndRegisterModule.pl").
 :- use_module("Loan.pl").
+:- use_module("Historic.pl").
 
 printMainMenu:-
 centeredText("Inicio",40),
@@ -29,7 +30,7 @@ readUserMenu(5, User):- write('todo 5'),!.
 readUserMenu(6, User):- write('todo 6'),!. 
 readUserMenu(7, User):- write('todo 7'),!. 
 readUserMenu(8, User):- write('todo 8'),!. 
-readUserMenu(9, User):- write('todo 9'),!. 
+readUserMenu(9, User):- printBookHistoric(User),!. 
 readUserMenu(10, User):- write('todo 10'),!. 
 readUserMenu(11, User):- write('todo 11'),!. 
 
