@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0]).
 
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
@@ -7,6 +7,7 @@ charToNum(Caractere, Numero) :-
 
 stringToChar(String, Caractere) :-
     string_chars(String, [Caractere|_]).
+
 
 centeredText(Text, Width) :-
     string_length(Text, Length),
@@ -77,4 +78,7 @@ toUpperCase(String, StringMaiuscula) :-
     upcase_atom(Atom, AtomMaiusculo),
     atom_string(AtomMaiusculo, StringMaiuscula),!.
 
-
+waitOnScreen:-
+    write('Pressione Enter para continuar...'),
+    get_char(_),
+    nl.

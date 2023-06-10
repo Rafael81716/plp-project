@@ -2,8 +2,11 @@
 :- use_module("../UtilModule.pl").
 :- use_module("LoginAndRegisterModule.pl").
 :- use_module("Loan.pl").
+:- use_module("../../Data/Data.pl").
+
 
 printMainMenu:-
+verifyFileExists('Data/users.csv'),
 centeredText("Inicio",40),
 write("\n1 - Entrar\n2 - Cadastrar\nEscolha uma opcao: "),
 read(Option),
