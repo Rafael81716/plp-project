@@ -15,7 +15,7 @@ string_concat(Diretorio, '/books.csv', Path), ler_arquivo_csv(Path, X),!.
 
 ler_arquivo_csv(NomeArquivo, Dados) :-
     open(NomeArquivo, read, Arquivo),
-    csv_read_file(NomeArquivo, Linhas, [separator(0';)]),
+    csv_read_file(NomeArquivo, Linhas, [separator(0';), encoding(utf8)]),
     rows_to_lists(Linhas, Dados),
     close(Arquivo),!.
 
