@@ -34,6 +34,6 @@ readUserMenu(7, User):- write('todo 7'),!.
 readUserMenu(8, User):- write('todo 8'),!. 
 readUserMenu(9, User):- write('todo 9'),!. 
 readUserMenu(10, User):- write('todo 10'),!. 
-readUserMenu(11, User):- write('todo 11'),!.
+readUserMenu(11, User):- write("tchau tchau \n"),abort,!.
 readUserMenu(_, User) :- write("Opcao invalida, digite novamente!\n"), printUserMenu(User),!.
 
