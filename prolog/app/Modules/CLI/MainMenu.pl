@@ -39,7 +39,7 @@ readUserMenu(Option, User),!.
 
 readUserMenu(1, User):- printMakeLoan(User),!. 
 readUserMenu(2, User):- printAllLoans(User),!. 
-readUserMenu(3, User):- write('todo 3'),!. 
+readUserMenu(3, User):- printReturnBook(User),!. 
 readUserMenu(4, User):- printBooksMenu(User),!. 
 readUserMenu(5, User):- write('todo 5'),!. 
 readUserMenu(6, User):- registerFavorite(User),!. 

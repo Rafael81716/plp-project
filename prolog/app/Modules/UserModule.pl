@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2]).
+:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
@@ -7,15 +7,67 @@
 :- use_module("BookModule.pl").
 :- use_module("UtilModule.pl").
 
+
+
+returnBook(User, BookId,1):- 
+    clearScreen,
+    nth1(7, User, Historic),
+    nth1(2,User, ActualEmail),
+
+    append(Historic, [BookId], FinalHistoric),
+    
+    attUserHistoric(User, FinalHistoric),
+   
+    getUsers(Users),
+
+    checkUserRegister(ActualEmail, Users, NewUser), 
+   
+    write("\nLivro salvo no histórico com sucesso!\n"),
+    waitOnScreen,
+    returnBook(NewUser, BookId, 2),!.
+
+returnBook(User, BookId,2):- 
+    clearScreen,
+    nth1(2,User, ActualEmail),
+    nth1(5, User, Loans),
+    nth1(1, Loans, First),
+    split_string(First,",",'', FormatedLoans),
+    numberToString(BookId, Id),
+    removeElement(Id, FormatedLoans, ActualLoans),
+    append([],ActualLoans, FinalLoans),
+    attUserLoans(User, FinalLoans),
+    getUsers(Users),
+    checkUserRegister(ActualEmail, Users, NewUser),    
+    write("\nLivro devolvido com sucesso!\n"),
+    waitOnScreen,
+    printUserMenu(NewUser),!.
+
+printLoans(User):-
+    nth1(5, User, Loans),
+    Loans == [],
+    write("\nVocê não possui emprestimos!\n\n"),
+    waitOnScreen,
+    printUserMenu(User),!.
+
+
 printLoans(User):-
     nth1(5, User, Loans),
     nth1(1, Loans, First),
     split_string(First,",",'', FormatedLoans),
+   
     getBooksById(FormatedLoans, Books),
     write("\n"),
     printBooks(Books),
     waitOnScreen,
     printUserMenu(User),!.
+
+printLoansReturn(User):-
+    nth1(5, User, Loans),
+    nth1(1, Loans, First),
+    split_string(First,",",'', FormatedLoans),
+    getBooksById(FormatedLoans, Books),
+    write("\n"),
+    printBooks(Books),!.
     
 
 checkLoan([],_,'nao existe'):- !.
@@ -109,7 +161,6 @@ getUsers(Users),
 nth(2, User, UserEmail),
 getPosUser(Users, UserEmail, 0, Pos),
 atualizar_posicao(Pos, NewUser, Users, NewUsers),
-writeln(NewUsers),
 caminhar_ate_diretorio_atual(Diretorio),
 string_concat(Diretorio, '/users.csv', Path),
 erase_csv_data(Path),

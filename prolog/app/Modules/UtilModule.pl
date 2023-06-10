@@ -1,4 +1,18 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2]).
+
+
+numberToString(Numero, String) :-
+    number_codes(Numero, Codigo),
+    string_codes(String, Codigo).
+
+removeElement(_, [], []):- !.
+removeElement(Elemento, [Elemento|Resto], Resto) :-!.
+removeElement(Elemento, [Cabeça|Resto], [Cabeça|NovaLista]) :-
+    removeElement(Elemento, Resto, NovaLista),!.
+
+
+
+
 
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
@@ -81,4 +95,4 @@ toUpperCase(String, StringMaiuscula) :-
 waitOnScreen:-
     write("Digite Enter para continuar:\n"),
     get_char(_),
-    get_char(_).
+    get_char(_),!.
