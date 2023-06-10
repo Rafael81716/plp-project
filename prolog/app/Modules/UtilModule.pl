@@ -1,4 +1,8 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, generateRandomNumbers/4, removeDoubles/3]).
+
+generateRandomNumbers(Amount, LBound, UBound, Numbers) :-
+    length(Numbers, Amount),
+    maplist(random_between(LBound, UBound), Numbers).
 
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
@@ -82,3 +86,13 @@ waitOnScreen:-
     write("Digite Enter para continuar:\n"),
     get_char(_),
     get_char(_).
+
+removeDoubles([], _, []):-!.
+removeDoubles(R, [], R):-!.
+removeDoubles([X | Xs], Acc, Result) :-
+    (member(X, Acc) ->
+        removeDoubles(Xs, Acc, Result)
+    ;
+        select(X, Acc, UpdatedAcc),
+        removeDoubles(Xs, UpdatedAcc, Result)
+    ).
