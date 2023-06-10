@@ -5,6 +5,7 @@
 :- use_module('../Data/Data.pl').
 :- use_module('CLI/MainMenu.pl').
 :- use_module("BookModule.pl").
+:- use_module("UtilModule.pl").
 
 printLoans(User):-
     nth1(5, User, Loans),
@@ -13,6 +14,7 @@ printLoans(User):-
     getBooksById(FormatedLoans, Books),
     write("\n"),
     printBooks(Books),
+    waitOnScreen,
     printUserMenu(User),!.
     
 
