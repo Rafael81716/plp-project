@@ -25,7 +25,7 @@ read(Option),
 readUserMenu(Option, User),!.
 
 readUserMenu(1, User):- printMakeLoan(User),!. 
-readUserMenu(2, User):- write('todo 2'),!. 
+readUserMenu(2, User):- printAllLoans(User),!. 
 readUserMenu(3, User):- write('todo 3'),!. 
 readUserMenu(4, User):- write('todo 4'),!. 
 readUserMenu(5, User):- write('todo 5'),!. 
