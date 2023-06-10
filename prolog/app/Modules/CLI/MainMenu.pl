@@ -16,16 +16,12 @@ write(R),!.
 
 readMainMenu(Option):- Option =:= 1, loginMenu, !.
 readMainMenu(Option):- Option =:= 2, registerUserMenu,!.
-readMainMenu(_,R):- clearScreen,write("Opcao invalida, digite novamente!\n"), printMainMenu,!.
+readMainMenu(_,R):- write("Opcao invalida, digite novamente!\n"), printMainMenu,!.
 
 printUserMenu(User):- 
 centeredText("Menu Principal",63),
 write("\n1 - Realizar Emprestimo\n2 - Ver livros emprestados\n3 - Devolver livro\n4 - Ver todos os livros do sistema\n5 - Exibir recomendacoes\n6 - Cadastrar favoritos\n7 - Remover favoritos\n8 - Listar favoritos\n9 - Exibir historico de leitura\n10 - Editar Perfil\n11 - Logout\nEscolha uma opcao: "),
 read(Option),
-isValidOption(Option, Result),
-Result == 'invalido' -> 
-write("opcao invalida\n"), waitOnScreen,
-printUserMenu(User);
 readUserMenu(Option, User),!.
 
 readUserMenu(1, User):- printMakeLoan(User),!. 
@@ -38,5 +34,6 @@ readUserMenu(7, User):- write('todo 7'),!.
 readUserMenu(8, User):- write('todo 8'),!. 
 readUserMenu(9, User):- write('todo 9'),!. 
 readUserMenu(10, User):- write('todo 10'),!. 
-readUserMenu(11, User):- write('todo 11'),!. 
+readUserMenu(11, User):- write('todo 11'),!.
+readUserMenu(_, User) :- write("Opcao invalida, digite novamente!\n"), printUserMenu(User),!.
 
