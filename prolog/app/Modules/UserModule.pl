@@ -63,15 +63,27 @@ registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites
     close(Stream),
     write("Usuário cadastrado com sucesso!"), halt.
 
-checkUserRegister(_,[],[]):-!.
 
-checkUserRegister(ReadEmail, [H|T], [H]):- nth1(2,H, UserEmail), ReadEmail == UserEmail,!.
+checkUserRegister(ReadEmail, Users, ActualUser) :- length(Users, L), checkUserRegisterAux(ReadEmail, Users, 0, L, ActualUser).
 
-checkUserRegister(ReadEmail, [H|T], []):- nth1(2,H, UserEmail), ReadEmail \== UserEmail, checkUserRegister(ReadEmail, T,[]),!.
 
-checkUserPassword(Password, [H|T], Result):- nth1(3,H, UserPassword), Password == UserPassword,Result = 'valida',!.
+checkUserRegisterAux(_,_,C, C, []) :- !.
+checkUserRegisterAux(ReadEmail, Users, C, L, ActualUser) :- 
+nth0(C, Users, User),
+nth0(1, User, Email),
+ReadEmail == Email,
+ActualUser = User.
+checkUserRegisterAux(ReadEmail, Users, C, L, ActualUser) :-
+nth0(C, Users, User),
+nth0(1, User, Email),
+ReadEmail \== Email,
+C2 is C + 1,
+checkUserRegisterAux(ReadEmail, Users, C2, L, R2), ActualUser = R2.
 
-checkUserPassword(Password, [H|T], Result):- nth1(3, H, UserPassword), Password \== UserPassword, Result = 'invalida',!.
+
+checkUserPassword(Password, Lista, Result):- nth1(3,Lista, UserPassword), Password == UserPassword,Result = 'valida',!.
+
+checkUserPassword(Password, Lista, Result):- nth1(3, Lista, UserPassword), Password \== UserPassword, Result = 'invalida',!.
 
 
 attUserName(User, NewName) :- attUserAtribute(User, NewName, 0).
