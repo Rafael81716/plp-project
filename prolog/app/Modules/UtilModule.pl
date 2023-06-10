@@ -79,5 +79,6 @@ toUpperCase(String, StringMaiuscula) :-
     atom_string(AtomMaiusculo, StringMaiuscula),!.
 
 waitOnScreen:-
-    write("Digite 1 para continuar:\n"),
-    read(_),!.
+    write("Digite Enter para continuar:\n"),
+    get_char(_),
+    get_char(_).
