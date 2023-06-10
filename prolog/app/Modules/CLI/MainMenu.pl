@@ -29,8 +29,8 @@ readUserMenu(3, User):- write('todo 3'),!.
 readUserMenu(4, User):- write('todo 4'),!. 
 readUserMenu(5, User):- write('todo 5'),!. 
 readUserMenu(6, User):- registerFavorite(User),!. 
-readUserMenu(7, User):- write('todo 7'),!. 
-readUserMenu(8, User):- write('todo 8'),!. 
+readUserMenu(7, User):- removeFavorite(User),!. 
+readUserMenu(8, User):- listFavorites(User),!. 
 readUserMenu(9, User):- printBookHistoric(User),!. 
 readUserMenu(10, User):- write('todo 10'),!. 
 readUserMenu(11, User):- write('todo 11'),!. 

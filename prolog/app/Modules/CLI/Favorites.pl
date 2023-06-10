@@ -2,6 +2,7 @@
 :- use_module('../BookModule.pl').
 :- use_module('../UserModule.pl').
 :- use_module('../CsvModule.pl').
+:- use_module("../UtilModule.pl").
 :- use_module('../ValidInput/Validation.pl').
 :- use_module('MainMenu.pl').
 
@@ -18,13 +19,24 @@ registerFavorite(User) :-
 
 addBookToFavorites(User) :- 
     nth0(5, User, Favorites),
+    checkEmpty(User, Favorites),!.
+
+checkEmpty(User, Favorites) :- 
+    sizeList(Favorites, 0, L),
+    L =:= 0 -> 
+    writeln("Insira o titulo do livro a ser adicionado:"),
+    read(Titulo),
+    getBookByName(Titulo, Book),
+    nth0(0, Book, ID),
+    addBook(User, ID, Favorites, 'notFav')
+    ;
     writeln("Insira o titulo do livro a ser adicionado:"),
     read(Titulo),
     getBookByName(Titulo, Book),
     nth0(0, Book, ID),
     nth0(0, Favorites, Elem),
-    split_string(Elem, ",", "", L),
-    checkFavorite(ID, L, R),
+    split_string(Elem, ",", "", List),
+    checkFavorite(ID, List, R),
     addBook(User, ID, Favorites, R),!.
 
 addBook(User, ID, Favorites, Check) :- 
@@ -82,11 +94,17 @@ removeBook(User, ID, Favorites, Check) :-
     printUserMenu(ActualUser),!.
 
 listFavorites(User) :- 
+    centeredText("Lista de favoritos",40),
     nth0(5, User, Favorites),
+    sizeList(Favorites, 0, S),
+    S =\= 0 ->
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", L),
     writeln(""),
-    printBooks(User, L),!.
+    printBooks(User, L)
+    ;
+    writeln(""),
+    writeln("Lista de favoritos vazia!"),!.
 
 printBooks(User, []) :- 
     writeln(""),
