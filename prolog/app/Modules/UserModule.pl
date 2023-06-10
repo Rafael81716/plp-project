@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3]).
+:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
@@ -6,6 +6,29 @@
 :- use_module('CLI/MainMenu.pl').
 :- use_module("BookModule.pl").
 :- use_module("UtilModule.pl").
+
+
+
+printHistoric(User):-
+    centeredText("Histórico", 63),
+    nth1(7,User, Historic),
+    Historic = [],
+    write("\nHistórico vazio!\n"),
+    waitOnScreen,
+    printUserMenu(User),!.
+
+printHistoric(User):-
+    clearScreen,
+    centeredText("Histórico", 63),
+    nth1(7, User, Historic),
+    nth1(1, Historic, First),
+    split_string(First,",",'', FormatedHistoric),
+    getBooksById(FormatedHistoric, Books),
+    write("\n"),
+    printBooks(Books),
+    waitOnScreen,
+    printUserMenu(User),!.
+
 
 
 
