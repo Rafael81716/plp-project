@@ -3,6 +3,7 @@
 :- use_module("LoginAndRegisterModule.pl").
 :- use_module("Loan.pl").
 :- use_module("../../Data/Data.pl").
+:- use_module("../ValidInput/Validation.pl").
 
 
 printMainMenu:-
@@ -18,10 +19,13 @@ readMainMenu(Option):- Option =:= 2, registerUserMenu,!.
 readMainMenu(_,R):- clearScreen,write("Opcao invalida, digite novamente!\n"), printMainMenu,!.
 
 printUserMenu(User):- 
-clearScreen,
 centeredText("Menu Principal",63),
 write("\n1 - Realizar Emprestimo\n2 - Ver livros emprestados\n3 - Devolver livro\n4 - Ver todos os livros do sistema\n5 - Exibir recomendacoes\n6 - Cadastrar favoritos\n7 - Remover favoritos\n8 - Listar favoritos\n9 - Exibir historico de leitura\n10 - Editar Perfil\n11 - Logout\nEscolha uma opcao: "),
 read(Option),
+isValidOption(Option, Result),
+Result == 'invalido' -> 
+write("opcao invalida\n"), waitOnScreen,
+printUserMenu(User);
 readUserMenu(Option, User),!.
 
 readUserMenu(1, User):- printMakeLoan(User),!. 

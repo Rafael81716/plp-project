@@ -1,4 +1,4 @@
-:- module(ValidationModule,[isValidEmail/2, isValidPassword/2, isValidSize/2]).
+:- module(ValidationModule,[isValidEmail/2, isValidPassword/2, isValidSize/2, isValidOption/2]).
 :- use_module("../UtilModule.pl").
 
 validDomain("gmail.com"):-!.
@@ -35,3 +35,16 @@ length(L, Size),
 Size =< 9,  R = 'valido',!.
 
 isValidSize(_, R):- R = 'invalido',!.
+
+isValidOption(1, 'valido'):-!.
+isValidOption(2, 'valido'):-!.
+isValidOption(3, 'valido'):-!.
+isValidOption(4, 'valido'):-!.
+isValidOption(5, 'valido'):-!.
+isValidOption(6, 'valido'):-!.
+isValidOption(7, 'valido'):-!.
+isValidOption(8, 'valido'):-!.
+isValidOption(9, 'valido'):-!.
+isValidOption(10, 'valido'):-!.
+isValidOption(11, 'valido'):-!.
+isValidOption(_, 'invalido'):-!. 
