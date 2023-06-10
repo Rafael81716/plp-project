@@ -3,6 +3,7 @@
 :- use_module('../UtilModule.pl').
 :- use_module('../CsvModule.pl').
 :- use_module('../ValidInput/Validation.pl').
+:- use_module('Favorites.pl').
 :- use_module('MainMenu.pl').
 
 loginMenu :-

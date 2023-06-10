@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3,printLoans/1]).
+:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
@@ -34,6 +34,18 @@ bookLoan(User, BookId):-
     
     printUserMenu(NewUser),!.
 
+bookHistoric(User, BookId, 2) :- !.
+bookHistoric(User, BookId, 1) :-
+    write("Livro adicionar ao historico de leitura!\n"),
+    nth1(7, User, Historic),
+    nth1(2, User, ActualEmail),
+    append(Historic, [BookId], ActualHistoric),
+    attUserLoans(User, ActualHistoric),
+    getUsers(Users),
+    checkUserRegister(ActualEmail, Users, NewUsers),
+    nth1(1,NewUsers, NewUser),
+    
+    printUserMenu(NewUser),!.
 
 
 readCsv(FilePath, File):- csv_read_file(FilePath,File),!.

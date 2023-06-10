@@ -5,6 +5,7 @@
 :- use_module('../CsvModule.pl').
 :- use_module('../UserModule.pl').
 :- use_module('../BookModule.pl').
+:- use_module('Historic.pl').
 
 printAllLoans(User):-
     clearScreen,
@@ -12,7 +13,6 @@ printAllLoans(User):-
     printLoans(User),!.
 
 printMakeLoan(User):-
-    
     centeredText("Emprestimo",63),
     write("\nEscolha uma forma de consulta:\n1 - Titulo\n2 - Autor\n3 - Genero\nEscolha uma opcao: \n"),
     read(Option),
@@ -102,6 +102,7 @@ checkBook(User, Book),
 nth1(1, Book, Id),
 %TODO Verificar se o usuario ja tem esse livro emprestado
 bookLoan(User, Id),!.
+
 
 checkIsValidSize(User,Loans):- length(Loans, Size), Size >= 10, write("Voce ja atingiu o numero maximo de emprestimos!\n Devolva um livro ou escolha outra opcao!\n"), printUserMenu(User),!.
 
