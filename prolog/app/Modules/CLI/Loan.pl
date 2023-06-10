@@ -22,7 +22,6 @@ printMakeLoan(User):-
 readMakeLoan(User,1):- printMakeLoanByTitle(User),!.
 readMakeLoan(User,2):- printMakeLoanByAuthor(User),!.
 readMakeLoan(User,3):- printMakeLoanByGenre(User),!.
-readMakeLoan(User,_):- write("opcao invalida, digite novamente! \n"), printMakeLoan(User), !.
 
 
 printMakeLoanByGenre(User):-
@@ -71,6 +70,7 @@ bookLoan(User, Id),!.
 
 
 printMakeLoanByTitle(User):-
+write(User),
 %Verificar se o usuario ainda pode fazer emprestimo
 nth1(5, User, Loans),
 length(Loan, Size),

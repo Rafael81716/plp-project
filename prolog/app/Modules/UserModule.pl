@@ -29,9 +29,7 @@ bookLoan(User, BookId):-
     append(Loans, [BookId], ActualLoans),
     attUserLoans(User, ActualLoans),
     getUsers(Users),
-    checkUserRegister(ActualEmail, Users, NewUsers),
-    nth1(1,NewUsers, NewUser),
-    
+    checkUserRegister(ActualEmail, Users, NewUser),    
     printUserMenu(NewUser),!.
 
 bookHistoric(User, BookId, 2) :- !.

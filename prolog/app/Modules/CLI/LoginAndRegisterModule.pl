@@ -18,8 +18,7 @@ writeln("Digite a sua senha: "),
 read(ReadPassword),
 checkUserPassword(ReadPassword, ActualUser, IsValidPassword),
 checkPassword2(IsValidPassword),
-nth0(0, ActualUser, User),
-printUserMenu(User),!.
+printUserMenu(ActualUser),!.
 
 registerUserMenu :-
 centeredText("Cadastre-se",40),
