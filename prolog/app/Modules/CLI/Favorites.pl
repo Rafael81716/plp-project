@@ -71,9 +71,7 @@ removeBook(User, ID, Favorites, Check) :-
     ;
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", L),
-    writeln(L),
     number_string(ID, Num),
-    writeln(Num),
     removeBookFromList(Num, L, [],  R),
     attUserFavorites(User, R),
     getUsers(Users),
