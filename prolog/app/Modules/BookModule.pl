@@ -43,9 +43,7 @@ getAllBooks(AllBooks) :-
 
 getBooksById([],[]):-!.
 getBooksById([H|T],[H1|T1]):- 
-    stringToChar(H, IdChar),
-    charToNum(IdChar, IdFormated),
-    getBookById(IdFormated, Book),
+    getBookById(H, Book),
     H1 = Book,
     getBooksById(T, T1),!.
 
