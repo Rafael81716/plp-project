@@ -67,8 +67,7 @@ checkPassword2('invalida'):-  write("Senha incorreta!\nInsira seus dados novamen
 checkPassword2('valida'):- !.
 
 checkLogin([]):-  write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
-checkLogin([_]):- !.
-
+checkLogin(_) :- !.
 
 
 

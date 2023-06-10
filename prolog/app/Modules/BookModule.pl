@@ -1,7 +1,39 @@
-:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1]).
+:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
+
+
+printBooksMenu(User) :-
+centeredText("Biblioteca", 63),
+write("\n"),
+printAllBooks,
+write("\n"),
+write("1-Voltar\n2-Ver Livro\nEscolha uma opção:\n"),
+read(Option),
+verificaEntrada(Option, User).
+
+verificaEntrada(1, User) :- printUserMenu(User).
+verificaEntrada(2, User) :- 
+centeredText("Biblioteca", 63),
+write("\n"),
+printAllBooks,
+write("\n"),
+write("Informe o id do livro:\n"),
+read(Id),
+verificaId(Id, User).
+verificaEntrada(_, User) :- writeln("Entrada inválida, Tente novamente"), waitOnScreen, printBooksMenu(User).
+
+verificaId(Id, User) :- Id =< 204, Id >= 1, getBookById(Id, Book), nth0(5, Book, Sinopse), nth0(1, Book, NomeLivro), printSinopse(NomeLivro, Sinopse), printUserMenu(User),!.
+verificaId(Id, User) :- writeln("Id inválido, Tente novamente\n"), waitOnScreen, verificaEntrada(2,User).
+
+
+printSinopse(NomeLivro, Sinopse) :-
+centeredText(NomeLivro, 63),
+write("\n"),
+write(Sinopse),
+write("\n"),
+waitOnScreen.
 
 
 getAllBooks(AllBooks) :-
@@ -36,7 +68,19 @@ printAllBooks :-
     getAllBooks(Books),
     printBooks(Books),!.
 
-printBooks([]):-!.
+printBooks([Head]):-
+    nth0(0, Head, Id),
+    nth0(1, Head, Name),
+    nth0(2, Head, Author),
+    nth0(3, Head, Genre),
+    write(Id),
+    write(" - "),
+    write(Name),
+    write(" - "),
+    write(Author),
+    write(" - "),
+    write(Genre),
+    write("\n"),!.
 printBooks([Head|Tail]) :- 
     nth0(0, Head, Id),
     nth0(1, Head, Name),
@@ -50,7 +94,7 @@ printBooks([Head|Tail]) :-
     write(" - "),
     write(Genre),
     write("\n"),
-    printBooks(Tail), !.
+    printBooks(Tail).
 
 getBooksByAuthorAux(Array, Cont, Len, Author, Books, Books):-
     Cont =:= Len, !.

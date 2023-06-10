@@ -4,6 +4,7 @@
 :- use_module("Loan.pl").
 :- use_module("../../Data/Data.pl").
 :- use_module("../ValidInput/Validation.pl").
+:- use_module("../BookModule.pl").
 
 
 printMainMenu:-
@@ -11,6 +12,7 @@ verifyFileExists('Data/users.csv'),
 centeredText("Inicio",40),
 write("\n1 - Entrar\n2 - Cadastrar\nEscolha uma opcao: "),
 read(Option),
+%Option is 1,
 readMainMenu(Option),
 write(R),!.
 
@@ -27,7 +29,7 @@ readUserMenu(Option, User),!.
 readUserMenu(1, User):- printMakeLoan(User),!. 
 readUserMenu(2, User):- printAllLoans(User),!. 
 readUserMenu(3, User):- write('todo 3'),!. 
-readUserMenu(4, User):- write('todo 4'),!. 
+readUserMenu(4, User):- printBooksMenu(User),!. 
 readUserMenu(5, User):- write('todo 5'),!. 
 readUserMenu(6, User):- write('todo 6'),!. 
 readUserMenu(7, User):- write('todo 7'),!. 
