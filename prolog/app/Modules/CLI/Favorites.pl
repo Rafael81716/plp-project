@@ -67,6 +67,7 @@ removeFavorite(User) :-
 
 removeBookFromFavorites(User) :- 
     nth0(5, User, Favorites),
+    listBeforeRemove(User),
     writeln("Insira o titulo do livro a ser removido:"),
     read(Titulo),
     getBookByName(Titulo, Book),
@@ -93,28 +94,45 @@ removeBook(User, ID, Favorites, Check) :-
     writeln("Livro removido dos favoritos com sucesso!"),
     printUserMenu(ActualUser),!.
 
+listBeforeRemove(User) :-
+    centeredText("Lista de favoritos",40),
+    writeln(""),
+    nth0(5, User, Favorites),
+    nth0(0, Favorites, Elem),
+    split_string(Elem, ",", "", L),
+    writeln(""),
+    printBeforeRemove(L),!.
+
+printBeforeRemove([]) :- 
+    writeln(""),!.
+printBeforeRemove([H|T]) :-
+    atom_number(H,X),
+    getBookById(X, Book),
+    printBooks([Book]),
+    printBeforeRemove(T),!.
+
 listFavorites(User) :- 
     centeredText("Lista de favoritos",40),
+    writeln(""),
     nth0(5, User, Favorites),
     sizeList(Favorites, 0, S),
     S =\= 0 ->
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", L),
     writeln(""),
-    printBooks(User, L)
+    printBooksList(User, L)
     ;
     writeln(""),
     writeln("Lista de favoritos vazia!"),!.
 
-printBooks(User, []) :- 
+printBooksList(User, []) :- 
     writeln(""),
     printUserMenu(User),!.
-printBooks(User, [H|T]) :- 
+printBooksList(User, [H|T]) :- 
     atom_number(H,X),
     getBookById(X, Book),
-    nth0(1, Book, Name),
-    writeln(Name),
-    printBooks(User, T),!.
+    printBooks([Book]),
+    printBooksList(User, T),!.
 
 checkFavorite(_, [], R) :- R = 'notFav',!.
 checkFavorite(E, [H|T], R) :- 
