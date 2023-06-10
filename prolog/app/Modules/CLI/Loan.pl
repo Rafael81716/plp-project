@@ -1,10 +1,15 @@
-:- module(LoanModule,[printMakeLoan/1,readMakeLoan/2, printMakeLoanByTitle/1]).
+:- module(LoanModule,[printMakeLoan/1,readMakeLoan/2, printMakeLoanByTitle/1,printAllLoans/1]).
 :- use_module('../UtilModule.pl').
 :- use_module('../ValidInput/Validation.pl').
 :- use_module('MainMenu.pl').
 :- use_module('../CsvModule.pl').
 :- use_module('../UserModule.pl').
 :- use_module('../BookModule.pl').
+
+printAllLoans(User):-
+    clearScreen,
+    centeredText("Emprestimos", 63),
+    printLoans(User),!.
 
 printMakeLoan(User):-
     clearScreen,
@@ -24,7 +29,6 @@ printMakeLoanByGenre(User):-
 nth1(5, User, Loans),
 nth1(1, Loans, First),
 split_string(First,",","", FormatedLoans),
-write(FormatedLoans),
 checkIsValidSize(User, FormatedLoans),
 centeredText("Emprestimo",63),
 write("\n Informe um genero para pesquisa: \n"),
@@ -115,6 +119,9 @@ checkUserLoans(_,'nao existe'):- !.
 
 checkGenres(User, []):-  clearScreen ,write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
 checkGenres(_,[H|T]):-!.
+
+
+
 
 
 

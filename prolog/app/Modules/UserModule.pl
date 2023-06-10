@@ -1,9 +1,20 @@
-:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3]).
+:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3,printLoans/1]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
 :- use_module('../Data/Data.pl').
 :- use_module('CLI/MainMenu.pl').
+:- use_module("BookModule.pl").
+
+printLoans(User):-
+    nth1(5, User, Loans),
+    nth1(1, Loans, First),
+    split_string(First,",",'', FormatedLoans),
+    getBooksById(FormatedLoans, Books),
+    write("\n"),
+    printBooks(Books),
+    printUserMenu(User),!.
+    
 
 checkLoan([],_,'nao existe'):- !.
 checkLoan([H|T], BookId, Result):- H =:= BookId, Result = 'existe',!.
