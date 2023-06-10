@@ -1,8 +1,11 @@
 :- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, generateRandomNumbers/4, removeDoubles/3]).
 
+generateRandomNumbers(0, _, _, []):-!.
 generateRandomNumbers(Amount, LBound, UBound, Numbers) :-
-    length(Numbers, Amount),
-    maplist(random_between(LBound, UBound), Numbers).
+    random_between(LBound, UBound, X),
+    Amount2 is Amount - 1,
+    generateRandomNumbers(Amount2, LBound, UBound, IncompleteNumbers),
+    Numbers = [X | IncompleteNumbers].
 
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
