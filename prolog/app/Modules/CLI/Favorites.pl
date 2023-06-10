@@ -123,7 +123,9 @@ listFavorites(User) :-
     printBooksList(User, L)
     ;
     writeln(""),
-    writeln("Lista de favoritos vazia!"),!.
+    writeln("Lista de favoritos vazia!"),
+    writeln(""),
+    printUserMenu(User),!.
 
 printBooksList(User, []) :- 
     writeln(""),
