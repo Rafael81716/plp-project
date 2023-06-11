@@ -1,4 +1,4 @@
-:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1]).
+:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1, getBooksFromSourceByGenre/3]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
@@ -61,6 +61,14 @@ getBooksByGenre(Genre, Book) :-
     getAllBooks(Books), 
     length(Books, Len), 
     getBooksByGenreAux(Books, 0, Len, Genre, [], Book),!.
+
+getBooksFromSourceByGenre(Source, Genre, Result) :-
+    include(bookHasGenre(Genre), Source, Result),!.
+
+bookHasGenre(Genre, Book) :-
+    nth0(3, Book, BookGenre),
+    Book = [_, _, _, BookGenre | _],
+    BookGenre = Genre.
 
 printAllBooks :-
     getAllBooks(Books),
