@@ -19,7 +19,7 @@ printReturnBook(User):-
     printLoansReturn(User),
     write("\nEscolha um livro para devolver pelo título: \n"),
     read_line_to_string(user_input, StringBookName),
-    atom_string(StringBookName, BookName),
+    atom_string(BookName, StringBookName),
     write("\n Você já leu esse livro?\n Digite <1> para Sim ou <2> para Não: \n"),
     read_line_to_codes(user_input, StringOption),
     validarIntegridadeOptionLoanReturn(StringOption, Option, User),
@@ -114,7 +114,7 @@ checkBooksRepetitions(User, BookId):-
     nth1(1,Loans,First),
     split_string(First,",",'',FormatedLoans),
 
-    (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado!\nEscolha outro: "), waitOnScreen, printMakeLoan(User); write('foi'), !).
+    (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado!\nEscolha outro: "), waitOnScreen, printMakeLoan(User); !).
 
 
 
@@ -136,8 +136,11 @@ checkBook(User, []):-  write("Este livro nao consta na base de dados!\nEscolha n
 
 checkBook(_,[H|T]):- !.
 
-checkBook2(User, []):- %clearScreen, 
-write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), waitOnScreen, printReturnBook(User), !.
+checkBook2(User, []):- 
+clearScreen, 
+write("Este livro nao consta na base de dados!\nEscolha novamente: \n"),
+waitOnScreen, 
+printReturnBook(User), !.
 
 checkBook2(_,[H|T]):- !.
 
