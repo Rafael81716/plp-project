@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/9, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1]).
+:- module(UserModule,[registerUser/8, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
@@ -18,7 +18,7 @@ printHistoric(User):-
     printUserMenu(User),!.
 
 printHistoric(User):-
-    clearScreen,
+    %clearScreen,
     centeredText("Histórico", 63),
     nth1(7, User, Historic),
     nth1(1, Historic, First),
@@ -33,7 +33,7 @@ printHistoric(User):-
 
 
 returnBook(User, BookId,1):- 
-    clearScreen,
+    %clearScreen,
     nth1(7, User, Historic),
     nth1(2,User, ActualEmail),
 
@@ -50,7 +50,7 @@ returnBook(User, BookId,1):-
     returnBook(NewUser, BookId, 2),!.
 
 returnBook(User, BookId,2):- 
-    clearScreen,
+    %clearScreen,
     nth1(2,User, ActualEmail),
     nth1(5, User, Loans),
     nth1(1, Loans, First),
@@ -121,20 +121,17 @@ bookHistoric(User, BookId, 1) :-
     printUserMenu(NewUser),!.
 
 
-readCsv(FilePath, File):- csv_read_file(FilePath,File),!.
-
 addUser(Name, Email, Password, ReadGenres, Loans, Favorites, Historic):-
     caminhar_ate_diretorio_atual(Diretorio),
     string_concat(Diretorio, '/users.csv', FilePath),
-    readCsv(FilePath,File),
-    registerUser(FilePath,File,Name, Email, Password, ReadGenres, Loans, Favorites, Historic),!.
+    registerUser(FilePath, Name, Email, Password, ReadGenres, Loans, Favorites, Historic),!.
 
 
-registerUser(FilePath, File, Name, Email, Password, ReadGenres, Loans, Favorites, Historic) :-
+registerUser(FilePath, Name, Email, Password, ReadGenres, Loans, Favorites, Historic) :-
     open(FilePath, append, Stream),
     format(Stream, "~w;~w;~w;~w;~w;~w;~w~n", [Name, Email, Password, ReadGenres, Loans, Favorites, Historic]),
     close(Stream),
-    write("Usuário cadastrado com sucesso!"), halt.
+    write("Usuário cadastrado com sucesso!\n").
 
 
 checkUserRegister(ReadEmail, Users, ActualUser) :- length(Users, L), checkUserRegisterAux(ReadEmail, Users, 0, L, ActualUser).
