@@ -18,7 +18,7 @@ printHistoric(User):-
     printUserMenu(User),!.
 
 printHistoric(User):-
-    clearScreen,
+    %clearScreen,
     centeredText("Histórico", 63),
     nth1(7, User, Historic),
     nth1(1, Historic, First),
@@ -33,7 +33,7 @@ printHistoric(User):-
 
 
 returnBook(User, BookId,1):- 
-    clearScreen,
+    %clearScreen,
     nth1(7, User, Historic),
     nth1(2,User, ActualEmail),
 
@@ -50,7 +50,7 @@ returnBook(User, BookId,1):-
     returnBook(NewUser, BookId, 2),!.
 
 returnBook(User, BookId,2):- 
-    clearScreen,
+    %clearScreen,
     nth1(2,User, ActualEmail),
     nth1(5, User, Loans),
     nth1(1, Loans, First),

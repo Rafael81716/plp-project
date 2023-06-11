@@ -9,7 +9,7 @@ numberToString(Numero, String) :-
 
 removeElement(_, [], []):- !.
 removeElement(Elemento, [Elemento|Resto], Resto) :-!.
-removeElement(Elemento, [Cabeça|Resto], [Cabeça|NovaLista]) :-
+removeElement(Elemento, [Cabeca|Resto], [Cabeca|NovaLista]) :-
     removeElement(Elemento, Resto, NovaLista),!.
 
 

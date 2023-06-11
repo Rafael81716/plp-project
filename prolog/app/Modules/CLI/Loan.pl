@@ -11,7 +11,7 @@
 
 
 printReturnBook(User):- 
-    clearScreen,
+    %clearScreen,
     centeredText("Devolucao", 63),
     write("\nEste sao seus emprestimos: \n"),
     printLoansReturn(User),
@@ -29,7 +29,7 @@ readReturnBook(User, BookName, Option):-
 
 
 printAllLoans(User):-
-    clearScreen,
+    %clearScreen,
     centeredText("Emprestimos", 63),
     printLoans(User),!.
 
@@ -74,7 +74,7 @@ printMakeLoanByTitle(User):-
 nth1(5, User, Loans),
 centeredText("Emprestimo",63),
 write("\nInforme o titulo do livro:\n"),
-read(Title), 
+read(Title),
 getBookByName(Title, Book),
 checkBook(User, Book),
 nth1(1, Book, Id),
@@ -90,7 +90,8 @@ checkBook(User, []):-  write("Este livro nao consta na base de dados!\nEscolha n
 
 checkBook(_,[H|T]):- !.
 
-checkBook2(User, []):- clearScreen, write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), waitOnScreen, printReturnBook(User), !.
+checkBook2(User, []):- %clearScreen, 
+write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), waitOnScreen, printReturnBook(User), !.
 
 checkBook2(_,[H|T]):- !.
 
@@ -101,7 +102,8 @@ checkAuthor(_,[H|T]):- !.
 checkUserLoans(User , 'existe'):-  write("voce ja tem esse livro emprestado!\n Escolha outro: \n"), printMakeLoanByTitle(User),!.
 checkUserLoans(_,'nao existe'):- !.
 
-checkGenres(User, []):-  clearScreen ,write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
+checkGenres(User, []):-  %clearScreen ,
+write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
 checkGenres(_,[H|T]):-!.
 
 

@@ -70,7 +70,8 @@ checkEmailFormat('invalido'):- write("Este email nao e valido!\nEscolha outro\n"
 
 checkEmailFormat('valido'):- !.
 
-checkPassword('invalido'):-  clearScreen ,write("A senha tem que conter no minimo 6 digitos!\nDigite novamente: \n"), registerUserMenu,!.
+checkPassword('invalido'):-%clearScreen ,
+write("A senha tem que conter no minimo 6 digitos!\nDigite novamente: \n"), registerUserMenu,!.
 
 checkPassword('valido'):- !.
 

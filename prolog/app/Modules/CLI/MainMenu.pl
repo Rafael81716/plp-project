@@ -19,8 +19,10 @@ read_line_to_codes(user_input ,StringOption),
 verificaIntegridadeOption(StringOption, Option),
 readMainMenu(Option),!.
 
-readMainMenu(Option):- Option =:= 1, clearSc, loginMenu.
-readMainMenu(Option):- Option =:= 2, clearSc, registerUserMenu,!.
+readMainMenu(Option):- Option =:= 1, %clearSc, 
+loginMenu.
+readMainMenu(Option):- Option =:= 2, %clearSc, 
+registerUserMenu,!.
 readMainMenu(Option):- Option \== 1, Option \== 2, write("Opcao invalida, digite novamente!\n"), printMainMenu,!.
 
 
