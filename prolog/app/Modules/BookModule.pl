@@ -1,4 +1,4 @@
-:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1]).
+:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1, getBooksFromSourceByGenre/3]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
@@ -56,8 +56,8 @@ getAllBooks(AllBooks) :-
 
 
 getBooksById([],[]):-!.
-getBooksById([H|T],[H1|T1]):- 
-    atom_number(H, IdFormated),
+getBooksById([H|T],[H1|T1]):-
+    (integer(H) -> IdFormated is H; atom_number(H, IdFormated)),
     getBookById(IdFormated, Book),
     H1 = Book,
     getBooksById(T, T1),!.
@@ -76,6 +76,18 @@ getBooksByGenre(Genre, Book) :-
     getAllBooks(Books), 
     length(Books, Len), 
     getBooksByGenreAux(Books, 0, Len, Genre, [], Book),!.
+
+getBooksFromSourceByGenre(Source, Genre, Result) :-
+    include(bookHasGenre(Genre), Source, Result).
+
+bookHasGenre(Genre, Book) :-
+    nth0(3, Book, BookGenre),
+
+    atom_string(Genre, GenreString),
+
+    Book = [_, _, _, BookGenre | _],
+    atom_string(BookGenre, BookGenreString),
+    BookGenreString = GenreString.
 
 printAllBooks :-
     getAllBooks(Books),
