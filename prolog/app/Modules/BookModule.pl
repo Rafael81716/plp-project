@@ -145,8 +145,10 @@ getBookByIdAux([Head|Tail],Id,Books) :-
 
 getBookByNameAux([], _, []) :- !.
 getBookByNameAux([Head|Tail], Name, Books):- 
+    toUpperCase(Name, NameUpper),
     nth0(1, Head, Out), 
-    (Out==Name -> Books = Head, !; getBookByNameAux(Tail,Name,Books)),!.
+    toUpperCase(Out, OutUpper),
+    (OutUpper==NameUpper -> Books = Head, !; getBookByNameAux(Tail,Name,Books)),!.
 
 
 
