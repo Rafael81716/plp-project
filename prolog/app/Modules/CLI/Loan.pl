@@ -55,11 +55,16 @@ printMakeLoan(User):-
 readMakeLoan(User,1):- printMakeLoanByTitle(User),!.
 readMakeLoan(User,2):- printMakeLoanByAuthor(User),!.
 readMakeLoan(User,3):- printMakeLoanByGenre(User),!.
+readMakeLoan(User, _):- 
+    clearScreen,
+    write("\nOpção inválida!\nDigite novamente: \n"),
+    waitOnScreen,
+    printMakeLoan(User),!.
 
 validarIntegridadeOptionLoan(Numero, Number) :- 
 valid_codes(Numero),
-number_codes(Number, Numero). 
-validarIntegridadeOptionLoan(Numero, _) :- \+ valid_codes(Numero), write("Opção inválida, tente novamente! \n").
+number_codes(Number, Numero),!. 
+validarIntegridadeOptionLoan(Numero, _) :- \+ valid_codes(Numero), write("Opção inválida, tente novamente! \n"),!.
 
 printMakeLoanByGenre(User):-
     
@@ -109,7 +114,7 @@ checkIsValidSize(User):-
  split_string(First,",",'',FormatedLoans),
  length(FormatedLoans, Size),
  Size >= 10, 
- write("Voce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n"), 
+ write("Voce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n\n"), 
  waitOnScreen,
  printUserMenu(User),!.
 
