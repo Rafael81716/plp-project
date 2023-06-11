@@ -4,8 +4,13 @@
 
 % Não funciona com User tendo algum forbiddenbook
 recommendation(User, Recommendation):-
-    nth0(6, User, ForbiddenBooksId),
-    nth0(3, User, BooksGenres),
+    nth0(6, User, TempForbiddenBooksId),
+    nth0(3, User, DirtyBookGenres),
+
+    nth0(0, DirtyBookGenres, TempBooksGenres),
+
+    % split_string(TempForbiddenBooksId, ",", "", ForbiddenBooksId),
+    split_string(TempBooksGenres, ",", "", BooksGenres),
 
     (BooksGenres = [] ->
     randomRecommendation(ForbiddenBooksId, Recommendation)

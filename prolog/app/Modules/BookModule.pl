@@ -43,9 +43,7 @@ getAllBooks(AllBooks) :-
 
 getBooksById([],[]):-!.
 getBooksById([H|T],[H1|T1]):-
-    % Recomendações só funciona com esse
-    % getBookById(H, Book),
-    atom_number(H, IdFormated),
+    (integer(H) -> IdFormated is H; atom_number(H, IdFormated)),
     getBookById(IdFormated, Book),
     H1 = Book,
     getBooksById(T, T1),!.
@@ -70,8 +68,12 @@ getBooksFromSourceByGenre(Source, Genre, Result) :-
 
 bookHasGenre(Genre, Book) :-
     nth0(3, Book, BookGenre),
+
+    atom_string(Genre, GenreString),
+
     Book = [_, _, _, BookGenre | _],
-    BookGenre = Genre.
+    atom_string(BookGenre, BookGenreString),
+    BookGenreString = GenreString.
 
 printAllBooks :-
     getAllBooks(Books),
