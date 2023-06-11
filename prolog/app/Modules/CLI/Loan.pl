@@ -1,4 +1,4 @@
-:- module(LoanModule,[printMakeLoan/1,readMakeLoan/2, printMakeLoanByTitle/1,printAllLoans/1, printReturnBook/1]).
+:- module(LoanModule,[printMakeLoan/1,readMakeLoan/2, printMakeLoanByTitle/1,printAllLoans/1, printReturnBook/1, checkIsValidSize/1]).
 
 :- use_module('../UtilModule.pl').
 :- use_module('../ValidInput/Validation.pl').
@@ -44,6 +44,7 @@ printAllLoans(User):-
     printLoans(User),!.
 
 printMakeLoan(User):-
+    checkIsValidSize(User),
     centeredText("Emprestimo",63),
     write("\nEscolha uma forma de consulta:\n1 - Titulo\n2 - Autor\n3 - Genero\nEscolha uma opcao: \n"),
     read_line_to_codes(user_input, StringOption),
@@ -54,7 +55,6 @@ printMakeLoan(User):-
 readMakeLoan(User,1):- printMakeLoanByTitle(User),!.
 readMakeLoan(User,2):- printMakeLoanByAuthor(User),!.
 readMakeLoan(User,3):- printMakeLoanByGenre(User),!.
-readMakeLoan(User,_) :- write("Opção inválida, tente novamente! \n"), printMakeLoan(User),!.
 
 validarIntegridadeOptionLoan(Numero, Number) :- 
 valid_codes(Numero),
@@ -62,6 +62,7 @@ number_codes(Number, Numero).
 validarIntegridadeOptionLoan(Numero, _) :- \+ valid_codes(Numero), write("Opção inválida, tente novamente! \n").
 
 printMakeLoanByGenre(User):-
+    
     centeredText("Emprestimo",63),
     write("\n Informe um genero para pesquisa: \n"),
     read_line_to_string(user_input, StringGenre),
@@ -89,22 +90,30 @@ printMakeLoanByAuthor(User):-
     printMakeLoanByTitle(User).
 
 printMakeLoanByTitle(User):-
-%Verificar se o usuario ainda pode fazer emprestimo
-nth1(5, User, Loans),
-centeredText("Emprestimo",63),
-write("\nInforme o titulo do livro:\n"),
-read_line_to_string(user_input, StringTitle),
-atom_string(Title, StringTitle),
-getBookByName(Title, Book),
-checkBook(User, Book),
-nth1(1, Book, Id),
-%TODO Verificar se o usuario ja tem esse livro emprestado
-bookLoan(User, Id),!.
+   
+    centeredText("Emprestimo",63),
+    write("\nInforme o titulo do livro:\n"),
+    read_line_to_string(user_input, StringTitle),
+    atom_string(Title, StringTitle),
+    getBookByName(Title, Book),
+    checkBook(User, Book),
+    nth1(1, Book, Id),
+    %TODO Verificar se o usuario ja tem esse livro emprestado
+    bookLoan(User, Id),!.
 
 
-checkIsValidSize(User,Loans):- length(Loans, Size), Size >= 10, write("Voce ja atingiu o numero maximo de emprestimos!\n Devolva um livro ou escolha outra opcao!\n"), printUserMenu(User),!.
+checkIsValidSize(User):- 
+ clearScreen,
+ nth1(5, User, Loans),
+ nth1(1, Loans, First),
+ split_string(First,",",'',FormatedLoans),
+ length(FormatedLoans, Size),
+ Size >= 10, 
+ write("Voce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n"), 
+ waitOnScreen,
+ printUserMenu(User),!.
 
-checkIsValidSize(_,_):-!.
+checkIsValidSize(_):-!.
 
 checkBook(User, []):-  write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), printMakeLoanByTitle(User), !.
 
