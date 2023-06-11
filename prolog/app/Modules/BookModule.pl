@@ -43,8 +43,7 @@ getAllBooks(AllBooks) :-
 
 getBooksById([],[]):-!.
 getBooksById([H|T],[H1|T1]):- 
-    stringToChar(H, IdChar),
-    charToNum(IdChar, IdFormated),
+    atom_number(H, IdFormated),
     getBookById(IdFormated, Book),
     H1 = Book,
     getBooksById(T, T1),!.
@@ -81,6 +80,7 @@ printBooks([Head]):-
     write(" - "),
     write(Genre),
     write("\n"),!.
+
 printBooks([Head|Tail]) :- 
     nth0(0, Head, Id),
     nth0(1, Head, Name),
