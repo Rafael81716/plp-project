@@ -14,8 +14,6 @@ removeElement(Elemento, [Cabeca|Resto], [Cabeca|NovaLista]) :-
 
 
 
-
-
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
     Numero is Codigo - 48.
@@ -52,7 +50,7 @@ write_spaces(N) :-
     write_spaces(N1),!.
 write_spaces(0):-!.
 
-clearSc :- shell(clear).
+clearSc :- shell(clear),!.
 
 clearScreen :-
     current_prolog_flag(windows, true),
@@ -138,5 +136,4 @@ toUpperCase(String, StringMaiuscula) :-
 
 waitOnScreen:-
     write("Digite Enter para continuar:\n"),
-    get_char(_),
-    get_char(_),!.
+    read_line_to_string(user_input, _),!.

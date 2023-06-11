@@ -9,6 +9,7 @@
 
 
 
+
 printHistoric(User):-
     centeredText("Histórico", 63),
     nth1(7,User, Historic),
