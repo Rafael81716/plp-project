@@ -77,7 +77,7 @@ printMakeLoanByGenre(User):-
 
     centeredText("Livros\n", 63),
     write("\n"),
-    reverseList(Books, SortedBooks),
+    reverse(Books, SortedBooks),
     printBooks(SortedBooks),
     printMakeLoanByTitle(User),!.
 
@@ -90,7 +90,7 @@ printMakeLoanByAuthor(User):-
     checkAuthor(User ,Books),
     centeredText("Livros\n", 63),
     write("\n"),
-    reverseList(Books, SortedBooks),
+    reverse(Books, SortedBooks),
     printBooks(SortedBooks),
     printMakeLoanByTitle(User).
 
@@ -103,8 +103,20 @@ printMakeLoanByTitle(User):-
     getBookByName(Title, Book),
     checkBook(User, Book),
     nth1(1, Book, Id),
+    checkBooksRepetitions(User, Id),
     %TODO Verificar se o usuario ja tem esse livro emprestado
     bookLoan(User, Id),!.
+
+
+checkBooksRepetitions(User, BookId):-
+    numberToString(BookId,Id),
+    nth1(5,User, Loans),
+    nth1(1,Loans,First),
+    split_string(First,",",'',FormatedLoans),
+
+    (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado!\nEscolha outro: "), waitOnScreen, printMakeLoan(User); write('foi'), !).
+
+
 
 
 checkIsValidSize(User):- 
