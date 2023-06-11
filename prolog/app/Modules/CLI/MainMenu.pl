@@ -9,6 +9,7 @@
 :- use_module('Favorites.pl').
 :- use_module('Recommendation.pl').
 :- use_module("../UserModule.pl").
+:- use_module("SetProfileModule.pl").
 :- use_module(library(readutil)).
 
 
@@ -56,7 +57,7 @@ readUserMenu(6, User):- registerFavorite(User),!.
 readUserMenu(7, User):- removeFavorite(User),!. 
 readUserMenu(8, User):- listFavorites(User),!. 
 readUserMenu(9, User):- printHistoric(User),!. 
-readUserMenu(10, User):- write('todo 10'),!. 
+readUserMenu(10, User):- printSetProfile(User),!. 
 readUserMenu(11, User):- write("tchau tchau \n"),abort,!.
 
 

@@ -2,6 +2,9 @@
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
+:- use_module(library(readutil)).
+:- use_module('CLI/LoginAndRegisterModule.pl').
+
 
 
 printBooksMenu(User) :-
@@ -10,7 +13,8 @@ write("\n"),
 printAllBooks,
 write("\n"),
 write("1-Voltar\n2-Ver Livro\nEscolha uma opção:\n"),
-read(Option),
+read_line_to_codes(user_input, StringOption),
+validarIntegridadeOptionBookMenu(StringOption, Option, User),
 verificaEntrada(Option, User).
 
 verificaEntrada(1, User) :- printUserMenu(User).
@@ -20,13 +24,23 @@ write("\n"),
 printAllBooks,
 write("\n"),
 write("Informe o id do livro:\n"),
-read(Id),
+read_line_to_codes(user_input, StringId),
+validarIntegridadeOptionVerifica(StringId, Id, User),
 verificaId(Id, User).
-verificaEntrada(_, User) :- writeln("Entrada inválida, Tente novamente"), waitOnScreen, printBooksMenu(User).
+verificaEntrada(_, User) :- writeln("\nEntrada inválida, Tente novamente"), waitOnScreen, printBooksMenu(User).
 
 verificaId(Id, User) :- Id =< 204, Id >= 1, getBookById(Id, Book), nth0(5, Book, Sinopse), nth0(1, Book, NomeLivro), printSinopse(NomeLivro, Sinopse), printUserMenu(User),!.
-verificaId(Id, User) :- writeln("Id inválido, Tente novamente\n"), waitOnScreen, verificaEntrada(2,User).
+verificaId(Id, User) :- writeln("\nId inválido, Tente novamente\n"), waitOnScreen, verificaEntrada(2,User).
 
+validarIntegridadeOptionBookMenu(Numero, Number, User) :- 
+valid_codes(Numero),
+number_codes(Number, Numero). 
+validarIntegridadeOptionBookMenu(Numero, _, User) :- \+ valid_codes(Numero), write("\nOpção inválida! Tente novamente. \n"), printBooksMenu(User), !.
+
+validarIntegridadeOptionVerifica(Numero, Number, User) :- 
+valid_codes(Numero),
+number_codes(Number, Numero). 
+validarIntegridadeOptionVerifica(Numero, _, User) :- \+ valid_codes(Numero), write("\nOpção inválida! Tente novamente. \n"), verificaEntrada(2,User), !.
 
 printSinopse(NomeLivro, Sinopse) :-
 centeredText(NomeLivro, 63),

@@ -33,6 +33,8 @@ removeElement(Elemento, [Elemento|Resto], Resto) :-!.
 removeElement(Elemento, [Cabeca|Resto], [Cabeca|NovaLista]) :-
     removeElement(Elemento, Resto, NovaLista),!.
 
+
+
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
     Numero is Codigo - 48.
@@ -68,7 +70,7 @@ write_spaces(N) :-
     write_spaces(N1),!.
 write_spaces(0):-!.
 
-clearSc :- shell(clear).
+clearSc :- shell(clear),!.
 
 clearScreen :-
     current_prolog_flag(windows, true),
@@ -98,7 +100,13 @@ validar_numeros([Palavra|Palavras], [Numero|Numeros]) :-
     atom_number(Palavra, Numero),
     Numero >= 1,
     Numero =< 7,
-    validar_numeros(Palavras, Numeros).
+    validar_numeros(Palavras, Numeros),
+    all_distinct([Numero|Numeros]). % Verificar números repetidos
+
+all_distinct([]).
+all_distinct([X|Xs]) :-
+    \+ memberchk(X, Xs),
+    all_distinct(Xs).
 
 validar_letras(ListaNumeros) :-
     (contains_letters(ListaNumeros) ->
@@ -121,7 +129,7 @@ verificar_tamanho(ListaNumeros) :-
     ).
 
 mapGenres([], []):-!.
-mapGenres([1|T], ['Ficcao'|MappedTail]) :-
+mapGenres([1|T], ['Ficcao Cientifica'|MappedTail]) :-
     mapGenres(T, MappedTail),!.
 mapGenres([2|T], ['Fantasia'|MappedTail]) :-
     mapGenres(T, MappedTail),!.
@@ -148,8 +156,7 @@ toUpperCase(String, StringMaiuscula) :-
 
 waitOnScreen:-
     write("Digite Enter para continuar:\n"),
-    get_char(_),
-    get_char(_),!.
+    read_line_to_string(user_input, _),!.
 
 removeFrom([], _, []).
 removeFrom([X|Xs], RemoveList, Result) :-
