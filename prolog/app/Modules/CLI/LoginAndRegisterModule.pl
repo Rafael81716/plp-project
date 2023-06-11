@@ -1,4 +1,4 @@
-:- module(LoginAndRegisterModule,[registerUserMenu/0, printGenres/0, checkEmail/1, loginMenu/0, valid_codes/1]).
+:- module(LoginAndRegisterModule,[registerUserMenu/0, printGenres/0, checkEmail/1, loginMenu/0, valid_codes/1,checkName/1]).
 :- use_module('../UserModule.pl').
 :- use_module('../UtilModule.pl').
 :- use_module('../CsvModule.pl').
@@ -32,6 +32,7 @@ writeln("\nDigite seu nome: "),
 write('\n'),
 read_line_to_string(user_input, StringName),
 atom_string(ReadName, StringName),
+checkName(StringName),
 writeln("\nDigite seu email: "),
 write('\n'),
 read_line_to_string(user_input, StringEmail),
@@ -60,6 +61,10 @@ printGenres:-
 
 centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e separados por espaços:\n1 - Ficcao Cientifica\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.
+
+checkName("") :- write("\nNome vazio!\nInsira seus dados novamente: \n"), registerUserMenu,!.
+checkName(" "):- write("\nNome composto somente por espacos!\nInsira seus dados novamente: \n"), registerUserMenu, !.
+checkName(_):-!.
 
 
 checkEmail([]):- !.
