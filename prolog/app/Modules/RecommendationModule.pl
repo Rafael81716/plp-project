@@ -4,13 +4,16 @@
 
 % Não funciona com User tendo algum forbiddenbook
 recommendation(User, Recommendation):-
-    nth0(6, User, TempForbiddenBooksId),
+    nth0(6, User, DirtyForbiddenBooksId),
     nth0(3, User, DirtyBookGenres),
+    length(DirtyBookGenres, DirtyBookGenresLen),
+    length(DirtyForbiddenBooksId, DirtyForbiddenBooksIdLen),
 
-    nth0(0, DirtyBookGenres, TempBooksGenres),
-
-    % split_string(TempForbiddenBooksId, ",", "", ForbiddenBooksId),
-    split_string(TempBooksGenres, ",", "", BooksGenres),
+    (DirtyBookGenresLen > 0 -> nth0(0, DirtyBookGenres, TempBooksGenres);TempBooksGenres = "" ),
+    (DirtyForbiddenBooksIdLen > 0 -> nth0(0, DirtyForbiddenBooksId, TempForbiddenBooksId);TempForbiddenBooksId = "" ),
+    
+    (TempForbiddenBooksId = "" -> ForbiddenBooksId = [];split_string(TempForbiddenBooksId, ",", "", ForbiddenBooksId)),
+    (TempBooksGenres = "" -> BooksGenres = [];split_string(TempBooksGenres, ",", "", BooksGenres)),
 
     (BooksGenres = [] ->
     randomRecommendation(ForbiddenBooksId, Recommendation)
@@ -18,7 +21,10 @@ recommendation(User, Recommendation):-
 
 getNotForbiddenList(ForbiddenBooksId, SafeAllIds):-
     range(1, 204, AllIds),
-    removeDoubles(AllIds, ForbiddenBooksId, SafeAllIds).
+    (ForbiddenBooksId = [] -> 
+        SafeAllIds = AllIds
+        ;
+        removeFrom(AllIds, ForbiddenBooksId, SafeAllIds)).
 
 randomRecommendation(ForbiddenBooksId, Recommendation):-
     getNotForbiddenList(ForbiddenBooksId, SafeAllIds),

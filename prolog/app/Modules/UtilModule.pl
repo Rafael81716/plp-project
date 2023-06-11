@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, getRandomElements/3, removeDoubles/3, range/3, removeElement/3, numberToString/2]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, getRandomElements/3, removeFrom/3, range/3, removeElement/3, numberToString/2]).
 
 getRandomElements(_, 0, []).
 getRandomElements(List, N, [Element | Elements]) :-
@@ -112,12 +112,19 @@ waitOnScreen:-
     get_char(_),
     get_char(_),!.
 
-removeDoubles([], _, []):-!.
-removeDoubles(R, [], R):-!.
-removeDoubles([X | Xs], Acc, Result) :-
-    (member(X, Acc) ->
-        removeDoubles(Xs, Acc, Result)
+removeFrom([], _, []).
+removeFrom([X|Xs], RemoveList, Result) :-
+    removeFrom(Xs, RemoveList, Temp),
+
+    (contains(X, RemoveList) -> 
+        Result = Temp
+        ;
+        Result = [X | Temp]),!.
+
+contains(_, []):-!, fail.
+contains(X, [Y|Ys]):-
+    atom_number(Y, YNumber),
+
+    (X == YNumber -> true
     ;
-        select(X, Acc, UpdatedAcc),
-        removeDoubles(Xs, UpdatedAcc, Result)
-    ).
+    contains(X, Ys)).
