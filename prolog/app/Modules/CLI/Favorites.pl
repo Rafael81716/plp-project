@@ -28,7 +28,7 @@ checkEmpty(User, Favorites) :-
     read(Titulo),
     getBookByName(Titulo, Book),
     nth0(0, Book, ID),
-    addBook(User, ID, Favorites, 'notFav')
+    addBook(User, ID, [], 'notFav')
     ;
     writeln("Insira o titulo do livro a ser adicionado:"),
     read(Titulo),
@@ -37,7 +37,7 @@ checkEmpty(User, Favorites) :-
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", List),
     checkFavorite(ID, List, R),
-    addBook(User, ID, Favorites, R),!.
+    addBook(User, ID, List, R),!.
 
 addBook(User, ID, Favorites, Check) :- 
     Check = 'fav' ->
@@ -49,9 +49,8 @@ addBook(User, ID, Favorites, Check) :-
     getUsers(Users),
     nth0(1, User, Email),
     checkUserRegister(Email, Users, NewUser),
-    nth1(1, NewUser, ActualUser),
     writeln("Livro adicionado aos favoritos com sucesso!"),
-    printUserMenu(ActualUser),!.
+    printUserMenu(NewUser),!.
 
 
 removeFavorite(User) :- 
@@ -90,9 +89,8 @@ removeBook(User, ID, Favorites, Check) :-
     getUsers(Users),
     nth0(1, User, Email),
     checkUserRegister(Email, Users, NewUser),
-    nth1(1, NewUser, ActualUser),
     writeln("Livro removido dos favoritos com sucesso!"),
-    printUserMenu(ActualUser),!.
+    printUserMenu(NewUser),!.
 
 listBeforeRemove(User) :-
     centeredText("Lista de favoritos",40),
