@@ -80,7 +80,13 @@ validar_numeros([Palavra|Palavras], [Numero|Numeros]) :-
     atom_number(Palavra, Numero),
     Numero >= 1,
     Numero =< 7,
-    validar_numeros(Palavras, Numeros).
+    validar_numeros(Palavras, Numeros),
+    all_distinct([Numero|Numeros]). % Verificar números repetidos
+
+all_distinct([]).
+all_distinct([X|Xs]) :-
+    \+ memberchk(X, Xs),
+    all_distinct(Xs).
 
 validar_letras(ListaNumeros) :-
     (contains_letters(ListaNumeros) ->
@@ -103,7 +109,7 @@ verificar_tamanho(ListaNumeros) :-
     ).
 
 mapGenres([], []):-!.
-mapGenres([1|T], ['Ficcao'|MappedTail]) :-
+mapGenres([1|T], ['Ficcao Cientifica'|MappedTail]) :-
     mapGenres(T, MappedTail),!.
 mapGenres([2|T], ['Fantasia'|MappedTail]) :-
     mapGenres(T, MappedTail),!.

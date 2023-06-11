@@ -1,4 +1,4 @@
-:- module(ValidationModule,[isValidEmail/2, isValidPassword/2, isValidSize/2]).
+:- module(ValidationModule,[isValidEmail/2, isValidPassword/2, isValidSize/2, isValidName/1]).
 :- use_module("../UtilModule.pl").
 
 validDomain("gmail.com"):-!.
