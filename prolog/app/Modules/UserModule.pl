@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/8, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1]).
+:- module(UserModule,[registerUser/8, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1,attUserName/2,attUserEmail/2,attUserPassword/2,attUserListGenres/2]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
@@ -158,6 +158,7 @@ checkUserPassword(Password, Lista, Result):- nth1(3, Lista, UserPassword), Passw
 
 attUserName(User, NewName) :- attUserAtribute(User, NewName, 0).
 attUserEmail(User, NewEmail) :- attUserAtribute(User, NewEmail, 1).
+attUserPassword(User, NewPassword) :- attUserAtribute(User, NewPassword, 2).
 attUserListGenres(User, NewListGenres) :- attUserAtribute(User, NewListGenres, 3),!.
 
 attUserLoans(User, NewLoans) :-attUserAtribute(User, NewLoans,4),!.
