@@ -1,16 +1,29 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, generateRandomNumbers/4, removeDoubles/3]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, getRandomElements/3, removeDoubles/3, range/3]).
 
-generateRandomNumbers(0, _, _, []):-!.
-generateRandomNumbers(Amount, LBound, UBound, Numbers) :-
-    random_between(LBound, UBound, X),
-    Amount2 is Amount - 1,
-    generateRandomNumbers(Amount2, LBound, UBound, IncompleteNumbers),
-    Numbers = [X | IncompleteNumbers].
+getRandomElements(_, 0, []).
+getRandomElements(List, N, [Element | Elements]) :-
+    N > 0,
+    length(List, Length),
+    UpperLimit is Length - 1,
+    random(0, UpperLimit, Index),
+    nth0(Index, List, Element),
+    N1 is N - 1,
+    delete(List, Element, UpdatedList),
+    getRandomElements(UpdatedList, N1, Elements).
+
+range(Start, End, List) :-
+    Start =< End,
+    rangeHelper(Start, End, [], List).
+
+rangeHelper(End, End, Acc, [End|Acc]).
+rangeHelper(Start, End, Acc, List) :-
+    Start < End,
+    NewStart is Start + 1,
+    rangeHelper(NewStart, End, [Start|Acc], List).
 
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
     Numero is Codigo - 48.
-
 
 stringToChar(String, Caractere) :-
     string_chars(String, [Caractere|_]).
