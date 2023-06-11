@@ -2,7 +2,7 @@
 :- use_module('./BookModule.pl').
 :- use_module('./UtilModule.pl').
 
-
+% Não funciona com User tendo algum forbiddenbook
 recommendation(User, Recommendation):-
     nth0(6, User, ForbiddenBooksId),
     nth0(3, User, BooksGenres),
@@ -28,7 +28,7 @@ customRecommendation(ForbiddenBooksId, BooksGenres, Recommendation):-
     AmountPerGenre is max(1, 10 // GenreAmount),
     
     getRandomBooksFromGenres(BookSource, BooksGenres, AmountPerGenre, TempRecommendation),
-    
+
     length(TempRecommendation, Len),
     nth0(0, BooksGenres, FavoriteGenre),
     MissingBooks is 10 - Len,

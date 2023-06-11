@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, getRandomElements/3, removeDoubles/3, range/3]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0, getRandomElements/3, removeDoubles/3, range/3, removeElement/3, numberToString/2]).
 
 getRandomElements(_, 0, []).
 getRandomElements(List, N, [Element | Elements]) :-
@@ -20,6 +20,15 @@ rangeHelper(Start, End, Acc, List) :-
     Start < End,
     NewStart is Start + 1,
     rangeHelper(NewStart, End, [Start|Acc], List).
+
+numberToString(Numero, String) :-
+    number_codes(Numero, Codigo),
+    string_codes(String, Codigo).
+
+removeElement(_, [], []):- !.
+removeElement(Elemento, [Elemento|Resto], Resto) :-!.
+removeElement(Elemento, [Cabeca|Resto], [Cabeca|NovaLista]) :-
+    removeElement(Elemento, Resto, NovaLista),!.
 
 charToNum(Caractere, Numero) :-
     char_code(Caractere, Codigo),
@@ -101,7 +110,7 @@ toUpperCase(String, StringMaiuscula) :-
 waitOnScreen:-
     write("Digite Enter para continuar:\n"),
     get_char(_),
-    get_char(_).
+    get_char(_),!.
 
 removeDoubles([], _, []):-!.
 removeDoubles(R, [], R):-!.

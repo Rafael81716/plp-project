@@ -8,6 +8,7 @@
 :- use_module("Historic.pl").
 :- use_module('Favorites.pl').
 :- use_module('Recommendation.pl').
+:- use_module("../UserModule.pl").
 
 
 printMainMenu:-
@@ -40,12 +41,12 @@ readUserMenu(Option, User),!.
 
 readUserMenu(1, User):- printMakeLoan(User),!. 
 readUserMenu(2, User):- printAllLoans(User),!. 
-readUserMenu(3, User):- write('todo 3'),!. 
+readUserMenu(3, User):- printReturnBook(User),!. 
 readUserMenu(4, User):- printBooksMenu(User),!. 
 readUserMenu(5, User):- printRecommendation(User),!. 
 readUserMenu(6, User):- registerFavorite(User),!. 
 readUserMenu(7, User):- removeFavorite(User),!. 
 readUserMenu(8, User):- listFavorites(User),!. 
-readUserMenu(9, User):- printBookHistoric(User),!. 
+readUserMenu(9, User):- printHistoric(User),!. 
 readUserMenu(10, User):- write('todo 10'),!. 
 readUserMenu(11, User):- write("tchau tchau \n"),abort,!.
