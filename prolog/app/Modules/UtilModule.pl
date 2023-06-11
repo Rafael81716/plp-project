@@ -1,5 +1,7 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2]).
-
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2,clearSc/0]).
+:- use_module(library(readutil)).
+:- use_module('CLI/LoginAndRegisterModule.pl').
+:- use_module(library(ansi_term)).
 
 numberToString(Numero, String) :-
     number_codes(Numero, Codigo),
@@ -30,14 +32,15 @@ centeredText(Text, Width) :-
     write_dashed_line(Width),
     nl,
     write_spaces(Line1SpacesBefore),
-    write(Text),
+    format('\e[32m~w\e[0m',[Text]),
     write_spaces(Line1SpacesAfter),
     nl,
     write_dashed_line(Width),!.
 
 write_dashed_line(Width) :-
     Width > 0,
-    write('-'),
+    Text = '-',
+    format('\e[32m~w\e[0m',[Text]),
     Width1 is Width - 1,
     write_dashed_line(Width1),!.
 write_dashed_line(0):-!.
@@ -49,22 +52,57 @@ write_spaces(N) :-
     write_spaces(N1),!.
 write_spaces(0):-!.
 
+clearSc :- shell(clear).
 
 clearScreen :-
-    current_prolog_flag(windows, true), !,
+    current_prolog_flag(windows, true),
     shell('cls'),!.
 
 clearScreen :-
-    current_prolog_flag(unix, true), !,
+    current_prolog_flag(unix, true),
     shell('clear'),!.
 
 
-readOptions([Number| Rest]) :-
-    read(Number),
-    Number \= -1,
-    readOptions(Rest), !.
-readOptions([]):-!.
 
+readOptions(ListaNumeros) :-
+    write('Digite os números separados por espaços: '),
+    read_line_to_codes(user_input, Entrada),
+    (Entrada = [] ->
+        ListaNumeros = []
+    ;   split_string(Entrada, " ", "", Palavras),
+        (validar_numeros(Palavras, ListaNumeros) ->
+            validar_letras(ListaNumeros)
+        ;   write('Entrada inválida. Digite apenas números entre 1 e 7, separados por espaços.'), nl,
+            readOptions(ListaNumeros)
+        )
+    ).
+
+validar_numeros([], []).
+validar_numeros([Palavra|Palavras], [Numero|Numeros]) :-
+    atom_number(Palavra, Numero),
+    Numero >= 1,
+    Numero =< 7,
+    validar_numeros(Palavras, Numeros).
+
+validar_letras(ListaNumeros) :-
+    (contains_letters(ListaNumeros) ->
+        write('A entrada não pode conter letras.'), nl,
+        readOptions(ListaNumeros)
+    ;   verificar_tamanho(ListaNumeros)
+    ).
+
+contains_letters(ListaNumeros) :-
+    member(Elemento, ListaNumeros),
+    atom(Elemento),
+    not(number(Elemento)).
+
+verificar_tamanho(ListaNumeros) :-
+    length(ListaNumeros, Len),
+    (Len > 5 ->
+        write('A lista não pode conter mais de 5 números.'), nl,
+        readOptions(ListaNumeros)
+    ;   true
+    ).
 
 mapGenres([], []):-!.
 mapGenres([1|T], ['Ficcao'|MappedTail]) :-
