@@ -132,5 +132,4 @@ toUpperCase(String, StringMaiuscula) :-
 
 waitOnScreen:-
     write("Digite Enter para continuar:\n"),
-    get_char(_),
-    get_char(_),!.
+    read_line_to_string(user_input, _),!.
