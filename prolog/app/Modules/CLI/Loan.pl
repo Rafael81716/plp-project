@@ -62,18 +62,18 @@ number_codes(Number, Numero).
 validarIntegridadeOptionLoan(Numero, _) :- \+ valid_codes(Numero), write("Opção inválida, tente novamente! \n").
 
 printMakeLoanByGenre(User):-
+    centeredText("Emprestimo",63),
+    write("\n Informe um genero para pesquisa: \n"),
+    read_line_to_string(user_input, StringGenre),
+    atom_string(Genre, StringGenre),
+    getBooksByGenre(Genre, Books),
+    checkGenres(User ,Books),
 
-centeredText("Emprestimo",63),
-write("\n Informe um genero para pesquisa: \n"),
-read_line_to_string(user_input, StringGenre),
-atom_string(Genre, StringGenre),
-getBooksByGenre(Genre, Books),
-checkGenres(User ,Books),
-
-centeredText("Livros\n", 63),
-write("\n"),
-printBooks(Books),
-printMakeLoanByTitle(User),!.
+    centeredText("Livros\n", 63),
+    write("\n"),
+    reverseList(Books, SortedBooks),
+    printBooks(SortedBooks),
+    printMakeLoanByTitle(User),!.
 
 printMakeLoanByAuthor(User):-
     centeredText("Emprestimo",63),
@@ -84,7 +84,8 @@ printMakeLoanByAuthor(User):-
     checkAuthor(User ,Books),
     centeredText("Livros\n", 63),
     write("\n"),
-    printBooks(Books),
+    reverseList(Books, SortedBooks),
+    printBooks(SortedBooks),
     printMakeLoanByTitle(User).
 
 printMakeLoanByTitle(User):-

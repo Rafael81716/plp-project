@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2,clearSc/0]).
+:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2,clearSc/0,reverseList/2]).
 :- use_module(library(readutil)).
 :- use_module('CLI/LoginAndRegisterModule.pl').
 :- use_module(library(ansi_term)).
@@ -13,7 +13,10 @@ removeElement(Elemento, [Cabeca|Resto], [Cabeca|NovaLista]) :-
     removeElement(Elemento, Resto, NovaLista),!.
 
 
-
+reverseList([], []).
+reverseList([X|Xs], Reversed) :-
+    reverseList(Xs, ReversedTail),
+    append(ReversedTail, [X], Reversed).
 
 
 charToNum(Caractere, Numero) :-
