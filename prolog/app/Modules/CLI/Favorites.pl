@@ -8,7 +8,7 @@
 :- use_module(library(readutil)).
 
 registerFavorite(User) :-
-    centeredText("Favoritos", 63),
+    centeredText("Registrar Favorito", 63),
     write("\n"),
     nth0(5, User, Favorites),
     nth0(0, Favorites, Elem),
@@ -31,6 +31,7 @@ checkEmpty(User, Favorites) :-
     read_line_to_string(user_input, StringTitulo),
     atom_string(Titulo, StringTitulo),
     getBookByName(Titulo, Book),
+    checkValidBook(User, Book, 'register'),
     nth0(0, Book, ID),
     addBook(User, ID, [], 'notFav')
     ;
@@ -38,6 +39,7 @@ checkEmpty(User, Favorites) :-
     read_line_to_string(user_input, StringTitulo),
     atom_string(Titulo, StringTitulo),
     getBookByName(Titulo, Book),
+    checkValidBook(User, Book, 'register'),
     nth0(0, Book, ID),
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", List),
@@ -59,6 +61,7 @@ addBook(User, ID, Favorites, Check) :-
 
 
 removeFavorite(User) :- 
+    centeredText("Remover Favorito", 63),
     nth0(5, User, Favorites),
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", L),
@@ -76,6 +79,7 @@ removeBookFromFavorites(User) :-
     read_line_to_string(user_input, StringTitulo),
     atom_string(Titulo, StringTitulo),
     getBookByName(Titulo, Book),
+    checkValidBook(User, Book, 'remove'),
     nth0(0, Book, ID),
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", L),
@@ -99,7 +103,6 @@ removeBook(User, ID, Favorites, Check) :-
     printUserMenu(NewUser),!.
 
 listBeforeRemove(User) :-
-    centeredText("Lista de favoritos",40),
     writeln(""),
     nth0(5, User, Favorites),
     nth0(0, Favorites, Elem),
@@ -116,7 +119,7 @@ printBeforeRemove([H|T]) :-
     printBeforeRemove(T),!.
 
 listFavorites(User) :- 
-    centeredText("Lista de favoritos",40),
+    centeredText("Lista de favoritos",63),
     writeln(""),
     nth0(5, User, Favorites),
     sizeList(Favorites, 0, S),
@@ -133,6 +136,7 @@ listFavorites(User) :-
 
 printBooksList(User, []) :- 
     writeln(""),
+    waitOnScreen,
     printUserMenu(User),!.
 printBooksList(User, [H|T]) :- 
     atom_number(H,X),
@@ -158,3 +162,14 @@ removeBookFromList(E, [H|T], Aux, R) :-
 
 sizeList([], C, L) :- L is C,!.
 sizeList([H|T], C, L) :- sizeList(T, C + 1, L),!.
+
+checkValidBook(User, Book, Option) :- 
+    sizeList(Book, 0, L),
+    L =:= 0 -> 
+    writeln("Livro nao encontrado!"),
+    repeatFav(User, Option)
+    ;
+    write(""),!.
+
+repeatFav(User, 'register') :- registerFavorite(User),!.
+repeatFav(User, 'remove') :- removeFavorite(User),!.
