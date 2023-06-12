@@ -10,25 +10,22 @@
 
 
 
-printHistoric(User):-
-    centeredText("Histórico", 63),
-    nth1(7,User, Historic),
-    Historic = [],
-    write("\nHistórico vazio!\n"),
-    waitOnScreen,
-    printUserMenu(User),!.
 
 printHistoric(User):-
     %clearScreen,
     centeredText("Histórico", 63),
     nth1(7, User, Historic),
+    (Historic = [] -> write("\nHistórico vazio!\n"),
+    waitOnScreen,
+    printUserMenu(User),!;
     nth1(1, Historic, First),
     split_string(First,",",'', FormatedHistoric),
     getBooksById(FormatedHistoric, Books),
     write("\n"),
     printBooks(Books),
     waitOnScreen,
-    printUserMenu(User),!.
+    printUserMenu(User),!
+    ).
 
 
 
@@ -81,7 +78,7 @@ printLoans(User):-
    
     getBooksById(FormatedLoans, Books),
     write("\n"),
-    printBooks(Books),
+    printBooksWithLink(Books),
     waitOnScreen,
     printUserMenu(User),!.
 

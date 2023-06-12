@@ -9,8 +9,6 @@
 printHistoricMenu(User, Book) :-
     nth1(7, User, Historic),
     nth1(2, User, ActualEmail),
-    
-    
     writeln('Voce leu esse livro?\n'),
     write('Digite <1> para Sim ou <2> para Não: '),
     read(IsRead),
