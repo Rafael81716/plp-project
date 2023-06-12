@@ -16,6 +16,7 @@ registerFavorite(User) :-
     sizeList(L, 0, ListLenght),
     ListLenght > 9 -> 
     writeln("Lista de favoritos cheia!"),
+    waitOnScreen,
     printUserMenu(User)
     ;
     addBookToFavorites(User),!.
@@ -67,6 +68,7 @@ removeFavorite(User) :-
     L =:= 0 ->
     write("\n"),
     writeln("Lista de favoritos vazia!"),
+    waitOnScreen,
     printUserMenu(User)
     ;
     removeBookFromFavorites(User),!.
