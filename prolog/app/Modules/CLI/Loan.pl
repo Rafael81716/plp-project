@@ -48,7 +48,7 @@ printMakeLoan(User):-
     centeredText("Emprestimo",63),
     write("\nEscolha uma forma de consulta:\n1 - Titulo\n2 - Autor\n3 - Genero\nEscolha uma opcao: \n"),
     read_line_to_codes(user_input, StringOption),
-    validarIntegridadeOptionLoan(StringOption, Option),
+    validarIntegridadeOptionLoan(StringOption, Option, User),
     readMakeLoan(User, Option),!.
 
 
@@ -56,15 +56,13 @@ readMakeLoan(User,1):- printMakeLoanByTitle(User),!.
 readMakeLoan(User,2):- printMakeLoanByAuthor(User),!.
 readMakeLoan(User,3):- printMakeLoanByGenre(User),!.
 readMakeLoan(User, _):- 
-    clearScreen,
     write("\nOpção inválida!\nDigite novamente: \n"),
-    waitOnScreen,
     printMakeLoan(User),!.
 
-validarIntegridadeOptionLoan(Numero, Number) :- 
+validarIntegridadeOptionLoan(Numero, Number, User) :- 
 valid_codes(Numero),
 number_codes(Number, Numero),!. 
-validarIntegridadeOptionLoan(Numero, _) :- \+ valid_codes(Numero), write("Opção inválida, tente novamente! \n"),!.
+validarIntegridadeOptionLoan(Numero, _,User) :- \+ valid_codes(Numero), readMakeLoan(User, 4),!.
 
 printMakeLoanByGenre(User):-
     
@@ -114,31 +112,30 @@ checkBooksRepetitions(User, BookId):-
     nth1(1,Loans,First),
     split_string(First,",",'',FormatedLoans),
 
-    (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado!\nEscolha outro: "), waitOnScreen, printMakeLoan(User); !).
+    (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado! \n"), waitOnScreen, printMakeLoan(User); !).
 
 
 
 
 checkIsValidSize(User):- 
- clearScreen,
  nth1(5, User, Loans),
  nth1(1, Loans, First),
  split_string(First,",",'',FormatedLoans),
  length(FormatedLoans, Size),
  Size >= 10, 
- write("Voce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n\n"), 
+ write("Voce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n"), 
  waitOnScreen,
  printUserMenu(User),!.
 
 checkIsValidSize(_):-!.
 
-checkBook(User, []):-  write("Este livro nao consta na base de dados!\nEscolha novamente: \n"), printMakeLoanByTitle(User), !.
+checkBook(User, []):-  write("Este livro nao consta na base de dados! Tente novamente. \n"), printMakeLoanByTitle(User), !.
 
 checkBook(_,[H|T]):- !.
 
 checkBook2(User, []):- 
 clearScreen, 
-write("Este livro nao consta na base de dados!\nEscolha novamente: \n"),
+write("Este livro nao consta na base de dados! Tente novamente. \n"),
 waitOnScreen, 
 printReturnBook(User), !.
 
