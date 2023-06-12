@@ -93,7 +93,8 @@ printAllBooks :-
     getAllBooks(Books),
     printBooks(Books),!.
 
-printBooks([Head]):-
+printBooks([]) :- write(""),!.
+printBooks([Head]) :- 
     nth0(0, Head, Id),
     nth0(1, Head, Name),
     nth0(2, Head, Author),
@@ -105,8 +106,8 @@ printBooks([Head]):-
     write(Author),
     write(" - "),
     write(Genre),
-    write("\n"),!.
-
+    writeln("\n").
+    
 printBooks([Head|Tail]) :- 
     nth0(0, Head, Id),
     nth0(1, Head, Name),
@@ -119,8 +120,48 @@ printBooks([Head|Tail]) :-
     write(Author),
     write(" - "),
     write(Genre),
-    write("\n"),
+    writeln("\n"),
     printBooks(Tail).
+
+
+printBooksWithLink([]):- write(""), !.
+printBooksWithLink([Head]):- 
+    nth0(0, Head, Id),
+    nth0(1, Head, Name),
+    nth0(2, Head, Author),
+    nth0(3, Head, Genre),
+    nth0(4, Head, Link),
+    write(Id),
+    write(" - "),
+    write(Name),
+    write(" - "),
+    write(Author),
+    write(" - "),
+    write(Genre),
+    write(" - "),
+    write(Link),
+    writeln("\n"),!.
+    
+printBooksWithLink([Head|Tail]) :- 
+    nth0(0, Head, Id),
+    nth0(1, Head, Name),
+    nth0(2, Head, Author),
+    nth0(3, Head, Genre),
+    nth0(4, Head, Link),
+    write(Id),
+    write(" - "),
+    write(Name),
+    write(" - "),
+    write(Author),
+    write(" - "),
+    write(Genre),
+    write(" - "),
+    write(Link),
+    writeln("\n"),
+    printBooksWithLink(Tail).
+
+   
+
 
 getBooksByAuthorAux(Array, Cont, Len, Author, Books, Books):-
     Cont =:= Len, !.
