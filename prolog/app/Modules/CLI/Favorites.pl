@@ -63,10 +63,9 @@ addBook(User, ID, Favorites, Check) :-
 removeFavorite(User) :- 
     centeredText("Remover Favorito", 63),
     nth0(5, User, Favorites),
-    nth0(0, Favorites, Elem),
-    split_string(Elem, ",", "", L),
-    sizeList(L, 0, ListLenght),
-    ListLenght =:= 0 ->
+    sizeList(Favorites, 0, L),
+    L =:= 0 ->
+    write("\n"),
     writeln("Lista de favoritos vazia!"),
     printUserMenu(User)
     ;
