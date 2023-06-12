@@ -5,8 +5,11 @@
 :- use_module("../UtilModule.pl").
 :- use_module('../ValidInput/Validation.pl').
 :- use_module('MainMenu.pl').
+:- use_module(library(readutil)).
 
 registerFavorite(User) :-
+    centeredText("Favoritos", 63),
+    write("\n"),
     nth0(5, User, Favorites),
     nth0(0, Favorites, Elem),
     split_string(Elem, ",", "", L),
@@ -25,13 +28,15 @@ checkEmpty(User, Favorites) :-
     sizeList(Favorites, 0, L),
     L =:= 0 -> 
     writeln("Insira o titulo do livro a ser adicionado:"),
-    read(Titulo),
+    read_line_to_string(user_input, StringTitulo),
+    atom_string(Titulo, StringTitulo),
     getBookByName(Titulo, Book),
     nth0(0, Book, ID),
     addBook(User, ID, [], 'notFav')
     ;
     writeln("Insira o titulo do livro a ser adicionado:"),
-    read(Titulo),
+    read_line_to_string(user_input, StringTitulo),
+    atom_string(Titulo, StringTitulo),
     getBookByName(Titulo, Book),
     nth0(0, Book, ID),
     nth0(0, Favorites, Elem),
@@ -68,7 +73,8 @@ removeBookFromFavorites(User) :-
     nth0(5, User, Favorites),
     listBeforeRemove(User),
     writeln("Insira o titulo do livro a ser removido:"),
-    read(Titulo),
+    read_line_to_string(user_input, StringTitulo),
+    atom_string(Titulo, StringTitulo),
     getBookByName(Titulo, Book),
     nth0(0, Book, ID),
     nth0(0, Favorites, Elem),
