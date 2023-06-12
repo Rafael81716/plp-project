@@ -1,4 +1,4 @@
-:- module(LoanModule,[printMakeLoan/1,readMakeLoan/2, printMakeLoanByTitle/1,printAllLoans/1, printReturnBook/1, checkIsValidSize/1]).
+:- module(_,[printMakeLoan/1,readMakeLoan/2, printMakeLoanByTitle/1,printAllLoans/1, printReturnBook/1, checkIsValidSize/1]).
 
 :- use_module('../UtilModule.pl').
 :- use_module('../ValidInput/Validation.pl').
@@ -13,7 +13,7 @@
 
 
 printReturnBook(User):- 
-    %clearScreen,
+    clearScreen,
     checkDevolution(User),
     centeredText("Devolucao", 63),
     write("\nEstes são seus empréstimos: \n"),
@@ -27,7 +27,7 @@ printReturnBook(User):-
     readReturnBook(User, BookName, Option),!.
 
 
-validarIntegridadeOptionLoanReturn(Numero, Number, User) :- 
+validarIntegridadeOptionLoanReturn(Numero, Number, _) :- 
 valid_codes(Numero),
 number_codes(Number, Numero). 
 validarIntegridadeOptionLoanReturn(Numero, _, User) :- \+ valid_codes(Numero), write("Opção inválida, tente novamente! \n"), printReturnBook(User),!.
@@ -40,12 +40,13 @@ readReturnBook(User, BookName, Option):-
 
 
 printAllLoans(User):-
-    %clearScreen,
+    clearScreen,
     centeredText("Emprestimos", 63),
     printLoans(User),!.
 
 printMakeLoan(User):-
     checkIsValidSize(User),
+    clearScreen,
     centeredText("Emprestimo",63),
     write("\nEscolha uma forma de consulta:\n1 - Titulo\n2 - Autor\n3 - Genero\nEscolha uma opcao: \n"),
     read_line_to_codes(user_input, StringOption),
@@ -60,13 +61,13 @@ readMakeLoan(User, _):-
     write("\nOpção inválida!\nDigite novamente: \n"),
     printMakeLoan(User),!.
 
-validarIntegridadeOptionLoan(Numero, Number, User) :- 
+validarIntegridadeOptionLoan(Numero, Number, _) :- 
 valid_codes(Numero),
 number_codes(Number, Numero),!. 
 validarIntegridadeOptionLoan(Numero, _,User) :- \+ valid_codes(Numero), readMakeLoan(User, 4),!.
 
 printMakeLoanByGenre(User):-
-    
+    clearScreen,
     centeredText("Emprestimo",63),
     write("\n Informe um genero para pesquisa: \n"),
     read_line_to_string(user_input, StringGenre),
@@ -81,6 +82,7 @@ printMakeLoanByGenre(User):-
     printMakeLoanByTitle(User),!.
 
 printMakeLoanByAuthor(User):-
+    clearScreen,
     centeredText("Emprestimo",63),
     write("\n Informe um autor para pesquisa: \n"),
     read_line_to_string(user_input, StringAuthor),
@@ -94,7 +96,7 @@ printMakeLoanByAuthor(User):-
     printMakeLoanByTitle(User).
 
 printMakeLoanByTitle(User):-
-   
+    clearScreen,
     centeredText("Emprestimo",63),
     write("\nInforme o titulo do livro:\n"),
     read_line_to_string(user_input, StringTitle),
@@ -137,6 +139,7 @@ checkIsValidSize(User):-
  split_string(First,",",'',FormatedLoans),
  length(FormatedLoans, Size),
  Size >= 10,
+ clearScreen,
  centeredText("Emprestimo",63),
  write("\nVoce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n\n"), 
  waitOnScreen,
@@ -146,7 +149,7 @@ checkIsValidSize(_):-!.
 
 checkBook(User, []):-  write("Este livro nao consta na base de dados! Tente novamente. \n"), printMakeLoanByTitle(User), !.
 
-checkBook(_,[H|T]):- !.
+checkBook(_, _):- !.
 
 checkBook2(User, []):- 
 clearScreen, 
@@ -154,18 +157,19 @@ write("Este livro nao consta na base de dados! Tente novamente. \n"),
 waitOnScreen, 
 printReturnBook(User), !.
 
-checkBook2(_,[H|T]):- !.
+checkBook2(_, _):- !.
 
 checkAuthor(User, []):-  write("\nEste autor nao esta cadastrado na base de dados!\nEscolha outro: \n"), printMakeLoanByAuthor(User),!.
-checkAuthor(_,[H|T]):- !.
+checkAuthor(_,_):- !.
 
 
 checkUserLoans(User , 'existe'):-  write("voce ja tem esse livro emprestado!\n Escolha outro: \n"), printMakeLoanByTitle(User),!.
 checkUserLoans(_,'nao existe'):- !.
 
-checkGenres(User, []):-  %clearScreen ,
+checkGenres(User, []):-  
+clearScreen,
 write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
-checkGenres(_,[H|T]):-!.
+checkGenres(_, _):-!.
 
 
 

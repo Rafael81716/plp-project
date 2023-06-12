@@ -1,4 +1,4 @@
-:- module(BookModule, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1, getBooksFromSourceByGenre/3, printBooksWithLink/1]).
+:- module(_, [getBookById/2, getBookByName/2, getBooksByGenre/2, getBooksByAuthor/2, printAllBooks/0, printBooks/1, getBooksById/2, getAllBooks/1, printBooksMenu/1, getBooksFromSourceByGenre/3, printBooksWithLink/1]).
 :- use_module('CsvModule.pl').
 :- use_module('UtilModule.pl').
 :- use_module(library(lists)).
@@ -8,6 +8,7 @@
 
 
 printBooksMenu(User) :-
+clearScreen,
 centeredText("Biblioteca", 63),
 write("\n"),
 printAllBooks,
@@ -19,6 +20,7 @@ verificaEntrada(Option, User).
 
 verificaEntrada(1, User) :- printUserMenu(User).
 verificaEntrada(2, User) :- 
+clearScreen,
 centeredText("Biblioteca", 63),
 write("\n"),
 printAllBooks,
@@ -30,14 +32,14 @@ verificaId(Id, User).
 verificaEntrada(_, User) :- writeln("\nEntrada inválida, Tente novamente"), waitOnScreen, printBooksMenu(User).
 
 verificaId(Id, User) :- Id =< 204, Id >= 1, getBookById(Id, Book), nth0(5, Book, Sinopse), nth0(1, Book, NomeLivro), printSinopse(NomeLivro, Sinopse), printUserMenu(User),!.
-verificaId(Id, User) :- writeln("\nId inválido, Tente novamente\n"), waitOnScreen, verificaEntrada(2,User).
+verificaId(_, User) :- writeln("\nId inválido, Tente novamente\n"), waitOnScreen, verificaEntrada(2,User).
 
-validarIntegridadeOptionBookMenu(Numero, Number, User) :- 
+validarIntegridadeOptionBookMenu(Numero, Number, _) :- 
 valid_codes(Numero),
 number_codes(Number, Numero). 
 validarIntegridadeOptionBookMenu(Numero, _, User) :- \+ valid_codes(Numero), write("\nOpção inválida! Tente novamente. \n"), printBooksMenu(User), !.
 
-validarIntegridadeOptionVerifica(Numero, Number, User) :- 
+validarIntegridadeOptionVerifica(Numero, Number, _) :- 
 valid_codes(Numero),
 number_codes(Number, Numero). 
 validarIntegridadeOptionVerifica(Numero, _, User) :- \+ valid_codes(Numero), write("\nOpção inválida! Tente novamente. \n"), verificaEntrada(2,User), !.
@@ -163,7 +165,7 @@ printBooksWithLink([Head|Tail]) :-
    
 
 
-getBooksByAuthorAux(Array, Cont, Len, Author, Books, Books):-
+getBooksByAuthorAux(_, Cont, Len, _, Books, Books):-
     Cont =:= Len, !.
 getBooksByAuthorAux(Array, Cont, Len, Author, Books, Resposta):-
     nth0(Cont, Array, Output),
@@ -193,7 +195,7 @@ getBookByNameAux([Head|Tail], Name, Books):-
 
 
 
-getBooksByGenreAux(Array, Cont, Len, Genre, Books, Books):-
+getBooksByGenreAux(_, Cont, Len, _, Books, Books):-
     Cont =:= Len, !.
 getBooksByGenreAux(Array, Cont, Len, Genre, Books, Resposta):-
     nth0(Cont, Array, Output),

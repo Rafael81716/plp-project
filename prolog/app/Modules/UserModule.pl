@@ -1,4 +1,4 @@
-:- module(UserModule,[registerUser/8, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1,attUserName/2,attUserEmail/2,attUserPassword/2,attUserListGenres/2]).
+:- module(_,[registerUser/8, addUser/7,checkUserRegister/3,checkUserPassword/3, bookLoan/2, checkLoan/3, printLoans/1, attUserFavorites/2,printLoansReturn/1, returnBook/3, printHistoric/1,attUserName/2,attUserEmail/2,attUserPassword/2,attUserListGenres/2]).
 :- use_module(library(csv)).
 :- use_module(library(lists)).
 :- use_module("CsvModule.pl").
@@ -12,7 +12,7 @@
 
 
 printHistoric(User):-
-    %clearScreen,
+    clearScreen,
     centeredText("Histórico", 63),
     nth1(7, User, Historic),
     (Historic = [] -> write("\nHistórico vazio!\n"),
@@ -31,7 +31,7 @@ printHistoric(User):-
 
 
 returnBook(User, BookId,1):- 
-    %clearScreen,
+    clearScreen,
     nth1(7, User, Historic),
     nth1(2,User, ActualEmail),
 
@@ -48,7 +48,7 @@ returnBook(User, BookId,1):-
     returnBook(NewUser, BookId, 2),!.
 
 returnBook(User, BookId,2):- 
-    %clearScreen,
+    clearScreen,
     nth1(2,User, ActualEmail),
     nth1(5, User, Loans),
     nth1(1, Loans, First),
@@ -92,7 +92,7 @@ printLoansReturn(User):-
     
 
 checkLoan([],_,'nao existe'):- !.
-checkLoan([H|T], BookId, Result):- H =:= BookId, Result = 'existe',!.
+checkLoan([H|_], BookId, Result):- H =:= BookId, Result = 'existe',!.
 checkLoan([H|T], BookId, Result):- H \== BookId, checkLoan(T, BookId, Result),!. 
 
 bookLoan(User, BookId):-
@@ -105,7 +105,7 @@ bookLoan(User, BookId):-
     checkUserRegister(ActualEmail, Users, NewUser),    
     printUserMenu(NewUser),!.
 
-bookHistoric(User, BookId, 2) :- !.
+bookHistoric(_, _, 2) :- !.
 bookHistoric(User, BookId, 1) :-
     write("Livro adicionar ao historico de leitura!\n"),
     nth1(7, User, Historic),
@@ -136,7 +136,7 @@ checkUserRegister(ReadEmail, Users, ActualUser) :- length(Users, L), checkUserRe
 
 
 checkUserRegisterAux(_,_,C, C, []) :- !.
-checkUserRegisterAux(ReadEmail, Users, C, L, ActualUser) :- 
+checkUserRegisterAux(ReadEmail, Users, C, _, ActualUser) :- 
 nth0(C, Users, User),
 nth0(1, User, Email),
 ReadEmail == Email,
@@ -163,7 +163,7 @@ attUserLoans(User, NewLoans) :-attUserAtribute(User, NewLoans,4),!.
 attUserFavorites(User, NewFavorites) :- attUserAtribute(User, NewFavorites, 5),!.
 attUserHistoric(User, NewHistoric) :- attUserAtribute(User, NewHistoric, 6),!.
 
-getPosUser([A|AS], Email, Count, Pos) :- nth(2, A, EmailUser), Email == EmailUser, Pos is Count, !.
+getPosUser([A|_], Email, Count, Pos) :- nth(2, A, EmailUser), Email == EmailUser, Pos is Count, !.
 getPosUser([A|AS], Email, Count, Pos) :- nth(2, A, EmailUser), Email \= EmailUser, P2 is Count + 1, getPosUser(AS, Email, P2, Pos),!.
 
 addAllUsers([A]) :- nth(1,A,Name), nth(2,A,Email), nth(3,A,Password), nth(4,A,ReadGenres), nth(5,A,Loans), nth(6,A,Favorites), nth(7,A,Historic),

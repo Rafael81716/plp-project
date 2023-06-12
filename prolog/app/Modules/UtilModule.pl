@@ -1,4 +1,4 @@
-:- module(UtilModule,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2,clearSc/0, getRandomElements/3, removeFrom/3, range/3]).
+:- module(_,[centeredText/2, clearScreen/0, readOptions/1,mapGenres/2, listToString/2, toUpperCase/2, stringToChar/2,charToNum/2,waitOnScreen/0,removeElement/3, numberToString/2,clearSc/0, getRandomElements/3, removeFrom/3, range/3]).
 :- use_module(library(readutil)).
 :- use_module('CLI/LoginAndRegisterModule.pl').
 :- use_module(library(ansi_term)).
@@ -72,15 +72,23 @@ write_spaces(0):-!.
 
 clearSc :- shell(clear),!.
 
+%clearScreen :-
+%    current_prolog_flag(windows, true),
+%    shell('cls'),!.
+
+%clearScreen :-
+%    current_prolog_flag(unix, true),
+%    shell('clear'),!.
+
+clearScreen(52) :-
+    writeln(""),!.
+clearScreen(N) :- 
+    writeln(""),
+    Num is N + 1,
+    clearScreen(Num),!.
 clearScreen :-
-    current_prolog_flag(windows, true),
-    shell('cls'),!.
-
-clearScreen :-
-    current_prolog_flag(unix, true),
-    shell('clear'),!.
-
-
+    writeln(""),
+    clearScreen(1),!.
 
 readOptions(ListaNumeros) :-
     write('Digite os números separados por espaços: '),

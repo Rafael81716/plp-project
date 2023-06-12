@@ -1,4 +1,4 @@
-:- module(RecommendationModule,[recommendation/2]).
+:- module(_,[recommendation/2]).
 :- use_module('./BookModule.pl').
 :- use_module('./UtilModule.pl').
 

@@ -1,4 +1,4 @@
-:- module(CsvModule,[getUsers/1,getBooks/1, ler_arquivo_csv/2, row_to_list/2, rows_to_lists/2,nth/3,string_to_list/2,atualizar_posicao/4,len/2,atualizaUsers/4]).
+:- module(_,[getUsers/1,getBooks/1, ler_arquivo_csv/2, row_to_list/2, rows_to_lists/2,nth/3,string_to_list/2,atualizar_posicao/4,len/2,atualizaUsers/4]).
 
 :- use_module(library(csv)).
 :- use_module('../Data/Data.pl').

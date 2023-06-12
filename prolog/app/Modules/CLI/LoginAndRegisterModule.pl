@@ -1,4 +1,4 @@
-:- module(LoginAndRegisterModule,[registerUserMenu/0, printGenres/0, checkEmail/1, loginMenu/0, valid_codes/1,checkName/1]).
+:- module(_,[registerUserMenu/0, printGenres/0, checkEmail/1, loginMenu/0, valid_codes/1,checkName/1]).
 :- use_module('../UserModule.pl').
 :- use_module('../UtilModule.pl').
 :- use_module('../CsvModule.pl').
@@ -8,6 +8,7 @@
 :- use_module(library(readutil)).
 
 loginMenu :-
+clearScreen,
 centeredText('Login',40),
 write('\n'),
 write('Digite seu email: '),
@@ -27,6 +28,7 @@ checkPassword2(IsValidPassword),
 printUserMenu(ActualUser),!.
 
 registerUserMenu :-
+clearScreen,
 centeredText("Cadastre-se",40),
 writeln("\nDigite seu nome: "),
 write('\n'),

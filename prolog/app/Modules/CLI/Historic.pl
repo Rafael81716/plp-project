@@ -1,4 +1,4 @@
-:- module(HistoricModule, [printBookHistoric/1, printHistoricMenu/2]).
+:- module(_, [printBookHistoric/1, printHistoricMenu/2]).
 :- use_module('../UtilModule.pl').
 :- use_module('../ValidInput/Validation.pl').
 :- use_module('MainMenu.pl').
@@ -12,7 +12,7 @@ printHistoricMenu(User, Book) :-
     writeln('Voce leu esse livro?\n'),
     write('Digite <1> para Sim ou <2> para Não: '),
     read(IsRead),
-    (IsRead =:= 1 -> checkIsValidSize(Historic, ActualHistoric), write(ActualHisteoric);ActualHistoric = Historic),
+    (IsRead =:= 1 -> checkIsValidSize(Historic, ActualHistoric), write(ActualHistoric);ActualHistoric = Historic),
     attUserHistoric(User, ActualHistoric),
     getUsers(Users),
     checkUserRegister(ActualEmail, Users, NewUsers),

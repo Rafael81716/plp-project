@@ -1,4 +1,4 @@
-:- module(SetProfileModule, [printSetProfile/1]).
+:- module(_, [printSetProfile/1]).
 :- use_module("MainMenu.pl").
 :- use_module("../UtilModule.pl").
 :- use_module("LoginAndRegisterModule.pl").
@@ -7,6 +7,7 @@
 :- use_module("../UserModule.pl").
 
 printSetProfile(User):-
+    clearScreen,
     centeredText("Editar Perfil", 63),
     % NOME ============================================
     getName(ReadName),
@@ -79,15 +80,14 @@ getEmail(UserEmail, Email):-
         getEmail(UserEmail, Email)).
 
 getGenre(Genres):-
-    printGenres,
+    printGenresProfile,
     readOptions(Numbers),
     mapGenres(Numbers, Genres).
 
 checkEmail(_, []):- true.
 checkEmail(Email, [_, Email | _]):- true.
-checkEmail(UserEmail, [_, Email | _]):- false.
+checkEmail(_, [_, _ | _]):- false.
 
-printGenres:-
-
+printGenresProfile:-
 centeredText("Editar perfil",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e separados por espaços:\n1 - Ficcao Cientifica\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.

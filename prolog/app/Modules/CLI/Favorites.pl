@@ -1,4 +1,4 @@
-:- module(FavoritesModule,[registerFavorite/1, sizeList/3, removeFavorite/1, listFavorites/1]).
+:- module(_,[registerFavorite/1, sizeList/3, removeFavorite/1, listFavorites/1]).
 :- use_module('../BookModule.pl').
 :- use_module('../UserModule.pl').
 :- use_module('../CsvModule.pl').
@@ -8,6 +8,7 @@
 :- use_module(library(readutil)).
 
 registerFavorite(User) :-
+    clearScreen,
     centeredText("Registrar Favorito", 63),
     write("\n"),
     nth0(5, User, Favorites),
@@ -50,6 +51,7 @@ checkEmpty(User, Favorites) :-
 addBook(User, ID, Favorites, Check) :- 
     Check = 'fav' ->
     writeln("Livro ja se encontra na lista de favoritos"),
+    waitOnScreen,
     printUserMenu(User)
     ;
     append([ID], Favorites, R),
@@ -58,10 +60,12 @@ addBook(User, ID, Favorites, Check) :-
     nth0(1, User, Email),
     checkUserRegister(Email, Users, NewUser),
     writeln("Livro adicionado aos favoritos com sucesso!"),
+    waitOnScreen,
     printUserMenu(NewUser),!.
 
 
 removeFavorite(User) :- 
+    clearScreen,
     centeredText("Remover Favorito", 63),
     nth0(5, User, Favorites),
     sizeList(Favorites, 0, L),
@@ -101,6 +105,7 @@ removeBook(User, ID, Favorites, Check) :-
     nth0(1, User, Email),
     checkUserRegister(Email, Users, NewUser),
     writeln("Livro removido dos favoritos com sucesso!"),
+    waitOnScreen,
     printUserMenu(NewUser),!.
 
 listBeforeRemove(User) :-
@@ -120,6 +125,7 @@ printBeforeRemove([H|T]) :-
     printBeforeRemove(T),!.
 
 listFavorites(User) :- 
+    clearScreen,
     centeredText("Lista de favoritos",63),
     writeln(""),
     nth0(5, User, Favorites),
@@ -133,6 +139,7 @@ listFavorites(User) :-
     writeln(""),
     writeln("Lista de favoritos vazia!"),
     writeln(""),
+    waitOnScreen,
     printUserMenu(User),!.
 
 printBooksList(User, []) :- 
@@ -162,7 +169,7 @@ removeBookFromList(E, [H|T], Aux, R) :-
     removeBookFromList(E, T, L, R).
 
 sizeList([], C, L) :- L is C,!.
-sizeList([H|T], C, L) :- sizeList(T, C + 1, L),!.
+sizeList([_|T], C, L) :- sizeList(T, C + 1, L),!.
 
 checkValidBook(User, Book, Option) :- 
     sizeList(Book, 0, L),
