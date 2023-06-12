@@ -14,6 +14,7 @@
 
 printReturnBook(User):- 
     %clearScreen,
+    checkDevolution(User),
     centeredText("Devolucao", 63),
     write("\nEstes são seus empréstimos: \n"),
     printLoansReturn(User),
@@ -102,16 +103,30 @@ printMakeLoanByTitle(User):-
     checkBook(User, Book),
     nth1(1, Book, Id),
     checkBooksRepetitions(User, Id),
-    %TODO Verificar se o usuario ja tem esse livro emprestado
     bookLoan(User, Id),!.
+
+
+checkDevolution(User):-
+    nth1(5,User,Loans),
+    length(Loans,0),
+    clearScreen,
+    centeredText("Devolucao", 63),
+    write("\nVoce nao possui emprestimos!\n\n"),
+    waitOnScreen,
+    printUserMenu(User),!.
+
+checkDevolution(_):- !.
 
 checkBooksRepetitions(User, BookId):-
     numberToString(BookId,Id),
     nth1(5,User, Loans),
+    Loans \== [],
     nth1(1,Loans,First),
     split_string(First,",",'',FormatedLoans),
 
     (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado! \n"), waitOnScreen, printMakeLoan(User); !).
+
+checkBooksRepetitions(_,_):- !.
 
 
 
