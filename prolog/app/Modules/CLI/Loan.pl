@@ -105,7 +105,6 @@ printMakeLoanByTitle(User):-
     %TODO Verificar se o usuario ja tem esse livro emprestado
     bookLoan(User, Id),!.
 
-
 checkBooksRepetitions(User, BookId):-
     numberToString(BookId,Id),
     nth1(5,User, Loans),
@@ -122,8 +121,9 @@ checkIsValidSize(User):-
  nth1(1, Loans, First),
  split_string(First,",",'',FormatedLoans),
  length(FormatedLoans, Size),
- Size >= 10, 
- write("Voce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n"), 
+ Size >= 10,
+ centeredText("Emprestimo",63),
+ write("\nVoce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n\n"), 
  waitOnScreen,
  printUserMenu(User),!.
 
