@@ -22,7 +22,7 @@ verificaIntegridadeOption(StringOption, Option),
 readMainMenu(Option),!.
 
 readMainMenu(Option):- Option =:= 1, %clearSc, 
-loginMenu.
+loginMenu,!.
 readMainMenu(Option):- Option =:= 2, %clearSc, 
 registerUserMenu,!.
 readMainMenu(Option):- Option \== 1, Option \== 2, write("Opcao invalida, digite novamente!\n"), printMainMenu,!.
@@ -58,7 +58,7 @@ readUserMenu(7, User):- removeFavorite(User),!.
 readUserMenu(8, User):- listFavorites(User),!. 
 readUserMenu(9, User):- printHistoric(User),!. 
 readUserMenu(10, User):- printSetProfile(User),!. 
-readUserMenu(11, User):- write("tchau tchau \n"),abort,!.
+readUserMenu(11, User):- write("tchau tchau \n"),halt.
 
 
 verificaIntegridadeUserOption(Numero, Number, User) :- 
