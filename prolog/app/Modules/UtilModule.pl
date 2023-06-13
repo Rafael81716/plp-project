@@ -72,14 +72,6 @@ write_spaces(0):-!.
 
 clearSc :- shell(clear),!.
 
-%clearScreen :-
-%    current_prolog_flag(windows, true),
-%    shell('cls'),!.
-
-%clearScreen :-
-%    current_prolog_flag(unix, true),
-%    shell('clear'),!.
-
 clearScreen(52) :-
     writeln(""),!.
 clearScreen(N) :- 

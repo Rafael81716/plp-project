@@ -47,10 +47,10 @@ getName(Name):-
     string_length(ReadName, Len),
 
     (Len > 3, isValidName(ReadName) ->
-        Name = ReadName
-        ;
         writeln("Nome invalido, tente novamente!"),
-        getName(Name)).
+        getName(Name)
+        ;Name = ReadName
+        ).
 
 getPassword(Password):-
     writeln("\nDigite sua nova senha: "),

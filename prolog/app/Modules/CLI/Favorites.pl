@@ -18,6 +18,7 @@ registerFavorite(User) :-
     ListLenght > 9 -> 
     writeln("Lista de favoritos cheia!"),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User)
     ;
     addBookToFavorites(User),!.
@@ -52,6 +53,7 @@ addBook(User, ID, Favorites, Check) :-
     Check = 'fav' ->
     writeln("Livro ja se encontra na lista de favoritos"),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User)
     ;
     append([ID], Favorites, R),
@@ -61,6 +63,7 @@ addBook(User, ID, Favorites, Check) :-
     checkUserRegister(Email, Users, NewUser),
     writeln("Livro adicionado aos favoritos com sucesso!"),
     waitOnScreen,
+    clearScreen,
     printUserMenu(NewUser),!.
 
 
@@ -73,6 +76,7 @@ removeFavorite(User) :-
     write("\n"),
     writeln("Lista de favoritos vazia!"),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User)
     ;
     removeBookFromFavorites(User),!.
@@ -106,6 +110,7 @@ removeBook(User, ID, Favorites, Check) :-
     checkUserRegister(Email, Users, NewUser),
     writeln("Livro removido dos favoritos com sucesso!"),
     waitOnScreen,
+    clearScreen,
     printUserMenu(NewUser),!.
 
 listBeforeRemove(User) :-
@@ -140,11 +145,13 @@ listFavorites(User) :-
     writeln("Lista de favoritos vazia!"),
     writeln(""),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User),!.
 
 printBooksList(User, []) :- 
     writeln(""),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User),!.
 printBooksList(User, [H|T]) :- 
     atom_number(H,X),

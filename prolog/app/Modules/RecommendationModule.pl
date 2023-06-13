@@ -2,7 +2,6 @@
 :- use_module('./BookModule.pl').
 :- use_module('./UtilModule.pl').
 
-% Não funciona com User tendo algum forbiddenbook
 recommendation(User, Recommendation):-
     nth0(6, User, DirtyForbiddenBooksId),
     nth0(3, User, DirtyBookGenres),

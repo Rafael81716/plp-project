@@ -15,7 +15,6 @@
 
 printMainMenu:-
 verifyFileExists('Data/users.csv'),
-clearScreen,
 centeredText("Inicio",40),
 writeln("\n1 - Entrar\n2 - Cadastrar\nEscolha uma opcao: "),
 read_line_to_codes(user_input ,StringOption),

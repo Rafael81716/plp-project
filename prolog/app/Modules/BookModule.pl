@@ -29,10 +29,10 @@ write("Informe o id do livro:\n"),
 read_line_to_codes(user_input, StringId),
 validarIntegridadeOptionVerifica(StringId, Id, User),
 verificaId(Id, User).
-verificaEntrada(_, User) :- writeln("\nEntrada inválida, Tente novamente"), waitOnScreen, printBooksMenu(User).
+verificaEntrada(_, User) :- writeln("\nEntrada inválida, Tente novamente"), waitOnScreen, clearScreen, printBooksMenu(User).
 
 verificaId(Id, User) :- Id =< 204, Id >= 1, getBookById(Id, Book), nth0(5, Book, Sinopse), nth0(1, Book, NomeLivro), printSinopse(NomeLivro, Sinopse), printUserMenu(User),!.
-verificaId(_, User) :- writeln("\nId inválido, Tente novamente\n"), waitOnScreen, verificaEntrada(2,User).
+verificaId(_, User) :- writeln("\nId inválido, Tente novamente\n"), waitOnScreen, clearScreen, verificaEntrada(2,User).
 
 validarIntegridadeOptionBookMenu(Numero, Number, _) :- 
 valid_codes(Numero),
@@ -49,7 +49,7 @@ centeredText(NomeLivro, 63),
 write("\n"),
 write(Sinopse),
 write("\n"),
-waitOnScreen.
+waitOnScreen, clearScreen.
 
 
 getAllBooks(AllBooks) :-

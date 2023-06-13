@@ -46,7 +46,6 @@ printAllLoans(User):-
 
 printMakeLoan(User):-
     checkIsValidSize(User),
-    clearScreen,
     centeredText("Emprestimo",63),
     write("\nEscolha uma forma de consulta:\n1 - Titulo\n2 - Autor\n3 - Genero\nEscolha uma opcao: \n"),
     read_line_to_codes(user_input, StringOption),
@@ -96,7 +95,6 @@ printMakeLoanByAuthor(User):-
     printMakeLoanByTitle(User).
 
 printMakeLoanByTitle(User):-
-    clearScreen,
     centeredText("Emprestimo",63),
     write("\nInforme o titulo do livro:\n"),
     read_line_to_string(user_input, StringTitle),
@@ -111,10 +109,10 @@ printMakeLoanByTitle(User):-
 checkDevolution(User):-
     nth1(5,User,Loans),
     length(Loans,0),
-    clearScreen,
     centeredText("Devolucao", 63),
     write("\nVoce nao possui emprestimos!\n\n"),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User),!.
 
 checkDevolution(_):- !.
@@ -126,7 +124,7 @@ checkBooksRepetitions(User, BookId):-
     nth1(1,Loans,First),
     split_string(First,",",'',FormatedLoans),
 
-    (member(Id, FormatedLoans) -> clearScreen, write("\nVocê já possui esse livro emprestado! \n"), waitOnScreen, printMakeLoan(User); !).
+    (member(Id, FormatedLoans) -> write("\nVocê já possui esse livro emprestado! \n"), waitOnScreen, clearScreen, printMakeLoan(User); !).
 
 checkBooksRepetitions(_,_):- !.
 
@@ -139,10 +137,10 @@ checkIsValidSize(User):-
  split_string(First,",",'',FormatedLoans),
  length(FormatedLoans, Size),
  Size >= 10,
- clearScreen,
  centeredText("Emprestimo",63),
  write("\nVoce ja atingiu o numero maximo de emprestimos!\nDevolva um livro ou escolha outra opcao!\n\n"), 
  waitOnScreen,
+ clearScreen,
  printUserMenu(User),!.
 
 checkIsValidSize(_):-!.
@@ -152,9 +150,10 @@ checkBook(User, []):-  write("Este livro nao consta na base de dados! Tente nova
 checkBook(_, _):- !.
 
 checkBook2(User, []):- 
-clearScreen, 
+
 write("Este livro nao consta na base de dados! Tente novamente. \n"),
 waitOnScreen, 
+clearScreen,
 printReturnBook(User), !.
 
 checkBook2(_, _):- !.
@@ -167,7 +166,7 @@ checkUserLoans(User , 'existe'):-  write("voce ja tem esse livro emprestado!\n E
 checkUserLoans(_,'nao existe'):- !.
 
 checkGenres(User, []):-  
-clearScreen,
+
 write("Este genero nao esta cadastrado no sistema!\nEscolha outro: \n"), printMakeLoanByGenre(User),!.
 checkGenres(_, _):-!.
 

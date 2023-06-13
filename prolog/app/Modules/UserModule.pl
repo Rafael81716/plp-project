@@ -16,14 +16,14 @@ printHistoric(User):-
     centeredText("Histórico", 63),
     nth1(7, User, Historic),
     (Historic = [] -> write("\nHistórico vazio!\n"),
-    waitOnScreen,
+    waitOnScreen, clearScreen,
     printUserMenu(User),!;
     nth1(1, Historic, First),
     split_string(First,",",'', FormatedHistoric),
     getBooksById(FormatedHistoric, Books),
     write("\n"),
     printBooks(Books),
-    waitOnScreen,
+    waitOnScreen, clearScreen,
     printUserMenu(User),!
     ).
 
@@ -31,7 +31,6 @@ printHistoric(User):-
 
 
 returnBook(User, BookId,1):- 
-    clearScreen,
     nth1(7, User, Historic),
     nth1(2,User, ActualEmail),
 
@@ -44,11 +43,10 @@ returnBook(User, BookId,1):-
     checkUserRegister(ActualEmail, Users, NewUser), 
    
     write("\nLivro salvo no histórico com sucesso!\n"),
-    waitOnScreen,
+    waitOnScreen, clearScreen,
     returnBook(NewUser, BookId, 2),!.
 
 returnBook(User, BookId,2):- 
-    clearScreen,
     nth1(2,User, ActualEmail),
     nth1(5, User, Loans),
     nth1(1, Loans, First),
@@ -60,14 +58,14 @@ returnBook(User, BookId,2):-
     getUsers(Users),
     checkUserRegister(ActualEmail, Users, NewUser),    
     write("\nLivro devolvido com sucesso!\n"),
-    waitOnScreen,
+    waitOnScreen, clearScreen,
     printUserMenu(NewUser),!.
 
 printLoans(User):-
     nth1(5, User, Loans),
     Loans == [],
     write("\nVocê não possui emprestimos!\n\n"),
-    waitOnScreen,
+    waitOnScreen, clearScreen,
     printUserMenu(User),!.
 
 
@@ -80,6 +78,7 @@ printLoans(User):-
     write("\n"),
     printBooksWithLink(Books),
     waitOnScreen,
+    clearScreen,
     printUserMenu(User),!.
 
 printLoansReturn(User):-
