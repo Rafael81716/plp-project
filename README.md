@@ -26,7 +26,7 @@ cabal run
 
 ## ⚙️ Como usar o sistema (Prolog)
 - Observação 1: Primeiramente é necessário que você tenha uma versão de [Prolog](https://www.swi-prolog.org/ "Página inicial de Prolog") instalada no seu sistema ou docker.
-- Observação 2: O books.csv deve estar na raiz do projeto.
+- Observação 2: Verifique se o books.csv e o Data.pl está na pasta "Data".
 
 - Clone o repositório:
 ```
@@ -35,8 +35,16 @@ git clone https://github.com/GabrielYuriRF0/plp-project.git
 
 - Acesse a pasta prolog:
 ```
-cd prolog
+cd prolog/app
 ```
+
+- Execute o arquivo Main.pl da pasta app
+
+- Exemplo com o swipl
+```
+swipl -q -f Main.pl
+```
+
 
 ### Docker
 
