@@ -36,7 +36,10 @@ printSetProfile(User):-
 
     getUsers(Users3),
     checkUserRegister(ReadEmail, Users3, ActualUser4),
-
+    nl,
+    write("Usuário Atualizado!\n"),
+    nl,
+    waitOnScreen,
     printUserMenu(ActualUser4).
 
 getName(Name):-
@@ -80,6 +83,7 @@ getEmail(UserEmail, Email):-
         getEmail(UserEmail, Email)).
 
 getGenre(Genres):-
+    clearScreen,
     printGenresProfile,
     readOptions(Numbers),
     mapGenres(Numbers, Genres).

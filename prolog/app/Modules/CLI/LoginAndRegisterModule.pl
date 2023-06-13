@@ -51,12 +51,16 @@ read_line_to_codes(user_input, StringPassword),
 verificaIntegridadeSenha(StringPassword, ReadPassword),
 isValidPassword(ReadPassword, PasswordResult),
 checkPassword(PasswordResult),
+clearScreen,
 printGenres,
 readOptions(Numbers),
+nl,
 mapGenres(Numbers, ReadGenres),
 addUser(ReadName, ReadEmail, ReadPassword, ReadGenres,[],[],[]),
 getUsers(AtualUsers),
+nl,
 checkUserRegister(ReadEmail,AtualUsers, AtualUser),
+waitOnScreen,
 printUserMenu(AtualUser),!.
 
 printGenres:-
@@ -65,32 +69,32 @@ centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e separados por espaços:\n1 - Ficcao Cientifica\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.
 
 checkName(Name) :-
-    (isValidName(Name) -> write("\nNome inválido!\nInsira seus dados novamente: \n"), registerUserMenu; !).
+    (isValidName(Name) -> write("\nNome inválido!\nInsira seus dados novamente. \n"), registerUserMenu; !).
 
 checkEmail([]):- !.
-checkEmail(_):- write("Este email ja esta cadastrado!\nEscolha outro:\n"), registerUserMenu,!.
+checkEmail(_):- write("\nEste email ja esta cadastrado!\nEscolha outro.\n\n"), waitOnScreen, registerUserMenu,!.
 
 
-checkEmailFormat('invalido'):- write("Este email nao e valido!\nEscolha outro\n"), registerUserMenu,!.
+checkEmailFormat('invalido'):- write("\nEste email nao e valido!\nEscolha outro.\n\n"), waitOnScreen, registerUserMenu,!.
 
 checkEmailFormat('valido'):- !.
 
 checkPassword('invalido'):-
-write("A senha tem que conter no minimo 6 digitos!\nDigite novamente: \n"), registerUserMenu,!.
+write("\nA senha tem que conter no minimo 6 digitos!\nDigite novamente. \n"), registerUserMenu,!.
 
 checkPassword('valido'):- !.
 
-checkPassword2('invalida'):-  write("Senha incorreta!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkPassword2('invalida'):-  write("\nSenha incorreta!\nInsira seus dados novamente. \n\n"),waitOnScreen, loginMenu,!.
 
 checkPassword2('valida'):- !.
 
-checkLogin([]):-  write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente: \n"), loginMenu,!.
+checkLogin([]):-  write("Este email nao esta cadastrado no sistema!\nInsira seus dados novamente. \n\n"),waitOnScreen, loginMenu,!.
 checkLogin(_) :- !.
 
 verificaIntegridadeSenha(Numero, Number) :- 
 valid_codes(Numero),
 number_codes(Number, Numero). 
-verificaIntegridadeSenha(Numero, _) :- \+ valid_codes(Numero), write("Senha inválida!, Ela deve conter apenas digitos!\n"), registerUserMenu, !.
+verificaIntegridadeSenha(Numero, _) :- \+ valid_codes(Numero), write("\nSenha inválida!, Ela deve conter apenas digitos!\n\n"),waitOnScreen, registerUserMenu, !.
 
 validar(Numero, Number) :- 
 valid_codes(Numero),

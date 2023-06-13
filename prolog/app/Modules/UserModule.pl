@@ -43,7 +43,7 @@ returnBook(User, BookId,1):-
     checkUserRegister(ActualEmail, Users, NewUser), 
    
     write("\nLivro salvo no histórico com sucesso!\n"),
-    waitOnScreen, clearScreen,
+    waitOnScreen,
     returnBook(NewUser, BookId, 2),!.
 
 returnBook(User, BookId,2):- 
@@ -101,7 +101,8 @@ bookLoan(User, BookId):-
     append(Loans, [BookId], ActualLoans),
     attUserLoans(User, ActualLoans),
     getUsers(Users),
-    checkUserRegister(ActualEmail, Users, NewUser),    
+    checkUserRegister(ActualEmail, Users, NewUser),
+    waitOnScreen,    
     printUserMenu(NewUser),!.
 
 bookHistoric(_, _, 2) :- !.

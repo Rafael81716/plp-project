@@ -98,6 +98,7 @@ removeBookFromFavorites(User) :-
 removeBook(User, ID, Favorites, Check) :- 
     Check = 'notFav' -> 
     writeln("Livro nao se encontra na lista de favoritos"),
+    waitOnScreen,
     printUserMenu(User)
     ;
     nth0(0, Favorites, Elem),
@@ -186,5 +187,5 @@ checkValidBook(User, Book, Option) :-
     ;
     write(""),!.
 
-repeatFav(User, 'register') :- registerFavorite(User),!.
-repeatFav(User, 'remove') :- removeFavorite(User),!.
+repeatFav(User, 'register') :- waitOnScreen, registerFavorite(User),!.
+repeatFav(User, 'remove') :- waitOnScreen, removeFavorite(User),!.

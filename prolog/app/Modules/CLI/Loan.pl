@@ -45,6 +45,7 @@ printAllLoans(User):-
     printLoans(User),!.
 
 printMakeLoan(User):-
+    clearScreen,
     checkIsValidSize(User),
     centeredText("Emprestimo",63),
     write("\nEscolha uma forma de consulta:\n1 - Titulo\n2 - Autor\n3 - Genero\nEscolha uma opcao: \n"),
@@ -57,7 +58,7 @@ readMakeLoan(User,1):- printMakeLoanByTitle(User),!.
 readMakeLoan(User,2):- printMakeLoanByAuthor(User),!.
 readMakeLoan(User,3):- printMakeLoanByGenre(User),!.
 readMakeLoan(User, _):- 
-    write("\nOpção inválida!\nDigite novamente: \n"),
+    write("\nOpção inválida!\nDigite novamente: \n"), waitOnScreen,
     printMakeLoan(User),!.
 
 validarIntegridadeOptionLoan(Numero, Number, _) :- 
@@ -66,8 +67,6 @@ number_codes(Number, Numero),!.
 validarIntegridadeOptionLoan(Numero, _,User) :- \+ valid_codes(Numero), readMakeLoan(User, 4),!.
 
 printMakeLoanByGenre(User):-
-    clearScreen,
-    centeredText("Emprestimo",63),
     write("\n Informe um genero para pesquisa: \n"),
     read_line_to_string(user_input, StringGenre),
     atom_string(Genre, StringGenre),
@@ -81,13 +80,12 @@ printMakeLoanByGenre(User):-
     printMakeLoanByTitle(User),!.
 
 printMakeLoanByAuthor(User):-
-    clearScreen,
-    centeredText("Emprestimo",63),
     write("\n Informe um autor para pesquisa: \n"),
     read_line_to_string(user_input, StringAuthor),
     atom_string(Author, StringAuthor),
     getBooksByAuthor(Author, Books),
     checkAuthor(User ,Books),
+    clearScreen,
     centeredText("Livros\n", 63),
     write("\n"),
     reverse(Books, SortedBooks),
@@ -95,7 +93,6 @@ printMakeLoanByAuthor(User):-
     printMakeLoanByTitle(User).
 
 printMakeLoanByTitle(User):-
-    centeredText("Emprestimo",63),
     write("\nInforme o titulo do livro:\n"),
     read_line_to_string(user_input, StringTitle),
     atom_string(Title, StringTitle),
@@ -158,11 +155,11 @@ printReturnBook(User), !.
 
 checkBook2(_, _):- !.
 
-checkAuthor(User, []):-  write("\nEste autor nao esta cadastrado na base de dados!\nEscolha outro: \n"), printMakeLoanByAuthor(User),!.
+checkAuthor(User, []):-  write("\nEste autor nao esta cadastrado na base de dados!\nTente novamente. \n"), printMakeLoanByAuthor(User),!.
 checkAuthor(_,_):- !.
 
 
-checkUserLoans(User , 'existe'):-  write("voce ja tem esse livro emprestado!\n Escolha outro: \n"), printMakeLoanByTitle(User),!.
+checkUserLoans(User , 'existe'):-  write("Voce ja tem esse livro emprestado!\n Tente novamente. \n"), printMakeLoanByTitle(User),!.
 checkUserLoans(_,'nao existe'):- !.
 
 checkGenres(User, []):-  

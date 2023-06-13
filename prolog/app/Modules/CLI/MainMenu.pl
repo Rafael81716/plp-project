@@ -25,7 +25,7 @@ readMainMenu(Option):- Option =:= 1,
 loginMenu,!.
 readMainMenu(Option):- Option =:= 2,
 registerUserMenu,!.
-readMainMenu(Option):- Option \== 1, Option \== 2, write("Opcao invalida, digite novamente!\n"), printMainMenu,!.
+readMainMenu(Option):- Option \== 1, Option \== 2, write("Opcao invalida, digite novamente!\n"), waitOnScreen, clearScreen, printMainMenu,!.
 
 
 checkOption(User,Option):- Option < 1, write("\nOpcao invalida!\nDigite novamente: \n"), printUserMenu(User),!.

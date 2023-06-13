@@ -7,8 +7,12 @@
 printRecommendation(User):-
     clearScreen,
     centeredText("Recomendacoes",63),
+    writeln("\nAguarde alguns segundos..."),
     nl,
     recommendation(User, Recommendation),
+    clearScreen,
+    centeredText("Recomendacoes",63),
+    nl,
     printBooks(Recommendation),
     waitOnScreen,
     printUserMenu(User),!.
