@@ -47,9 +47,7 @@ getName(Name):-
     read_line_to_string(user_input, StringName),
     atom_string(ReadName, StringName),
 
-    string_length(ReadName, Len),
-
-    (Len > 3, isValidName(ReadName) ->
+    (isValidName(ReadName) ->
         writeln("Nome invalido, tente novamente!"),
         getName(Name)
         ;Name = ReadName

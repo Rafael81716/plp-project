@@ -69,7 +69,7 @@ centeredText("Cadastre-se",63),
 write("\nEscolha ate 5 generos literarios pelos seus respectivos numeros\nem ordem de preferencia e separados por espaços:\n1 - Ficcao Cientifica\n2 - Fantasia\n3 - Infantil\n4 - Misterio\n5 - Historia\n6 - Aventura\n7 - Romance\n"), !.
 
 checkName(Name) :-
-    (isValidName(Name) -> write("\nNome inválido!\nInsira seus dados novamente. \n"), registerUserMenu; !).
+    (isValidName(Name) -> write("\nNome inválido!\nInsira seus dados novamente. \n\n"), waitOnScreen, registerUserMenu; !).
 
 checkEmail([]):- !.
 checkEmail(_):- write("\nEste email ja esta cadastrado!\nEscolha outro.\n\n"), waitOnScreen, registerUserMenu,!.

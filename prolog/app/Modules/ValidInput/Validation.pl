@@ -5,17 +5,24 @@
 
 isValidName(Name) :-
     string_codes(Name, Codes),
-    all_spaces(Codes).
+    all_spaces(Codes);
+    containsNumber(Name);
+    containsSpecialChars(Name).
+
+containsSpecialChars(Name) :-
+    string_codes(Name, Codes),
+    member(Code, Codes),
+    \+ char_type(Code, alpha),
+    \+ Code = 32.
+
+containsNumber(Name) :-
+    atom_chars(Name, Chars),
+    member(Char, Chars),
+    char_type(Char, digit).
 
 all_spaces([]).
 all_spaces([32|T]) :-  % código ASCII para espaço é 32
     all_spaces(T).
-
-
-all_spaces([]).
-all_spaces([32|T]) :-  % código ASCII para espaço é 32
-    all_spaces(T).
-
 
 validDomain("gmail.com"):-!.
 validDomain("hotmail.com"):- !.
